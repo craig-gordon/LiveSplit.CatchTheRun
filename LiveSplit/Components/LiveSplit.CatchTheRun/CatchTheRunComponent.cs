@@ -10,7 +10,7 @@ namespace LiveSplit.UI.Components
 {
     public class CatchTheRunComponent : IComponent
     {
-        public Settings Settings { get; set; }
+        public CatchTheRunSettings Settings { get; set; }
 
         protected LiveSplitState State { get; set; }
         protected Form Form { get; set; }
@@ -28,11 +28,11 @@ namespace LiveSplit.UI.Components
         public float PaddingLeft => 0;
         public float PaddingRight => 0;
 
-        public IDictionary<string, Action> ContextMenuControls { get; protected set; }
+        public IDictionary<string, Action> ContextMenuControls => null;
 
         public CatchTheRunComponent(LiveSplitState state)
         {
-            Settings = new Settings();
+            Settings = new CatchTheRunSettings(state);
             Model = new TimerModel();
             State = state;
             Form = state.Form;

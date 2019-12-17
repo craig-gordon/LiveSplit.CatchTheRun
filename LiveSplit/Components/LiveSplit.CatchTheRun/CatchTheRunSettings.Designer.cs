@@ -1,6 +1,6 @@
 ﻿namespace LiveSplit.UI.Components
 {
-    partial class Settings
+    partial class CatchTheRunSettings
     {
         /// <summary> 
         /// Required designer variable.
