@@ -68,5 +68,8 @@
       <DependentUpon>CatchTheRunSettings.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Properties\DataSources\LiveSplit.Model.ISegment.datasource" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

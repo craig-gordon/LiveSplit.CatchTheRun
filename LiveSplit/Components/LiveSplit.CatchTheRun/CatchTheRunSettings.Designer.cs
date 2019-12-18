@@ -28,107 +28,99 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.label1 = new System.Windows.Forms.Label();
-            this.txtPort = new System.Windows.Forms.TextBox();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
-            this.tableLayoutPanel1.SuspendLayout();
+            this.components = new System.ComponentModel.Container();
+            this.runGrid = new System.Windows.Forms.DataGridView();
+            this.iSegmentBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.iconDataGridViewImageColumn = new System.Windows.Forms.DataGridViewImageColumn();
+            this.nameDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.splitTimeDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Threshold = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            ((System.ComponentModel.ISupportInitialize)(this.runGrid)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.iSegmentBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
-            // tableLayoutPanel1
+            // runGrid
             // 
-            this.tableLayoutPanel1.ColumnCount = 2;
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 56F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel1.Controls.Add(this.label1, 0, 0);
-            this.tableLayoutPanel1.Controls.Add(this.txtPort, 1, 0);
-            this.tableLayoutPanel1.Controls.Add(this.label2, 0, 1);
-            this.tableLayoutPanel1.Controls.Add(this.label3, 1, 1);
-            this.tableLayoutPanel1.Controls.Add(this.label4, 1, 2);
-            this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(7, 7);
-            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            this.tableLayoutPanel1.RowCount = 3;
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 29F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(430, 227);
-            this.tableLayoutPanel1.TabIndex = 0;
+            this.runGrid.AllowDrop = true;
+            this.runGrid.AllowUserToAddRows = false;
+            this.runGrid.AllowUserToResizeColumns = false;
+            this.runGrid.AllowUserToResizeRows = false;
+            this.runGrid.AutoGenerateColumns = false;
+            this.runGrid.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.runGrid.BackgroundColor = System.Drawing.SystemColors.Control;
+            this.runGrid.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.runGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.runGrid.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.iconDataGridViewImageColumn,
+            this.nameDataGridViewTextBoxColumn,
+            this.splitTimeDataGridViewTextBoxColumn,
+            this.Threshold});
+            this.runGrid.DataSource = this.iSegmentBindingSource;
+            this.runGrid.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.runGrid.GridColor = System.Drawing.Color.Gainsboro;
+            this.runGrid.Location = new System.Drawing.Point(10, 11);
+            this.runGrid.Margin = new System.Windows.Forms.Padding(6, 0, 15, 15);
+            this.runGrid.Name = "runGrid";
+            this.runGrid.RowHeadersVisible = false;
+            this.runGrid.RowHeadersWidth = 62;
+            this.runGrid.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
+            this.runGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
+            this.runGrid.Size = new System.Drawing.Size(646, 349);
+            this.runGrid.TabIndex = 1;
             // 
-            // label1
+            // iSegmentBindingSource
             // 
-            this.label1.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(3, 9);
-            this.label1.Margin = new System.Windows.Forms.Padding(3, 3, 3, 0);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(29, 13);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "Port:";
+            this.iSegmentBindingSource.DataSource = typeof(LiveSplit.Model.ISegment);
             // 
-            // txtPort
+            // iconDataGridViewImageColumn
             // 
-            this.txtPort.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtPort.Location = new System.Drawing.Point(59, 4);
-            this.txtPort.Name = "txtPort";
-            this.txtPort.Size = new System.Drawing.Size(368, 20);
-            this.txtPort.TabIndex = 1;
+            this.iconDataGridViewImageColumn.DataPropertyName = "Icon";
+            this.iconDataGridViewImageColumn.HeaderText = "Icon";
+            this.iconDataGridViewImageColumn.MinimumWidth = 8;
+            this.iconDataGridViewImageColumn.Name = "iconDataGridViewImageColumn";
             // 
-            // label2
+            // nameDataGridViewTextBoxColumn
             // 
-            this.label2.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(3, 35);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(49, 13);
-            this.label2.TabIndex = 2;
-            this.label2.Text = "Local IP:";
+            this.nameDataGridViewTextBoxColumn.DataPropertyName = "Name";
+            this.nameDataGridViewTextBoxColumn.HeaderText = "Name";
+            this.nameDataGridViewTextBoxColumn.MinimumWidth = 8;
+            this.nameDataGridViewTextBoxColumn.Name = "nameDataGridViewTextBoxColumn";
             // 
-            // label3
+            // splitTimeDataGridViewTextBoxColumn
             // 
-            this.label3.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(59, 35);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(58, 13);
-            this.label3.TabIndex = 3;
-            this.label3.Text = "IP Address";
+            this.splitTimeDataGridViewTextBoxColumn.DataPropertyName = "SplitTime";
+            this.splitTimeDataGridViewTextBoxColumn.HeaderText = "SplitTime";
+            this.splitTimeDataGridViewTextBoxColumn.MinimumWidth = 8;
+            this.splitTimeDataGridViewTextBoxColumn.Name = "splitTimeDataGridViewTextBoxColumn";
             // 
-            // label4
+            // Threshold
             // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(59, 57);
-            this.label4.Margin = new System.Windows.Forms.Padding(3, 3, 3, 0);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(364, 26);
-            this.label4.TabIndex = 4;
-            this.label4.Text = "This is NOT your public IP. With most network setups, only devices on your networ" +
-    "k can use this address to find your computer.";
+            this.Threshold.HeaderText = "Threshold";
+            this.Threshold.MinimumWidth = 8;
+            this.Threshold.Name = "Threshold";
             // 
-            // Settings
+            // CatchTheRunSettings
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.tableLayoutPanel1);
-            this.Name = "Settings";
-            this.Padding = new System.Windows.Forms.Padding(7);
-            this.Size = new System.Drawing.Size(444, 241);
-            this.tableLayoutPanel1.ResumeLayout(false);
-            this.tableLayoutPanel1.PerformLayout();
+            this.Controls.Add(this.runGrid);
+            this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.Name = "CatchTheRunSettings";
+            this.Padding = new System.Windows.Forms.Padding(10, 11, 10, 11);
+            this.Size = new System.Drawing.Size(666, 371);
+            ((System.ComponentModel.ISupportInitialize)(this.runGrid)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.iSegmentBindingSource)).EndInit();
             this.ResumeLayout(false);
 
         }
 
         #endregion
 
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.TextBox txtPort;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.DataGridView runGrid;
+        private System.Windows.Forms.DataGridViewImageColumn iconDataGridViewImageColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn nameDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn splitTimeDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Threshold;
+        private System.Windows.Forms.BindingSource iSegmentBindingSource;
     }
 }
