@@ -68,33 +68,48 @@
             this.runGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
             this.runGrid.Size = new System.Drawing.Size(646, 349);
             this.runGrid.TabIndex = 1;
+            this.runGrid.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.runGrid_CellContentClick);
             // 
             // iconDataGridViewImageColumn
             // 
+            this.iconDataGridViewImageColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
             this.iconDataGridViewImageColumn.DataPropertyName = "Icon";
             this.iconDataGridViewImageColumn.HeaderText = "Icon";
             this.iconDataGridViewImageColumn.MinimumWidth = 8;
             this.iconDataGridViewImageColumn.Name = "iconDataGridViewImageColumn";
+            this.iconDataGridViewImageColumn.ReadOnly = true;
+            this.iconDataGridViewImageColumn.Width = 50;
             // 
             // nameDataGridViewTextBoxColumn
             // 
+            this.nameDataGridViewTextBoxColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
             this.nameDataGridViewTextBoxColumn.DataPropertyName = "Name";
             this.nameDataGridViewTextBoxColumn.HeaderText = "Name";
             this.nameDataGridViewTextBoxColumn.MinimumWidth = 8;
             this.nameDataGridViewTextBoxColumn.Name = "nameDataGridViewTextBoxColumn";
+            this.nameDataGridViewTextBoxColumn.ReadOnly = true;
+            this.nameDataGridViewTextBoxColumn.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.nameDataGridViewTextBoxColumn.Width = 250;
             // 
             // splitTimeDataGridViewTextBoxColumn
             // 
+            this.splitTimeDataGridViewTextBoxColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
             this.splitTimeDataGridViewTextBoxColumn.DataPropertyName = "SplitTime";
             this.splitTimeDataGridViewTextBoxColumn.HeaderText = "Split Time";
             this.splitTimeDataGridViewTextBoxColumn.MinimumWidth = 8;
             this.splitTimeDataGridViewTextBoxColumn.Name = "splitTimeDataGridViewTextBoxColumn";
+            this.splitTimeDataGridViewTextBoxColumn.ReadOnly = true;
+            this.splitTimeDataGridViewTextBoxColumn.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.splitTimeDataGridViewTextBoxColumn.Width = 172;
             // 
             // Threshold
             // 
+            this.Threshold.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
             this.Threshold.HeaderText = "Threshold";
             this.Threshold.MinimumWidth = 8;
             this.Threshold.Name = "Threshold";
+            this.Threshold.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.Threshold.Width = 172;
             // 
             // iSegmentBindingSource
             // 
