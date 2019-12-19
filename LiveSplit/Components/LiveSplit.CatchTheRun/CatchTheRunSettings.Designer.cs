@@ -30,11 +30,11 @@
         {
             this.components = new System.ComponentModel.Container();
             this.runGrid = new System.Windows.Forms.DataGridView();
-            this.iSegmentBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.iconDataGridViewImageColumn = new System.Windows.Forms.DataGridViewImageColumn();
             this.nameDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.splitTimeDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Threshold = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.iSegmentBindingSource = new System.Windows.Forms.BindingSource(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.runGrid)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.iSegmentBindingSource)).BeginInit();
             this.SuspendLayout();
@@ -43,6 +43,7 @@
             // 
             this.runGrid.AllowDrop = true;
             this.runGrid.AllowUserToAddRows = false;
+            this.runGrid.AllowUserToDeleteRows = false;
             this.runGrid.AllowUserToResizeColumns = false;
             this.runGrid.AllowUserToResizeRows = false;
             this.runGrid.AutoGenerateColumns = false;
@@ -68,10 +69,6 @@
             this.runGrid.Size = new System.Drawing.Size(646, 349);
             this.runGrid.TabIndex = 1;
             // 
-            // iSegmentBindingSource
-            // 
-            this.iSegmentBindingSource.DataSource = typeof(LiveSplit.Model.ISegment);
-            // 
             // iconDataGridViewImageColumn
             // 
             this.iconDataGridViewImageColumn.DataPropertyName = "Icon";
@@ -89,7 +86,7 @@
             // splitTimeDataGridViewTextBoxColumn
             // 
             this.splitTimeDataGridViewTextBoxColumn.DataPropertyName = "SplitTime";
-            this.splitTimeDataGridViewTextBoxColumn.HeaderText = "SplitTime";
+            this.splitTimeDataGridViewTextBoxColumn.HeaderText = "Split Time";
             this.splitTimeDataGridViewTextBoxColumn.MinimumWidth = 8;
             this.splitTimeDataGridViewTextBoxColumn.Name = "splitTimeDataGridViewTextBoxColumn";
             // 
@@ -98,6 +95,10 @@
             this.Threshold.HeaderText = "Threshold";
             this.Threshold.MinimumWidth = 8;
             this.Threshold.Name = "Threshold";
+            // 
+            // iSegmentBindingSource
+            // 
+            this.iSegmentBindingSource.DataSource = typeof(LiveSplit.Model.ISegment);
             // 
             // CatchTheRunSettings
             // 
@@ -117,10 +118,10 @@
         #endregion
 
         private System.Windows.Forms.DataGridView runGrid;
+        private System.Windows.Forms.BindingSource iSegmentBindingSource;
         private System.Windows.Forms.DataGridViewImageColumn iconDataGridViewImageColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn nameDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn splitTimeDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn Threshold;
-        private System.Windows.Forms.BindingSource iSegmentBindingSource;
     }
 }

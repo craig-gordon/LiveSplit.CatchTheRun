@@ -16,6 +16,7 @@ namespace LiveSplit.UI.Components
         {
             InitializeComponent();
             SegmentList = new BindingList<ISegment>(state.Run);
+            runGrid.DataSource = SegmentList;
         }
 
         public XmlNode GetSettings(XmlDocument document)
