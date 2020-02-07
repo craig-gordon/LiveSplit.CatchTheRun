@@ -7,6 +7,10 @@ using System.ComponentModel;
 using LiveSplit.Model;
 using System.Drawing;
 using LiveSplit.TimeFormatters;
+using System.Collections.Generic;
+using System.IO;
+using LiveSplit.Model.RunFactories;
+using LiveSplit.Model.Comparisons;
 
 namespace LiveSplit.UI.Components
 {
@@ -18,13 +22,23 @@ namespace LiveSplit.UI.Components
         private const int THRESHOLD_INDEX = 3;
 
         protected IRun Run { get; set; }
-        protected BindingList<ISegment> SegmentList { get; set; }
+        protected BindingList<SegmentWithThreshold> SegmentList { get; set; }
+
+        protected StandardFormatsRunFactory RunFactory { get; set; }
+        protected StandardComparisonGeneratorsFactory ComparisonGeneratorsFactory { get; set; }
+
+        public string NotificationMessage { get; set; }
+        public bool ShowTriggerIndicator { get; set; }
+        public List<SegmentWithThreshold> SegmentsWithThresholds { get; set; }
 
         public CatchTheRunSettings(LiveSplitState state)
         {
             InitializeComponent();
             Run = state.Run;
-            SegmentList = new BindingList<ISegment>(Run);
+            SegmentsWithThresholds = GetSegmentsWithThresholds();
+            SegmentList = new BindingList<SegmentWithThreshold>(SegmentsWithThresholds);
+            RunFactory = new StandardFormatsRunFactory();
+            ComparisonGeneratorsFactory = new StandardComparisonGeneratorsFactory();
             runGrid.DataSource = SegmentList;
             this.iconDataGridViewImageColumn.ImageLayout = DataGridViewImageCellLayout.Zoom;
             this.iconDataGridViewImageColumn.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
@@ -34,18 +48,72 @@ namespace LiveSplit.UI.Components
 
         public XmlNode GetSettings(XmlDocument document)
         {
-            var parent = document.CreateElement("Configuration");
+            var parent = document.CreateElement("Settings");
             CreateSettingsNode(document, parent);
             return parent;
         }
 
         private int CreateSettingsNode(XmlDocument document, XmlElement parent)
         {
-            return SettingsHelper.CreateSetting(document, parent, "Threshold", "test");
+            return SettingsHelper.CreateSetting(document, parent, "NotificationMessage", NotificationMessage) ^
+            SettingsHelper.CreateSetting(document, parent, "ShowTriggerIndicator", ShowTriggerIndicator);
         }
 
         public void SetSettings(XmlNode settings)
         {
+            NotificationMessage = SettingsHelper.ParseString(settings["NotificationMessage"]);
+            ShowTriggerIndicator = SettingsHelper.ParseBool(settings["ShowTriggerIndicator"]);
+        }
+
+        private List<SegmentWithThreshold> GetSegmentsWithThresholds()
+        {
+            using (var stream = File.OpenRead(Run.FilePath))
+            {
+                XmlTextReader reader = new XmlTextReader(Run.FilePath);
+
+                var segmentsWithThresholds = new List<SegmentWithThreshold>();
+
+                var currentSegment = new SegmentWithThreshold();
+                string currentXmlElement = null;
+
+                while (reader.Read())
+                {
+                    switch (reader.NodeType)
+                    {
+                        case XmlNodeType.Element:
+                            if (reader.Name == "Segment")
+                                currentSegment = new SegmentWithThreshold();
+                            else if (reader.Name == "Name")
+                                currentXmlElement = "Name";
+                            else if (reader.Name == "SplitTime")
+                            {
+                                if (reader.GetAttribute("name") == "Personal Best")
+                                    currentXmlElement = "SplitTime";
+                            }
+                            else if (currentXmlElement == "SplitTime" && reader.Name == "RealTime")
+                                currentXmlElement = "RealTime";
+                            else if (reader.Name == "Threshold")
+                                currentXmlElement = "Threshold";
+                            else
+                                currentXmlElement = null;
+                            break;
+                        case XmlNodeType.Text:
+                            if (currentXmlElement == "Name")
+                                currentSegment.Name = reader.Value;
+                            else if (currentXmlElement == "RealTime")
+                                currentSegment.SplitTime = reader.Value;
+                            else if (currentXmlElement == "Threshold")
+                                currentSegment.Threshold = reader.Value;
+                            break;
+                        case XmlNodeType.EndElement:
+                            if (reader.Name == "Segment")
+                                segmentsWithThresholds.Add(currentSegment);
+                            break;
+                    }
+                }
+
+                return segmentsWithThresholds;
+            }
         }
 
         void runGrid_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
@@ -73,5 +141,13 @@ namespace LiveSplit.UI.Components
         {
 
         }
+    }
+
+    public class SegmentWithThreshold
+    {
+        public Image Icon { get; set; }
+        public string Name { get; set; }
+        public string SplitTime { get; set; }
+        public string Threshold { get; set; }
     }
 }

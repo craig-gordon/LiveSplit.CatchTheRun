@@ -33,7 +33,7 @@
             this.iconDataGridViewImageColumn = new System.Windows.Forms.DataGridViewImageColumn();
             this.nameDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.splitTimeDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Threshold = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.thresholdDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.iSegmentBindingSource = new System.Windows.Forms.BindingSource(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.runGrid)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.iSegmentBindingSource)).BeginInit();
@@ -55,7 +55,7 @@
             this.iconDataGridViewImageColumn,
             this.nameDataGridViewTextBoxColumn,
             this.splitTimeDataGridViewTextBoxColumn,
-            this.Threshold});
+            this.thresholdDataGridViewTextBoxColumn});
             this.runGrid.DataSource = this.iSegmentBindingSource;
             this.runGrid.Dock = System.Windows.Forms.DockStyle.Fill;
             this.runGrid.GridColor = System.Drawing.Color.Gainsboro;
@@ -104,12 +104,13 @@
             // 
             // Threshold
             // 
-            this.Threshold.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.Threshold.HeaderText = "Threshold";
-            this.Threshold.MinimumWidth = 8;
-            this.Threshold.Name = "Threshold";
-            this.Threshold.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.Threshold.Width = 172;
+            this.thresholdDataGridViewTextBoxColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.thresholdDataGridViewTextBoxColumn.DataPropertyName = "Threshold";
+            this.thresholdDataGridViewTextBoxColumn.HeaderText = "Threshold";
+            this.thresholdDataGridViewTextBoxColumn.MinimumWidth = 8;
+            this.thresholdDataGridViewTextBoxColumn.Name = "Threshold";
+            this.thresholdDataGridViewTextBoxColumn.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.thresholdDataGridViewTextBoxColumn.Width = 172;
             // 
             // iSegmentBindingSource
             // 
@@ -137,6 +138,6 @@
         private System.Windows.Forms.DataGridViewImageColumn iconDataGridViewImageColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn nameDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn splitTimeDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Threshold;
+        private System.Windows.Forms.DataGridViewTextBoxColumn thresholdDataGridViewTextBoxColumn;
     }
 }

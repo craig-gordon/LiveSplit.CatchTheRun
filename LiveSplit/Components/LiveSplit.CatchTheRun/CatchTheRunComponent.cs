@@ -46,6 +46,7 @@ namespace LiveSplit.UI.Components
         public void DrawHorizontal(Graphics g, LiveSplitState state, float height, Region clipRegion)
         {
         }
+
         public Control GetSettingsControl(LayoutMode mode)
         {
             return Settings;
