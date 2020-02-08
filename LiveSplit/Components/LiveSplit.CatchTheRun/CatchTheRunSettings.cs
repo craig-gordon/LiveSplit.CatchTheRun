@@ -44,6 +44,7 @@ namespace LiveSplit.UI.Components
             this.iconDataGridViewImageColumn.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
             this.iconDataGridViewImageColumn.DefaultCellStyle.NullValue = new Bitmap(1, 1);
             runGrid.CellFormatting += runGrid_CellFormatting;
+            runGrid.CellEndEdit += runGrid_CellEndEdit;
         }
 
         public XmlNode GetSettings(XmlDocument document)
@@ -116,7 +117,30 @@ namespace LiveSplit.UI.Components
             }
         }
 
-        void runGrid_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+        private void SaveThresholdToSplitsFile(string splitName, string thresholdValue)
+        {
+            var doc = new XmlDocument();
+            doc.Load(Run.FilePath);
+
+            XmlNodeList segmentNodes = doc.SelectNodes("/Run/Segments/Segment");
+
+            for (var i = 0; i < segmentNodes.Count; i++)
+            {
+                var segmentNode = segmentNodes[i];
+                var nodeName = segmentNode.SelectSingleNode("Name").FirstChild.Value;
+
+                if (splitName == nodeName)
+                {
+                    var thresholdNode = segmentNode.SelectSingleNode("Threshold");
+                    thresholdNode.FirstChild.Value = thresholdValue;
+                    break;
+                }
+            }
+
+            doc.Save(Run.FilePath);
+        }
+
+        private void runGrid_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
         {
             if (e.RowIndex < Run.Count)
             {
@@ -140,6 +164,13 @@ namespace LiveSplit.UI.Components
         private void runGrid_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
 
+        }
+
+        private void runGrid_CellEndEdit(object sender, DataGridViewCellEventArgs e)
+        {
+            var splitName = runGrid.Rows[e.RowIndex].Cells[1].Value as string;
+            var thresholdValue = runGrid.Rows[e.RowIndex].Cells[e.ColumnIndex].Value as string;
+            SaveThresholdToSplitsFile(splitName, thresholdValue);
         }
     }
 
