@@ -52,6 +52,8 @@
     <Compile Include="CatchTheRunSettings.Designer.cs">
       <DependentUpon>CatchTheRunSettings.cs</DependentUpon>
     </Compile>
+    <Compile Include="SegmentWithThreshold.cs" />
+    <Compile Include="XmlHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\LiveSplit.Core\LiveSplit.Core.csproj">

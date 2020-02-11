@@ -4,7 +4,7 @@ using System.Xml;
 using System.Drawing;
 using System.Windows.Forms;
 using LiveSplit.Model;
-using LiveSplit.Options;
+using LiveSplit.CatchTheRun;
 
 namespace LiveSplit.UI.Components
 {
@@ -15,6 +15,9 @@ namespace LiveSplit.UI.Components
         protected LiveSplitState State { get; set; }
         protected Form Form { get; set; }
         protected TimerModel Model { get; set; }
+
+        private List<SegmentWithThreshold> SegmentThresholdList { get; set; }
+        private int SplitIndex { get; set; }
 
         public string ComponentName => "Catch The Run";
 
@@ -65,6 +68,29 @@ namespace LiveSplit.UI.Components
 
         public void Update(IInvalidator invalidator, LiveSplitState state, float width, float height, LayoutMode mode)
         {
+            if (state.CurrentPhase == TimerPhase.Running && this.SegmentThresholdList == null)
+            {
+                this.SplitIndex = 0;
+                this.SegmentThresholdList = XmlHelper.GetSegmentsWithThresholds(state.Run.FilePath);
+            }
+            else if (state.CurrentPhase == TimerPhase.Running && state.CurrentSplitIndex == this.SplitIndex + 1)
+            {
+                var split = state.Run[this.SplitIndex];
+                double threshold = Convert.ToDouble(this.SegmentThresholdList[this.SplitIndex].Threshold) * 1000;
+                double? splitDelta = split.SplitTime.RealTime?.TotalMilliseconds - split.PersonalBestSplitTime.RealTime?.TotalMilliseconds;
+
+                if (splitDelta < threshold)
+                {
+                    // TODO: request sendout logic
+                }
+
+                this.SplitIndex++;
+            }
+            else if (state.CurrentPhase == TimerPhase.NotRunning || state.CurrentPhase == TimerPhase.Ended)
+            {
+                this.SplitIndex = -1;
+                this.SegmentThresholdList = null;
+            }
         }
 
         public void Dispose()

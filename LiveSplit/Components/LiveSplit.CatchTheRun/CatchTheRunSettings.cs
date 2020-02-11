@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.IO;
 using LiveSplit.Model.RunFactories;
 using LiveSplit.Model.Comparisons;
+using LiveSplit.CatchTheRun;
 
 namespace LiveSplit.UI.Components
 {
@@ -22,7 +23,7 @@ namespace LiveSplit.UI.Components
         private const int THRESHOLD_INDEX = 3;
 
         protected IRun Run { get; set; }
-        protected BindingList<SegmentWithThreshold> SegmentList { get; set; }
+        protected BindingList<SegmentWithThreshold> SegmentListDataSource { get; set; }
 
         protected StandardFormatsRunFactory RunFactory { get; set; }
         protected StandardComparisonGeneratorsFactory ComparisonGeneratorsFactory { get; set; }
@@ -35,11 +36,11 @@ namespace LiveSplit.UI.Components
         {
             InitializeComponent();
             Run = state.Run;
-            SegmentsWithThresholds = GetSegmentsWithThresholds();
-            SegmentList = new BindingList<SegmentWithThreshold>(SegmentsWithThresholds);
+            SegmentsWithThresholds = XmlHelper.GetSegmentsWithThresholds(Run.FilePath);
+            SegmentListDataSource = new BindingList<SegmentWithThreshold>(SegmentsWithThresholds);
             RunFactory = new StandardFormatsRunFactory();
             ComparisonGeneratorsFactory = new StandardComparisonGeneratorsFactory();
-            runGrid.DataSource = SegmentList;
+            runGrid.DataSource = SegmentListDataSource;
             this.iconDataGridViewImageColumn.ImageLayout = DataGridViewImageCellLayout.Zoom;
             this.iconDataGridViewImageColumn.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
             this.iconDataGridViewImageColumn.DefaultCellStyle.NullValue = new Bitmap(1, 1);
@@ -64,80 +65,6 @@ namespace LiveSplit.UI.Components
         {
             NotificationMessage = SettingsHelper.ParseString(settings["NotificationMessage"]);
             ShowTriggerIndicator = SettingsHelper.ParseBool(settings["ShowTriggerIndicator"]);
-        }
-
-        private List<SegmentWithThreshold> GetSegmentsWithThresholds()
-        {
-            using (var stream = File.OpenRead(Run.FilePath))
-            {
-                XmlTextReader reader = new XmlTextReader(Run.FilePath);
-
-                var segmentsWithThresholds = new List<SegmentWithThreshold>();
-
-                var currentSegment = new SegmentWithThreshold();
-                string currentXmlElement = null;
-
-                while (reader.Read())
-                {
-                    switch (reader.NodeType)
-                    {
-                        case XmlNodeType.Element:
-                            if (reader.Name == "Segment")
-                                currentSegment = new SegmentWithThreshold();
-                            else if (reader.Name == "Name")
-                                currentXmlElement = "Name";
-                            else if (reader.Name == "SplitTime")
-                            {
-                                if (reader.GetAttribute("name") == "Personal Best")
-                                    currentXmlElement = "SplitTime";
-                            }
-                            else if (currentXmlElement == "SplitTime" && reader.Name == "RealTime")
-                                currentXmlElement = "RealTime";
-                            else if (reader.Name == "Threshold")
-                                currentXmlElement = "Threshold";
-                            else
-                                currentXmlElement = null;
-                            break;
-                        case XmlNodeType.Text:
-                            if (currentXmlElement == "Name")
-                                currentSegment.Name = reader.Value;
-                            else if (currentXmlElement == "RealTime")
-                                currentSegment.SplitTime = reader.Value;
-                            else if (currentXmlElement == "Threshold")
-                                currentSegment.Threshold = reader.Value;
-                            break;
-                        case XmlNodeType.EndElement:
-                            if (reader.Name == "Segment")
-                                segmentsWithThresholds.Add(currentSegment);
-                            break;
-                    }
-                }
-
-                return segmentsWithThresholds;
-            }
-        }
-
-        private void SaveThresholdToSplitsFile(string splitName, string thresholdValue)
-        {
-            var doc = new XmlDocument();
-            doc.Load(Run.FilePath);
-
-            XmlNodeList segmentNodes = doc.SelectNodes("/Run/Segments/Segment");
-
-            for (var i = 0; i < segmentNodes.Count; i++)
-            {
-                var segmentNode = segmentNodes[i];
-                var nodeName = segmentNode.SelectSingleNode("Name").FirstChild.Value;
-
-                if (splitName == nodeName)
-                {
-                    var thresholdNode = segmentNode.SelectSingleNode("Threshold");
-                    thresholdNode.FirstChild.Value = thresholdValue;
-                    break;
-                }
-            }
-
-            doc.Save(Run.FilePath);
         }
 
         private void runGrid_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
@@ -170,15 +97,7 @@ namespace LiveSplit.UI.Components
         {
             var splitName = runGrid.Rows[e.RowIndex].Cells[1].Value as string;
             var thresholdValue = runGrid.Rows[e.RowIndex].Cells[e.ColumnIndex].Value as string;
-            SaveThresholdToSplitsFile(splitName, thresholdValue);
+            XmlHelper.SaveThresholdToSplitsFile(Run.FilePath, splitName, thresholdValue);
         }
-    }
-
-    public class SegmentWithThreshold
-    {
-        public Image Icon { get; set; }
-        public string Name { get; set; }
-        public string SplitTime { get; set; }
-        public string Threshold { get; set; }
     }
 }
