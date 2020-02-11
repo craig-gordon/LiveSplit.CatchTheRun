@@ -5,6 +5,9 @@ using System.Drawing;
 using System.Windows.Forms;
 using LiveSplit.Model;
 using LiveSplit.CatchTheRun;
+using System.Net.Http;
+using System.Text;
+using Newtonsoft.Json;
 
 namespace LiveSplit.UI.Components
 {
@@ -18,6 +21,8 @@ namespace LiveSplit.UI.Components
 
         private List<SegmentWithThreshold> SegmentThresholdList { get; set; }
         private int SplitIndex { get; set; }
+
+        private HttpClient _HttpClient { get; set; }
 
         public string ComponentName => "Catch The Run";
 
@@ -40,6 +45,7 @@ namespace LiveSplit.UI.Components
             State = state;
             Form = state.Form;
             Model.CurrentState = State;
+            _HttpClient = new HttpClient();
         }
 
         public void DrawVertical(Graphics g, LiveSplitState state, float width, Region clipRegion)
@@ -81,7 +87,18 @@ namespace LiveSplit.UI.Components
 
                 if (splitDelta < threshold)
                 {
-                    // TODO: request sendout logic
+                    var message = JsonConvert.SerializeObject(new EventRequestBody()
+                    {
+                        Player = "cyghfer",
+                        Game = "Super Mario World",
+                        Category = "96 Exit",
+                        SplitName = "Forest of Illusion",
+                        CurrentPace = "-10.5",
+                        Message = "Ya boy is on the hecking run"
+                    });
+
+                    var request = new StringContent(message, new UTF8Encoding(), "application/json");
+                    _HttpClient.PostAsync("http://localhost:4000", request);
                 }
 
                 this.SplitIndex++;
