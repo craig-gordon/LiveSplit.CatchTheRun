@@ -7,6 +7,19 @@ namespace LiveSplit.CatchTheRun
 {
     internal static class XmlHelper
     {
+        private readonly static string CREDENTIALS_FILEPATH = $@"{Directory.GetCurrentDirectory()}\CtrCredentials.xml";
+
+        internal static ClientCredentials ReadClientCredentials()
+        {
+            var doc = new XmlDocument();
+            doc.Load(CREDENTIALS_FILEPATH);
+
+            var clientId = doc.SelectSingleNode("TwitchUsername").FirstChild.Value;
+            var clientKey = doc.SelectSingleNode("ClientKey").FirstChild.Value;
+
+            return new ClientCredentials() { ClientID = clientId, ClientKey = clientKey };
+        }
+
         internal static List<SegmentWithThreshold> GetSegmentsWithThresholds(string filePath)
         {
             using (var stream = File.OpenRead(filePath))

@@ -22,7 +22,8 @@ namespace LiveSplit.UI.Components
         private List<SegmentWithThreshold> SegmentThresholdList { get; set; }
         private int SplitIndex { get; set; }
 
-        private HttpClient _HttpClient { get; set; }
+        private HttpClient Client { get; set; }
+        private ClientCredentials Credentials { get; set; }
 
         public string ComponentName => "Catch The Run";
 
@@ -45,7 +46,13 @@ namespace LiveSplit.UI.Components
             State = state;
             Form = state.Form;
             Model.CurrentState = State;
-            _HttpClient = new HttpClient();
+            Client = new HttpClient();
+            Credentials = GetClientCredentials();
+        }
+
+        private ClientCredentials GetClientCredentials()
+        {
+            return XmlHelper.ReadClientCredentials();
         }
 
         public void DrawVertical(Graphics g, LiveSplitState state, float width, Region clipRegion)
@@ -89,16 +96,16 @@ namespace LiveSplit.UI.Components
                 {
                     var message = JsonConvert.SerializeObject(new EventRequestBody()
                     {
-                        Player = "cyghfer",
-                        Game = "Super Mario World",
-                        Category = "96 Exit",
-                        SplitName = "Forest of Illusion",
-                        CurrentPace = "-10.5",
-                        Message = "Ya boy is on the hecking run"
+                        Player = Credentials.ClientID,
+                        Game = State.Run.GameName,
+                        Category = State.Run.CategoryName,
+                        SplitName = State.CurrentSplit.Name,
+                        CurrentPace = State.Run[State.CurrentSplitIndex - 1].SplitTime.ToString(),
+                        Message = Settings.NotificationMessage
                     });
 
                     var request = new StringContent(message, new UTF8Encoding(), "application/json");
-                    _HttpClient.PostAsync("http://localhost:4000", request);
+                    Client.PostAsync("http://localhost:4000", request);
                 }
 
                 this.SplitIndex++;
