@@ -23,7 +23,6 @@ namespace LiveSplit.UI.Components
         private int SplitIndex { get; set; }
 
         private HttpClient Client { get; set; }
-        private ClientCredentials Credentials { get; set; }
 
         public string ComponentName => "Catch The Run";
 
@@ -47,12 +46,6 @@ namespace LiveSplit.UI.Components
             Form = state.Form;
             Model.CurrentState = State;
             Client = new HttpClient();
-            Credentials = GetClientCredentials();
-        }
-
-        private ClientCredentials GetClientCredentials()
-        {
-            return XmlHelper.ReadClientCredentials();
         }
 
         public void DrawVertical(Graphics g, LiveSplitState state, float width, Region clipRegion)
@@ -96,7 +89,7 @@ namespace LiveSplit.UI.Components
                 {
                     var message = JsonConvert.SerializeObject(new EventRequestBody()
                     {
-                        Player = Credentials.ClientID,
+                        Player = Settings.Credentials.ClientID,
                         Game = State.Run.GameName,
                         Category = State.Run.CategoryName,
                         SplitName = State.CurrentSplit.Name,

@@ -89,7 +89,7 @@
             this.nameDataGridViewTextBoxColumn.Name = "nameDataGridViewTextBoxColumn";
             this.nameDataGridViewTextBoxColumn.ReadOnly = true;
             this.nameDataGridViewTextBoxColumn.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.nameDataGridViewTextBoxColumn.Width = 250;
+            this.nameDataGridViewTextBoxColumn.Width = 200;
             // 
             // splitTimeDataGridViewTextBoxColumn
             // 
@@ -108,7 +108,7 @@
             this.thresholdDataGridViewTextBoxColumn.DataPropertyName = "Threshold";
             this.thresholdDataGridViewTextBoxColumn.HeaderText = "Threshold";
             this.thresholdDataGridViewTextBoxColumn.MinimumWidth = 8;
-            this.thresholdDataGridViewTextBoxColumn.Name = "Threshold";
+            this.thresholdDataGridViewTextBoxColumn.Name = "thresholdDataGridViewTextBoxColumn";
             this.thresholdDataGridViewTextBoxColumn.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             this.thresholdDataGridViewTextBoxColumn.Width = 172;
             // 

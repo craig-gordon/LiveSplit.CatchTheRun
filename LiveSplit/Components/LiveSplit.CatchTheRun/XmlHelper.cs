@@ -7,17 +7,48 @@ namespace LiveSplit.CatchTheRun
 {
     internal static class XmlHelper
     {
+        private const string CREDENTIALS_ELEMENT_NAME = "Credentials";
+        private const string CLIENT_ID_ELEMENT_NAME = "ClientID";
+        private const string CLIENT_KEY_ELEMENT_NAME = "ClientKey";
         private readonly static string CREDENTIALS_FILEPATH = $@"{Directory.GetCurrentDirectory()}\CtrCredentials.xml";
 
         internal static ClientCredentials ReadClientCredentials()
         {
+            if (!File.Exists(CREDENTIALS_FILEPATH))
+            {
+                CreateClientCredentialsFile();
+                return new ClientCredentials() { ClientID = null, ClientKey = null };
+            }
+
             var doc = new XmlDocument();
             doc.Load(CREDENTIALS_FILEPATH);
 
-            var clientId = doc.SelectSingleNode("TwitchUsername").FirstChild.Value;
-            var clientKey = doc.SelectSingleNode("ClientKey").FirstChild.Value;
+            var creds = doc.SelectSingleNode(CREDENTIALS_ELEMENT_NAME);
+
+            var clientId = creds.SelectSingleNode(CLIENT_ID_ELEMENT_NAME).FirstChild?.Value;
+            var clientKey = creds.SelectSingleNode(CLIENT_KEY_ELEMENT_NAME).FirstChild?.Value;
 
             return new ClientCredentials() { ClientID = clientId, ClientKey = clientKey };
+        }
+
+        internal static void CreateClientCredentialsFile()
+        {
+            XmlDocument doc = new XmlDocument();
+
+            XmlDeclaration xmlDeclaration = doc.CreateXmlDeclaration("1.0", "UTF-8", null);
+            XmlElement root = doc.DocumentElement;
+            doc.InsertBefore(xmlDeclaration, root);
+
+            XmlElement creds = doc.CreateElement(string.Empty, CREDENTIALS_ELEMENT_NAME, string.Empty);
+            doc.AppendChild(creds);
+
+            XmlElement clientId = doc.CreateElement(string.Empty, CLIENT_ID_ELEMENT_NAME, string.Empty);
+            creds.AppendChild(clientId);
+
+            XmlElement clientKey = doc.CreateElement(string.Empty, CLIENT_KEY_ELEMENT_NAME, string.Empty);
+            creds.AppendChild(clientKey);
+
+            doc.Save(CREDENTIALS_FILEPATH);
         }
 
         internal static List<SegmentWithThreshold> GetSegmentsWithThresholds(string filePath)

@@ -28,13 +28,15 @@ namespace LiveSplit.UI.Components
         protected StandardFormatsRunFactory RunFactory { get; set; }
         protected StandardComparisonGeneratorsFactory ComparisonGeneratorsFactory { get; set; }
 
-        public string NotificationMessage { get; set; }
-        public bool ShowTriggerIndicator { get; set; }
-        public List<SegmentWithThreshold> SegmentsWithThresholds { get; set; }
+        internal ClientCredentials Credentials { get; set; }
+        internal string NotificationMessage { get; set; }
+        internal bool ShowTriggerIndicator { get; set; }
+        internal List<SegmentWithThreshold> SegmentsWithThresholds { get; set; }
 
         public CatchTheRunSettings(LiveSplitState state)
         {
             InitializeComponent();
+            Credentials = GetClientCredentials();
             Run = state.Run;
             SegmentsWithThresholds = XmlHelper.GetSegmentsWithThresholds(Run.FilePath);
             SegmentListDataSource = new BindingList<SegmentWithThreshold>(SegmentsWithThresholds);
@@ -65,6 +67,11 @@ namespace LiveSplit.UI.Components
         {
             NotificationMessage = SettingsHelper.ParseString(settings["NotificationMessage"]);
             ShowTriggerIndicator = SettingsHelper.ParseBool(settings["ShowTriggerIndicator"]);
+        }
+
+        internal ClientCredentials GetClientCredentials()
+        {
+            return XmlHelper.ReadClientCredentials();
         }
 
         private void runGrid_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
