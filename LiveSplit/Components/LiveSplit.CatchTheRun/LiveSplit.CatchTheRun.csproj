@@ -57,7 +57,7 @@
     <Compile Include="CatchTheRunSettings.Designer.cs">
       <DependentUpon>CatchTheRunSettings.cs</DependentUpon>
     </Compile>
-    <Compile Include="SegmentWithThreshold.cs" />
+    <Compile Include="Threshold.cs" />
     <Compile Include="XmlHelper.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -77,7 +77,8 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-    <None Include="Properties\DataSources\LiveSplit.Model.ISegment.datasource" />
+    <None Include="Properties\DataSources\Threshold.datasource" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

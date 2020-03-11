@@ -19,7 +19,6 @@ namespace LiveSplit.UI.Components
         protected Form Form { get; set; }
         protected TimerModel Model { get; set; }
 
-        private List<SegmentWithThreshold> SegmentThresholdList { get; set; }
         private int SplitIndex { get; set; }
 
         private HttpClient Client { get; set; }
@@ -74,31 +73,31 @@ namespace LiveSplit.UI.Components
 
         public void Update(IInvalidator invalidator, LiveSplitState state, float width, float height, LayoutMode mode)
         {
-            if (state.CurrentPhase == TimerPhase.Running && this.SegmentThresholdList == null)
+            if (state.CurrentPhase == TimerPhase.Running && Settings.Thresholds == null)
             {
                 this.SplitIndex = 0;
-                this.SegmentThresholdList = XmlHelper.GetSegmentsWithThresholds(state.Run.FilePath);
+                Settings.Thresholds = XmlHelper.ReadThresholds(state.Run.FilePath);
             }
             else if (state.CurrentPhase == TimerPhase.Running && state.CurrentSplitIndex == this.SplitIndex + 1)
             {
                 var split = state.Run[this.SplitIndex];
-                double threshold = Convert.ToDouble(this.SegmentThresholdList[this.SplitIndex].Threshold) * 1000;
+                double threshold = Convert.ToDouble(Settings.Thresholds[this.SplitIndex].ThresholdValue) * 1000;
                 double? splitDelta = split.SplitTime.RealTime?.TotalMilliseconds - split.PersonalBestSplitTime.RealTime?.TotalMilliseconds;
 
                 if (splitDelta < threshold)
                 {
-                    var message = JsonConvert.SerializeObject(new EventRequestBody()
-                    {
-                        Player = Settings.Credentials.ClientID,
-                        Game = State.Run.GameName,
-                        Category = State.Run.CategoryName,
-                        SplitName = State.CurrentSplit.Name,
-                        CurrentPace = State.Run[State.CurrentSplitIndex - 1].SplitTime.ToString(),
-                        Message = Settings.NotificationMessage
-                    });
+                    //var message = JsonConvert.SerializeObject(new EventRequestBody()
+                    //{
+                    //    Player = Settings.Credentials.ClientID,
+                    //    Game = State.Run.GameName,
+                    //    Category = State.Run.CategoryName,
+                    //    SplitName = State.CurrentSplit.Name,
+                    //    CurrentPace = State.Run[State.CurrentSplitIndex - 1].SplitTime.ToString(),
+                    //    Message = Settings.NotificationMessage
+                    //});
 
-                    var request = new StringContent(message, new UTF8Encoding(), "application/json");
-                    Client.PostAsync("http://localhost:4000", request);
+                    //var request = new StringContent(message, new UTF8Encoding(), "application/json");
+                    //Client.PostAsync("http://localhost:4000", request);
                 }
 
                 this.SplitIndex++;
@@ -106,7 +105,7 @@ namespace LiveSplit.UI.Components
             else if (state.CurrentPhase == TimerPhase.NotRunning || state.CurrentPhase == TimerPhase.Ended)
             {
                 this.SplitIndex = -1;
-                this.SegmentThresholdList = null;
+                Settings.Thresholds = null;
             }
         }
 

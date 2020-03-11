@@ -51,15 +51,15 @@ namespace LiveSplit.CatchTheRun
             doc.Save(CREDENTIALS_FILEPATH);
         }
 
-        internal static List<SegmentWithThreshold> GetSegmentsWithThresholds(string filePath)
+        internal static List<Threshold> ReadThresholds(string filePath)
         {
             using (var stream = File.OpenRead(filePath))
             {
                 XmlTextReader reader = new XmlTextReader(filePath);
 
-                var segmentsWithThresholds = new List<SegmentWithThreshold>();
+                var thresholds = new List<Threshold>();
 
-                var currentSegment = new SegmentWithThreshold();
+                var currentSegment = new Threshold();
                 string currentXmlElement = null;
 
                 while (reader.Read())
@@ -68,7 +68,7 @@ namespace LiveSplit.CatchTheRun
                     {
                         case XmlNodeType.Element:
                             if (reader.Name == "Segment")
-                                currentSegment = new SegmentWithThreshold();
+                                currentSegment = new Threshold();
                             else if (reader.Name == "Name")
                                 currentXmlElement = "Name";
                             else if (reader.Name == "SplitTime")
@@ -85,24 +85,24 @@ namespace LiveSplit.CatchTheRun
                             break;
                         case XmlNodeType.Text:
                             if (currentXmlElement == "Name")
-                                currentSegment.Name = reader.Value;
+                                currentSegment.SplitName = reader.Value;
                             else if (currentXmlElement == "RealTime")
                                 currentSegment.SplitTime = reader.Value;
                             else if (currentXmlElement == "Threshold")
-                                currentSegment.Threshold = reader.Value;
+                                currentSegment.ThresholdValue = reader.Value;
                             break;
                         case XmlNodeType.EndElement:
                             if (reader.Name == "Segment")
-                                segmentsWithThresholds.Add(currentSegment);
+                                thresholds.Add(currentSegment);
                             break;
                     }
                 }
 
-                return segmentsWithThresholds;
+                return thresholds;
             }
         }
 
-        internal static void SaveThresholdToSplitsFile(string filePath, string splitName, string thresholdValue)
+        internal static void WriteThreshold(string filePath, string splitName, string thresholdValue)
         {
             var doc = new XmlDocument();
             doc.Load(filePath);

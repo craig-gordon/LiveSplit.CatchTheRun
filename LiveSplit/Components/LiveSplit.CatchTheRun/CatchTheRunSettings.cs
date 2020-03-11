@@ -17,35 +17,30 @@ namespace LiveSplit.UI.Components
 {
     public partial class CatchTheRunSettings : UserControl
     {
-        private const int ICON_INDEX = 0;
-        private const int SEGMENT_NAME_INDEX = 1;
-        private const int SPLIT_TIME_INDEX = 2;
-        private const int THRESHOLD_INDEX = 3;
+        private const int SPLIT_NAME_INDEX = 0;
+        private const int SPLIT_TIME_INDEX = 1;
+        private const int THRESHOLD_INDEX = 2;
 
         protected IRun Run { get; set; }
-        protected BindingList<SegmentWithThreshold> SegmentListDataSource { get; set; }
 
         protected StandardFormatsRunFactory RunFactory { get; set; }
         protected StandardComparisonGeneratorsFactory ComparisonGeneratorsFactory { get; set; }
 
         internal ClientCredentials Credentials { get; set; }
+        internal List<Threshold> Thresholds { get; set; }
         internal string NotificationMessage { get; set; }
         internal bool ShowTriggerIndicator { get; set; }
-        internal List<SegmentWithThreshold> SegmentsWithThresholds { get; set; }
+
+        protected BindingList<Threshold> ThresholdsDataSource { get; set; }
 
         public CatchTheRunSettings(LiveSplitState state)
         {
-            InitializeComponent();
-            Credentials = GetClientCredentials();
             Run = state.Run;
-            SegmentsWithThresholds = XmlHelper.GetSegmentsWithThresholds(Run.FilePath);
-            SegmentListDataSource = new BindingList<SegmentWithThreshold>(SegmentsWithThresholds);
-            RunFactory = new StandardFormatsRunFactory();
-            ComparisonGeneratorsFactory = new StandardComparisonGeneratorsFactory();
-            runGrid.DataSource = SegmentListDataSource;
-            this.iconDataGridViewImageColumn.ImageLayout = DataGridViewImageCellLayout.Zoom;
-            this.iconDataGridViewImageColumn.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
-            this.iconDataGridViewImageColumn.DefaultCellStyle.NullValue = new Bitmap(1, 1);
+            Credentials = GetClientCredentials();
+            Thresholds = XmlHelper.ReadThresholds(Run.FilePath);
+            ThresholdsDataSource = new BindingList<Threshold>(Thresholds);
+            InitializeComponent();
+            runGrid.DataSource = ThresholdsDataSource;
             runGrid.CellFormatting += runGrid_CellFormatting;
             runGrid.CellEndEdit += runGrid_CellEndEdit;
         }
@@ -76,23 +71,8 @@ namespace LiveSplit.UI.Components
 
         private void runGrid_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
         {
-            if (e.RowIndex < Run.Count)
-            {
-                switch (e.ColumnIndex)
-                {
-                    case ICON_INDEX:
-                        e.Value = Run[e.RowIndex].Icon;
-                        break;
-                    case SEGMENT_NAME_INDEX:
-                        e.Value = Run[e.RowIndex].Name;
-                        break;
-                    case SPLIT_TIME_INDEX:
-                        e.Value = new ShortTimeFormatter().Format(Run[e.RowIndex].PersonalBestSplitTime[TimingMethod.RealTime]);
-                        break;
-                    default:
-                        break;
-                }
-            }
+            if (e.RowIndex < Run.Count && e.ColumnIndex == SPLIT_TIME_INDEX)
+                e.Value = new ShortTimeFormatter().Format(Run[e.RowIndex].PersonalBestSplitTime[TimingMethod.RealTime]);
         }
 
         private void runGrid_CellContentClick(object sender, DataGridViewCellEventArgs e)
@@ -104,7 +84,27 @@ namespace LiveSplit.UI.Components
         {
             var splitName = runGrid.Rows[e.RowIndex].Cells[1].Value as string;
             var thresholdValue = runGrid.Rows[e.RowIndex].Cells[e.ColumnIndex].Value as string;
-            XmlHelper.SaveThresholdToSplitsFile(Run.FilePath, splitName, thresholdValue);
+            XmlHelper.WriteThreshold(Run.FilePath, splitName, thresholdValue);
+        }
+
+        private void CatchTheRunSettings_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void textBox2_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
