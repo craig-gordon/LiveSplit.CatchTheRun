@@ -5,23 +5,15 @@ using System.Drawing;
 using System.Windows.Forms;
 using LiveSplit.Model;
 using LiveSplit.CatchTheRun;
-using System.Net.Http;
-using System.Text;
-using Newtonsoft.Json;
 
 namespace LiveSplit.UI.Components
 {
     public class CatchTheRunComponent : IComponent
     {
         public CatchTheRunSettings Settings { get; set; }
-
         protected LiveSplitState State { get; set; }
-        protected Form Form { get; set; }
-        protected TimerModel Model { get; set; }
 
         private int SplitIndex { get; set; }
-
-        private HttpClient Client { get; set; }
 
         public string ComponentName => "Catch The Run";
 
@@ -40,11 +32,7 @@ namespace LiveSplit.UI.Components
         public CatchTheRunComponent(LiveSplitState state)
         {
             Settings = new CatchTheRunSettings(state);
-            Model = new TimerModel();
             State = state;
-            Form = state.Form;
-            Model.CurrentState = State;
-            Client = new HttpClient();
         }
 
         public void DrawVertical(Graphics g, LiveSplitState state, float width, Region clipRegion)
@@ -86,18 +74,17 @@ namespace LiveSplit.UI.Components
 
                 if (splitDelta < threshold)
                 {
-                    //var message = JsonConvert.SerializeObject(new EventRequestBody()
-                    //{
-                    //    Player = Settings.Credentials.ClientID,
-                    //    Game = State.Run.GameName,
-                    //    Category = State.Run.CategoryName,
-                    //    SplitName = State.CurrentSplit.Name,
-                    //    CurrentPace = State.Run[State.CurrentSplitIndex - 1].SplitTime.ToString(),
-                    //    Message = Settings.NotificationMessage
-                    //});
+                    var requestBody = new EventRequestBody()
+                    {
+                        Player = Settings.Credentials.ClientID,
+                        Game = State.Run.GameName,
+                        Category = State.Run.CategoryName,
+                        SplitName = State.Run[State.CurrentSplitIndex].Name,
+                        CurrentPace = State.Run[State.CurrentSplitIndex - 1].SplitTime.ToString(),
+                        Message = Settings.NotificationMessage
+                    };
 
-                    //var request = new StringContent(message, new UTF8Encoding(), "application/json");
-                    //Client.PostAsync("http://localhost:4000", request);
+                    Settings.Client.SendNotificationsRequest(requestBody, Settings.Credentials);
                 }
 
                 this.SplitIndex++;

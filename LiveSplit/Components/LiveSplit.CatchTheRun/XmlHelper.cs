@@ -23,12 +23,31 @@ namespace LiveSplit.CatchTheRun
             var doc = new XmlDocument();
             doc.Load(CREDENTIALS_FILEPATH);
 
-            var creds = doc.SelectSingleNode(CREDENTIALS_ELEMENT_NAME);
+            var credsNode = doc.SelectSingleNode(CREDENTIALS_ELEMENT_NAME);
 
-            var clientId = creds.SelectSingleNode(CLIENT_ID_ELEMENT_NAME).FirstChild?.Value;
-            var clientKey = creds.SelectSingleNode(CLIENT_KEY_ELEMENT_NAME).FirstChild?.Value;
+            var clientId = credsNode.SelectSingleNode(CLIENT_ID_ELEMENT_NAME).FirstChild?.Value;
+            var clientKey = credsNode.SelectSingleNode(CLIENT_KEY_ELEMENT_NAME).FirstChild?.Value;
 
             return new ClientCredentials() { ClientID = clientId, ClientKey = clientKey };
+        }
+
+        internal static void WriteClientCredentials(string clientId, string clientKey)
+        {
+            if (!File.Exists(CREDENTIALS_FILEPATH))
+                CreateClientCredentialsFile();
+
+            var doc = new XmlDocument();
+            doc.Load(CREDENTIALS_FILEPATH);
+
+            var credsNode = doc.SelectSingleNode(CREDENTIALS_ELEMENT_NAME);
+
+            var clientIdNode = credsNode.SelectSingleNode(CLIENT_ID_ELEMENT_NAME);
+            clientIdNode.InnerText = clientId;
+
+            var clientKeyNode = credsNode.SelectSingleNode(CLIENT_KEY_ELEMENT_NAME);
+            clientKeyNode.InnerText = clientKey;
+
+            doc.Save(CREDENTIALS_FILEPATH);
         }
 
         internal static void CreateClientCredentialsFile()

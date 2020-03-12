@@ -23,13 +23,12 @@ namespace LiveSplit.UI.Components
 
         protected IRun Run { get; set; }
 
-        protected StandardFormatsRunFactory RunFactory { get; set; }
-        protected StandardComparisonGeneratorsFactory ComparisonGeneratorsFactory { get; set; }
-
         internal ClientCredentials Credentials { get; set; }
         internal List<Threshold> Thresholds { get; set; }
         internal string NotificationMessage { get; set; }
         internal bool ShowTriggerIndicator { get; set; }
+
+        internal ApiClient Client { get; set; }
 
         protected BindingList<Threshold> ThresholdsDataSource { get; set; }
 
@@ -40,9 +39,9 @@ namespace LiveSplit.UI.Components
             Thresholds = XmlHelper.ReadThresholds(Run.FilePath);
             ThresholdsDataSource = new BindingList<Threshold>(Thresholds);
             InitializeComponent();
+            Client = new ApiClient();
             runGrid.DataSource = ThresholdsDataSource;
             runGrid.CellFormatting += runGrid_CellFormatting;
-            runGrid.CellEndEdit += runGrid_CellEndEdit;
         }
 
         public XmlNode GetSettings(XmlDocument document)
@@ -75,36 +74,24 @@ namespace LiveSplit.UI.Components
                 e.Value = new ShortTimeFormatter().Format(Run[e.RowIndex].PersonalBestSplitTime[TimingMethod.RealTime]);
         }
 
-        private void runGrid_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        private async void verifyCredentialsButton_Click(object sender, EventArgs e)
         {
-
+            await Client.VerifyClientCredentials(twitchUsernameTextBox.Text, clientKeyTextBox.Text);
         }
 
-        private void runGrid_CellEndEdit(object sender, DataGridViewCellEventArgs e)
+        private void saveThresholdsButton_Click(object sender, EventArgs e)
         {
-            var splitName = runGrid.Rows[e.RowIndex].Cells[1].Value as string;
-            var thresholdValue = runGrid.Rows[e.RowIndex].Cells[e.ColumnIndex].Value as string;
-            XmlHelper.WriteThreshold(Run.FilePath, splitName, thresholdValue);
+            foreach (DataGridViewRow row in runGrid.Rows)
+            {
+                var splitName = row.Cells[0].Value as string;
+                var thresholdValue = row.Cells[2].Value as string;
+                XmlHelper.WriteThreshold(Run.FilePath, splitName, thresholdValue);
+            }
         }
 
-        private void CatchTheRunSettings_Load(object sender, EventArgs e)
+        private void saveCredentialsButton_Click(object sender, EventArgs e)
         {
-
-        }
-
-        private void textBox2_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label1_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-
+            XmlHelper.WriteClientCredentials(twitchUsernameTextBox.Text, clientKeyTextBox.Text);
         }
     }
 }
