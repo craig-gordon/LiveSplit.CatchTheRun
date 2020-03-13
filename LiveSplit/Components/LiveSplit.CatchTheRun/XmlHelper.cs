@@ -5,14 +5,20 @@ using System.IO;
 
 namespace LiveSplit.CatchTheRun
 {
-    internal static class XmlHelper
+    internal class XmlHelper
     {
         private const string CREDENTIALS_ELEMENT_NAME = "Credentials";
         private const string CLIENT_ID_ELEMENT_NAME = "ClientID";
         private const string CLIENT_KEY_ELEMENT_NAME = "ClientKey";
-        private readonly static string CREDENTIALS_FILEPATH = $@"{Directory.GetCurrentDirectory()}\CtrCredentials.xml";
 
-        internal static ClientCredentials ReadClientCredentials()
+        private string CREDENTIALS_FILEPATH { get; set; }
+
+        internal XmlHelper(string splitDirectory)
+        {
+            CREDENTIALS_FILEPATH = $@"{splitDirectory}\CtrCredentials.xml";
+        }
+
+        internal ClientCredentials ReadClientCredentials()
         {
             if (!File.Exists(CREDENTIALS_FILEPATH))
             {
@@ -31,7 +37,7 @@ namespace LiveSplit.CatchTheRun
             return new ClientCredentials() { ClientID = clientId, ClientKey = clientKey };
         }
 
-        internal static void WriteClientCredentials(string clientId, string clientKey)
+        internal void WriteClientCredentials(string clientId, string clientKey)
         {
             if (!File.Exists(CREDENTIALS_FILEPATH))
                 CreateClientCredentialsFile();
@@ -50,7 +56,7 @@ namespace LiveSplit.CatchTheRun
             doc.Save(CREDENTIALS_FILEPATH);
         }
 
-        internal static void CreateClientCredentialsFile()
+        internal void CreateClientCredentialsFile()
         {
             XmlDocument doc = new XmlDocument();
 
@@ -70,7 +76,7 @@ namespace LiveSplit.CatchTheRun
             doc.Save(CREDENTIALS_FILEPATH);
         }
 
-        internal static List<Threshold> ReadThresholds(string filePath)
+        internal List<Threshold> ReadThresholds(string filePath)
         {
             using (var stream = File.OpenRead(filePath))
             {
@@ -121,7 +127,7 @@ namespace LiveSplit.CatchTheRun
             }
         }
 
-        internal static void WriteThreshold(string filePath, string splitName, string thresholdValue)
+        internal void WriteThreshold(string filePath, string splitName, string thresholdValue)
         {
             var doc = new XmlDocument();
             doc.Load(filePath);

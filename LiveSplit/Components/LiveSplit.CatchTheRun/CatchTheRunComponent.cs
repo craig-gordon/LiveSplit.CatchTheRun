@@ -64,7 +64,7 @@ namespace LiveSplit.UI.Components
             if (state.CurrentPhase == TimerPhase.Running && Settings.Thresholds == null)
             {
                 this.SplitIndex = 0;
-                Settings.Thresholds = XmlHelper.ReadThresholds(state.Run.FilePath);
+                Settings.Thresholds = Settings._XmlHelper.ReadThresholds(state.Run.FilePath);
             }
             else if (state.CurrentPhase == TimerPhase.Running && state.CurrentSplitIndex == this.SplitIndex + 1)
             {
@@ -84,7 +84,7 @@ namespace LiveSplit.UI.Components
                         Message = Settings.NotificationMessage
                     };
 
-                    Settings.Client.SendNotificationsRequest(requestBody, Settings.Credentials);
+                    Settings._ApiClient.SendNotificationsRequest(requestBody, Settings.Credentials);
                 }
 
                 this.SplitIndex++;

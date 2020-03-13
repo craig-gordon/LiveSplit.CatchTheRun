@@ -28,7 +28,8 @@ namespace LiveSplit.UI.Components
         internal string NotificationMessage { get; set; }
         internal bool ShowTriggerIndicator { get; set; }
 
-        internal ApiClient Client { get; set; }
+        internal XmlHelper _XmlHelper { get; set; }
+        internal ApiClient _ApiClient { get; set; }
 
         protected BindingList<Threshold> ThresholdsDataSource { get; set; }
 
@@ -36,10 +37,11 @@ namespace LiveSplit.UI.Components
         {
             Run = state.Run;
             Credentials = GetClientCredentials();
-            Thresholds = XmlHelper.ReadThresholds(Run.FilePath);
+            _XmlHelper = new XmlHelper(Run.FilePath);
+            Thresholds = _XmlHelper.ReadThresholds(Run.FilePath);
             ThresholdsDataSource = new BindingList<Threshold>(Thresholds);
             InitializeComponent();
-            Client = new ApiClient();
+            _ApiClient = new ApiClient();
             runGrid.DataSource = ThresholdsDataSource;
             runGrid.CellFormatting += runGrid_CellFormatting;
         }
@@ -65,7 +67,7 @@ namespace LiveSplit.UI.Components
 
         internal ClientCredentials GetClientCredentials()
         {
-            return XmlHelper.ReadClientCredentials();
+            return _XmlHelper.ReadClientCredentials();
         }
 
         private void runGrid_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
@@ -76,7 +78,7 @@ namespace LiveSplit.UI.Components
 
         private async void verifyCredentialsButton_Click(object sender, EventArgs e)
         {
-            await Client.VerifyClientCredentials(twitchUsernameTextBox.Text, clientKeyTextBox.Text);
+            await _ApiClient.VerifyClientCredentials(twitchUsernameTextBox.Text, clientKeyTextBox.Text);
         }
 
         private void saveThresholdsButton_Click(object sender, EventArgs e)
@@ -85,13 +87,13 @@ namespace LiveSplit.UI.Components
             {
                 var splitName = row.Cells[0].Value as string;
                 var thresholdValue = row.Cells[2].Value as string;
-                XmlHelper.WriteThreshold(Run.FilePath, splitName, thresholdValue);
+                _XmlHelper.WriteThreshold(Run.FilePath, splitName, thresholdValue);
             }
         }
 
         private void saveCredentialsButton_Click(object sender, EventArgs e)
         {
-            XmlHelper.WriteClientCredentials(twitchUsernameTextBox.Text, clientKeyTextBox.Text);
+            _XmlHelper.WriteClientCredentials(twitchUsernameTextBox.Text, clientKeyTextBox.Text);
         }
     }
 }
