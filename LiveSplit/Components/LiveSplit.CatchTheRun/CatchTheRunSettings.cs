@@ -36,12 +36,16 @@ namespace LiveSplit.UI.Components
         public CatchTheRunSettings(LiveSplitState state)
         {
             Run = state.Run;
-            Credentials = GetClientCredentials();
-            _XmlHelper = new XmlHelper(Run.FilePath);
+
+            _XmlHelper = new XmlHelper(Run.FilePath.Substring(0, Run.FilePath.LastIndexOf('\\')));
+            _ApiClient = new ApiClient();
+
+            Credentials = _XmlHelper.ReadClientCredentials();
             Thresholds = _XmlHelper.ReadThresholds(Run.FilePath);
             ThresholdsDataSource = new BindingList<Threshold>(Thresholds);
+
             InitializeComponent();
-            _ApiClient = new ApiClient();
+
             runGrid.DataSource = ThresholdsDataSource;
             runGrid.CellFormatting += runGrid_CellFormatting;
         }
@@ -63,11 +67,6 @@ namespace LiveSplit.UI.Components
         {
             NotificationMessage = SettingsHelper.ParseString(settings["NotificationMessage"]);
             ShowTriggerIndicator = SettingsHelper.ParseBool(settings["ShowTriggerIndicator"]);
-        }
-
-        internal ClientCredentials GetClientCredentials()
-        {
-            return _XmlHelper.ReadClientCredentials();
         }
 
         private void runGrid_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)

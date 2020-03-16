@@ -31,8 +31,8 @@ namespace LiveSplit.CatchTheRun
 
             var credsNode = doc.SelectSingleNode(CREDENTIALS_ELEMENT_NAME);
 
-            var clientId = credsNode.SelectSingleNode(CLIENT_ID_ELEMENT_NAME).FirstChild?.Value;
-            var clientKey = credsNode.SelectSingleNode(CLIENT_KEY_ELEMENT_NAME).FirstChild?.Value;
+            var clientId = credsNode.SelectSingleNode(CLIENT_ID_ELEMENT_NAME).InnerText;
+            var clientKey = credsNode.SelectSingleNode(CLIENT_KEY_ELEMENT_NAME).InnerText;
 
             return new ClientCredentials() { ClientID = clientId, ClientKey = clientKey };
         }
@@ -137,12 +137,12 @@ namespace LiveSplit.CatchTheRun
             for (var i = 0; i < segmentNodes.Count; i++)
             {
                 var segmentNode = segmentNodes[i];
-                var nodeName = segmentNode.SelectSingleNode("Name").FirstChild.Value;
+                var nodeName = segmentNode.SelectSingleNode("Name").InnerText;
 
                 if (splitName == nodeName)
                 {
                     var thresholdNode = segmentNode.SelectSingleNode("Threshold");
-                    thresholdNode.FirstChild.Value = thresholdValue;
+                    thresholdNode.InnerText = thresholdValue;
                     break;
                 }
             }
