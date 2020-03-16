@@ -2,15 +2,12 @@
 using System.Xml;
 using LiveSplit.Model;
 using System.IO;
+using System.Windows.Forms;
 
 namespace LiveSplit.CatchTheRun
 {
     internal class XmlHelper
     {
-        private const string CREDENTIALS_ELEMENT_NAME = "Credentials";
-        private const string CLIENT_ID_ELEMENT_NAME = "ClientID";
-        private const string CLIENT_KEY_ELEMENT_NAME = "ClientKey";
-
         private string CREDENTIALS_FILEPATH { get; set; }
 
         internal XmlHelper(string splitDirectory)
@@ -29,10 +26,10 @@ namespace LiveSplit.CatchTheRun
             var doc = new XmlDocument();
             doc.Load(CREDENTIALS_FILEPATH);
 
-            var credsNode = doc.SelectSingleNode(CREDENTIALS_ELEMENT_NAME);
+            var credsNode = doc.SelectSingleNode(Util.CREDENTIALS_ELEMENT_NAME);
 
-            var clientId = credsNode.SelectSingleNode(CLIENT_ID_ELEMENT_NAME).InnerText;
-            var clientKey = credsNode.SelectSingleNode(CLIENT_KEY_ELEMENT_NAME).InnerText;
+            var clientId = credsNode.SelectSingleNode(Util.CLIENT_ID_ELEMENT_NAME).InnerText;
+            var clientKey = credsNode.SelectSingleNode(Util.CLIENT_KEY_ELEMENT_NAME).InnerText;
 
             return new ClientCredentials() { ClientID = clientId, ClientKey = clientKey };
         }
@@ -45,12 +42,12 @@ namespace LiveSplit.CatchTheRun
             var doc = new XmlDocument();
             doc.Load(CREDENTIALS_FILEPATH);
 
-            var credsNode = doc.SelectSingleNode(CREDENTIALS_ELEMENT_NAME);
+            var credsNode = doc.SelectSingleNode(Util.CREDENTIALS_ELEMENT_NAME);
 
-            var clientIdNode = credsNode.SelectSingleNode(CLIENT_ID_ELEMENT_NAME);
+            var clientIdNode = credsNode.SelectSingleNode(Util.CLIENT_ID_ELEMENT_NAME);
             clientIdNode.InnerText = clientId;
 
-            var clientKeyNode = credsNode.SelectSingleNode(CLIENT_KEY_ELEMENT_NAME);
+            var clientKeyNode = credsNode.SelectSingleNode(Util.CLIENT_KEY_ELEMENT_NAME);
             clientKeyNode.InnerText = clientKey;
 
             doc.Save(CREDENTIALS_FILEPATH);
@@ -64,13 +61,13 @@ namespace LiveSplit.CatchTheRun
             XmlElement root = doc.DocumentElement;
             doc.InsertBefore(xmlDeclaration, root);
 
-            XmlElement creds = doc.CreateElement(string.Empty, CREDENTIALS_ELEMENT_NAME, string.Empty);
+            XmlElement creds = doc.CreateElement(string.Empty, Util.CREDENTIALS_ELEMENT_NAME, string.Empty);
             doc.AppendChild(creds);
 
-            XmlElement clientId = doc.CreateElement(string.Empty, CLIENT_ID_ELEMENT_NAME, string.Empty);
+            XmlElement clientId = doc.CreateElement(string.Empty, Util.CLIENT_ID_ELEMENT_NAME, string.Empty);
             creds.AppendChild(clientId);
 
-            XmlElement clientKey = doc.CreateElement(string.Empty, CLIENT_KEY_ELEMENT_NAME, string.Empty);
+            XmlElement clientKey = doc.CreateElement(string.Empty, Util.CLIENT_KEY_ELEMENT_NAME, string.Empty);
             creds.AppendChild(clientKey);
 
             doc.Save(CREDENTIALS_FILEPATH);
@@ -127,23 +124,26 @@ namespace LiveSplit.CatchTheRun
             }
         }
 
-        internal void WriteThreshold(string filePath, string splitName, string thresholdValue)
+        internal void WriteThresholds(string filePath, Dictionary<string, string> thresholdValues)
         {
             var doc = new XmlDocument();
             doc.Load(filePath);
 
             XmlNodeList segmentNodes = doc.SelectNodes("/Run/Segments/Segment");
 
-            for (var i = 0; i < segmentNodes.Count; i++)
+            foreach (XmlNode segmentNode in segmentNodes)
             {
-                var segmentNode = segmentNodes[i];
                 var nodeName = segmentNode.SelectSingleNode("Name").InnerText;
 
-                if (splitName == nodeName)
+                var thresholdNode = segmentNode.SelectSingleNode(Util.THRESHOLD_ELEMENT_NAME);
+
+                if (thresholdNode != null)
+                    thresholdNode.InnerText = thresholdValues[nodeName];
+                else
                 {
-                    var thresholdNode = segmentNode.SelectSingleNode("Threshold");
-                    thresholdNode.InnerText = thresholdValue;
-                    break;
+                    thresholdNode = doc.CreateElement(string.Empty, Util.THRESHOLD_ELEMENT_NAME, string.Empty);
+                    thresholdNode.InnerText = thresholdValues[nodeName];
+                    segmentNode.AppendChild(thresholdNode);
                 }
             }
 

@@ -57,6 +57,7 @@
     </Compile>
     <Compile Include="Threshold.cs" />
     <Compile Include="ApiClient.cs" />
+    <Compile Include="Util.cs" />
     <Compile Include="XmlHelper.cs" />
   </ItemGroup>
   <ItemGroup>

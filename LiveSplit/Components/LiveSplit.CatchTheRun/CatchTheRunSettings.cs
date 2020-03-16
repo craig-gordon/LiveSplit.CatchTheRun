@@ -17,10 +17,6 @@ namespace LiveSplit.UI.Components
 {
     public partial class CatchTheRunSettings : UserControl
     {
-        private const int SPLIT_NAME_INDEX = 0;
-        private const int SPLIT_TIME_INDEX = 1;
-        private const int THRESHOLD_INDEX = 2;
-
         protected IRun Run { get; set; }
 
         internal ClientCredentials Credentials { get; set; }
@@ -71,7 +67,7 @@ namespace LiveSplit.UI.Components
 
         private void runGrid_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
         {
-            if (e.RowIndex < Run.Count && e.ColumnIndex == SPLIT_TIME_INDEX)
+            if (e.RowIndex < Run.Count && e.ColumnIndex == Util.SPLIT_TIME_INDEX)
                 e.Value = new ShortTimeFormatter().Format(Run[e.RowIndex].PersonalBestSplitTime[TimingMethod.RealTime]);
         }
 
@@ -82,12 +78,7 @@ namespace LiveSplit.UI.Components
 
         private void saveThresholdsButton_Click(object sender, EventArgs e)
         {
-            foreach (DataGridViewRow row in runGrid.Rows)
-            {
-                var splitName = row.Cells[0].Value as string;
-                var thresholdValue = row.Cells[2].Value as string;
-                _XmlHelper.WriteThreshold(Run.FilePath, splitName, thresholdValue);
-            }
+            _XmlHelper.WriteThresholds(Run.FilePath, Util.ConvertDataRowsToDictionary(runGrid.Rows));
         }
 
         private void saveCredentialsButton_Click(object sender, EventArgs e)
