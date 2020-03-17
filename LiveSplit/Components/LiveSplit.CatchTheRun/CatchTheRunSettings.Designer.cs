@@ -85,14 +85,14 @@
             this.runGrid.RowHeadersWidth = 62;
             this.runGrid.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
             this.runGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
-            this.runGrid.Size = new System.Drawing.Size(637, 355);
+            this.runGrid.Size = new System.Drawing.Size(654, 355);
             this.runGrid.TabIndex = 1;
             // 
             // twitchUsernameTextBox
             // 
             this.twitchUsernameTextBox.Location = new System.Drawing.Point(176, 35);
             this.twitchUsernameTextBox.Name = "twitchUsernameTextBox";
-            this.twitchUsernameTextBox.Size = new System.Drawing.Size(473, 26);
+            this.twitchUsernameTextBox.Size = new System.Drawing.Size(490, 26);
             this.twitchUsernameTextBox.TabIndex = 2;
             // 
             // twitchUsernameLabel
@@ -117,12 +117,12 @@
             // 
             this.clientKeyTextBox.Location = new System.Drawing.Point(176, 76);
             this.clientKeyTextBox.Name = "clientKeyTextBox";
-            this.clientKeyTextBox.Size = new System.Drawing.Size(473, 26);
+            this.clientKeyTextBox.Size = new System.Drawing.Size(490, 26);
             this.clientKeyTextBox.TabIndex = 5;
             // 
             // verifyCredentialsButton
             // 
-            this.verifyCredentialsButton.Location = new System.Drawing.Point(348, 121);
+            this.verifyCredentialsButton.Location = new System.Drawing.Point(361, 121);
             this.verifyCredentialsButton.Name = "verifyCredentialsButton";
             this.verifyCredentialsButton.Size = new System.Drawing.Size(143, 32);
             this.verifyCredentialsButton.TabIndex = 6;
@@ -135,13 +135,13 @@
             this.textBox1.Location = new System.Drawing.Point(176, 41);
             this.textBox1.Multiline = true;
             this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(473, 61);
+            this.textBox1.Size = new System.Drawing.Size(490, 61);
             this.textBox1.TabIndex = 7;
             // 
             // notificationMessageLabel
             // 
             this.notificationMessageLabel.AutoSize = true;
-            this.notificationMessageLabel.Location = new System.Drawing.Point(8, 41);
+            this.notificationMessageLabel.Location = new System.Drawing.Point(8, 44);
             this.notificationMessageLabel.Name = "notificationMessageLabel";
             this.notificationMessageLabel.Size = new System.Drawing.Size(157, 20);
             this.notificationMessageLabel.TabIndex = 8;
@@ -149,7 +149,7 @@
             // 
             // saveThresholdsButton
             // 
-            this.saveThresholdsButton.Location = new System.Drawing.Point(507, 409);
+            this.saveThresholdsButton.Location = new System.Drawing.Point(524, 409);
             this.saveThresholdsButton.Name = "saveThresholdsButton";
             this.saveThresholdsButton.Size = new System.Drawing.Size(142, 36);
             this.saveThresholdsButton.TabIndex = 9;
@@ -168,7 +168,7 @@
             this.credentialsGroupBox.Controls.Add(this.twitchUsernameLabel);
             this.credentialsGroupBox.Location = new System.Drawing.Point(13, 14);
             this.credentialsGroupBox.Name = "credentialsGroupBox";
-            this.credentialsGroupBox.Size = new System.Drawing.Size(662, 170);
+            this.credentialsGroupBox.Size = new System.Drawing.Size(684, 170);
             this.credentialsGroupBox.TabIndex = 11;
             this.credentialsGroupBox.TabStop = false;
             // 
@@ -188,7 +188,7 @@
             this.thresholdsGroupBox.Controls.Add(this.runGrid);
             this.thresholdsGroupBox.Location = new System.Drawing.Point(13, 200);
             this.thresholdsGroupBox.Name = "thresholdsGroupBox";
-            this.thresholdsGroupBox.Size = new System.Drawing.Size(662, 461);
+            this.thresholdsGroupBox.Size = new System.Drawing.Size(684, 461);
             this.thresholdsGroupBox.TabIndex = 12;
             this.thresholdsGroupBox.TabStop = false;
             // 
@@ -212,14 +212,14 @@
             this.miscSettingsGroupBox.Controls.Add(this.notificationMessageLabel);
             this.miscSettingsGroupBox.Location = new System.Drawing.Point(13, 680);
             this.miscSettingsGroupBox.Name = "miscSettingsGroupBox";
-            this.miscSettingsGroupBox.Size = new System.Drawing.Size(662, 162);
+            this.miscSettingsGroupBox.Size = new System.Drawing.Size(684, 162);
             this.miscSettingsGroupBox.TabIndex = 13;
             this.miscSettingsGroupBox.TabStop = false;
             // 
             // triggerColorLabel
             // 
             this.triggerColorLabel.AutoSize = true;
-            this.triggerColorLabel.Location = new System.Drawing.Point(550, 123);
+            this.triggerColorLabel.Location = new System.Drawing.Point(567, 122);
             this.triggerColorLabel.Name = "triggerColorLabel";
             this.triggerColorLabel.Size = new System.Drawing.Size(99, 20);
             this.triggerColorLabel.TabIndex = 16;
@@ -231,7 +231,7 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.btnTopColor.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.btnTopColor.Location = new System.Drawing.Point(511, 117);
+            this.btnTopColor.Location = new System.Drawing.Point(528, 118);
             this.btnTopColor.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.btnTopColor.Name = "btnTopColor";
             this.btnTopColor.Size = new System.Drawing.Size(32, 32);
@@ -260,7 +260,7 @@
             // displayNotificationsTriggerCheckbox
             // 
             this.displayNotificationsTriggerCheckbox.AutoSize = true;
-            this.displayNotificationsTriggerCheckbox.Location = new System.Drawing.Point(274, 123);
+            this.displayNotificationsTriggerCheckbox.Location = new System.Drawing.Point(274, 121);
             this.displayNotificationsTriggerCheckbox.Name = "displayNotificationsTriggerCheckbox";
             this.displayNotificationsTriggerCheckbox.Size = new System.Drawing.Size(230, 24);
             this.displayNotificationsTriggerCheckbox.TabIndex = 17;
@@ -269,7 +269,7 @@
             // 
             // saveCredentialsButton
             // 
-            this.saveCredentialsButton.Location = new System.Drawing.Point(507, 121);
+            this.saveCredentialsButton.Location = new System.Drawing.Point(524, 121);
             this.saveCredentialsButton.Name = "saveCredentialsButton";
             this.saveCredentialsButton.Size = new System.Drawing.Size(142, 32);
             this.saveCredentialsButton.TabIndex = 10;
@@ -320,7 +320,7 @@
             this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.Name = "CatchTheRunSettings";
             this.Padding = new System.Windows.Forms.Padding(10, 11, 10, 11);
-            this.Size = new System.Drawing.Size(688, 856);
+            this.Size = new System.Drawing.Size(710, 856);
             ((System.ComponentModel.ISupportInitialize)(this.runGrid)).EndInit();
             this.credentialsGroupBox.ResumeLayout(false);
             this.credentialsGroupBox.PerformLayout();
