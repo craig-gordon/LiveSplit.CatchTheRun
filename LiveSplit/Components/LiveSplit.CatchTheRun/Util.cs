@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace LiveSplit.CatchTheRun
@@ -34,6 +31,14 @@ namespace LiveSplit.CatchTheRun
             }
 
             return result;
+        }
+
+        internal static bool IsThresholdInputValid(string input)
+        {
+            if (input[0] == '+' || input[0] == '-')
+                return Double.TryParse(input.Substring(1), out double _);
+            else
+                return false;
         }
     }
 }
