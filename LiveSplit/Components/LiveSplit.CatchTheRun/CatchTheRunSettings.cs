@@ -46,6 +46,7 @@ namespace LiveSplit.UI.Components
             runGrid.DataSource = ThresholdsDataSource;
             runGrid.CellFormatting += runGrid_CellFormatting;
             runGrid.CellBeginEdit += runGrid_CellBeginEdit;
+            runGrid.KeyDown += runGrid_KeyDown;
             runGrid.CellEndEdit += runGrid_CellEndEdit;
             verifyCredentialsButton.Enabled = !string.IsNullOrWhiteSpace(twitchUsernameTextBox.Text) && !string.IsNullOrWhiteSpace(clientKeyTextBox.Text);
         }
@@ -97,6 +98,12 @@ namespace LiveSplit.UI.Components
             var cell = runGrid.Rows[e.RowIndex].Cells[e.ColumnIndex];
             var value = (string)cell.Value;
             CurrentlyEditingCellInitialValue = value;
+        }
+
+        private void runGrid_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (runGrid.SelectedCells.Count > 0 && (e.KeyCode == Keys.Delete || e.KeyCode == Keys.Back))
+                runGrid.SelectedCells[0].Value = null;
         }
 
         private void runGrid_CellEndEdit(object sender, DataGridViewCellEventArgs e)
