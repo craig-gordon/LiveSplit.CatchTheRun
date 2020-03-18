@@ -103,7 +103,7 @@ namespace LiveSplit.UI.Components
 
         private void runGrid_KeyDown(object sender, KeyEventArgs e)
         {
-            if (runGrid.SelectedCells.Count > 0 && (e.KeyCode == Keys.Delete || e.KeyCode == Keys.Back))
+            if (runGrid.SelectedCells.Count == 1 && (e.KeyCode == Keys.Delete || e.KeyCode == Keys.Back) && runGrid.SelectedCells[0].ColumnIndex == Util.THRESHOLD_INDEX)
             {
                 if (runGrid.SelectedCells[0].Value != null && (string)runGrid.SelectedCells[0].Value != "")
                     saveThresholdsButton.Enabled = true;

@@ -35,6 +35,8 @@ namespace LiveSplit.CatchTheRun
 
         internal static bool IsThresholdInputValid(string input)
         {
+            if (input == null || input == "")
+                return false;
             if (input[0] == '+' || input[0] == '-')
                 return Double.TryParse(input.Substring(1), out double _);
             else

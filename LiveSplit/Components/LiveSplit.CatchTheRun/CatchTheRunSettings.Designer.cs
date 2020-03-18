@@ -278,7 +278,7 @@
             this.splitNameColumn.Name = "splitNameColumn";
             this.splitNameColumn.ReadOnly = true;
             this.splitNameColumn.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.splitNameColumn.Width = 283;
+            this.splitNameColumn.Width = 208;
             // 
             // splitTimeColumn
             // 
@@ -289,7 +289,7 @@
             this.splitTimeColumn.Name = "splitTimeColumn";
             this.splitTimeColumn.ReadOnly = true;
             this.splitTimeColumn.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.splitTimeColumn.Width = 185;
+            this.splitTimeColumn.Width = 105;
             // 
             // thresholdColumn
             // 
@@ -299,7 +299,7 @@
             this.thresholdColumn.MinimumWidth = 8;
             this.thresholdColumn.Name = "thresholdColumn";
             this.thresholdColumn.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.thresholdColumn.Width = 185;
+            this.thresholdColumn.Width = 105;
             // 
             // CatchTheRunSettings
             // 
