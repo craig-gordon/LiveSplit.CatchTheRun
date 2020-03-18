@@ -44,6 +44,7 @@ namespace LiveSplit.UI.Components
 
             runGrid.DataSource = ThresholdsDataSource;
             runGrid.CellFormatting += runGrid_CellFormatting;
+            verifyCredentialsButton.Enabled = !string.IsNullOrWhiteSpace(twitchUsernameTextBox.Text) && !string.IsNullOrWhiteSpace(clientKeyTextBox.Text);
         }
 
         public XmlNode GetSettings(XmlDocument document)
@@ -63,6 +64,11 @@ namespace LiveSplit.UI.Components
         {
             NotificationMessage = SettingsHelper.ParseString(settings["NotificationMessage"]);
             ShowTriggerIndicator = SettingsHelper.ParseBool(settings["ShowTriggerIndicator"]);
+        }
+
+        private void credentialsTextBox_TextChanged(object sender, EventArgs e)
+        {
+            verifyCredentialsButton.Enabled = !string.IsNullOrWhiteSpace(twitchUsernameTextBox.Text) && !string.IsNullOrWhiteSpace(clientKeyTextBox.Text);
         }
 
         private void runGrid_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
