@@ -8,7 +8,7 @@ namespace LiveSplit.CatchTheRun
 {
     internal class ClientCredentials
     {
-        internal string ClientID { get; set; }
-        internal string ClientKey { get; set; }
+        public string ClientID { get; set; }
+        public string ClientKey { get; set; }
     }
 }

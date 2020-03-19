@@ -8,8 +8,8 @@ namespace LiveSplit.CatchTheRun
 {
     internal class RegisterFeedCategoryRequest
     {
-        internal string Producer { get; set; }
-        internal string Game { get; set; }
-        internal string Category { get; set; }
+        public string Producer { get; set; }
+        public string Game { get; set; }
+        public string Category { get; set; }
     }
 }

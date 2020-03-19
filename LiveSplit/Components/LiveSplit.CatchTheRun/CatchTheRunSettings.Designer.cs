@@ -130,6 +130,7 @@
             this.twitchUsernameTextBox.Name = "twitchUsernameTextBox";
             this.twitchUsernameTextBox.Size = new System.Drawing.Size(490, 26);
             this.twitchUsernameTextBox.TabIndex = 2;
+            this.twitchUsernameTextBox.TextChanged += new System.EventHandler(this.credentialsTextBox_TextChanged);
             // 
             // twitchUsernameLabel
             // 
@@ -155,6 +156,7 @@
             this.clientKeyTextBox.Name = "clientKeyTextBox";
             this.clientKeyTextBox.Size = new System.Drawing.Size(490, 26);
             this.clientKeyTextBox.TabIndex = 5;
+            this.clientKeyTextBox.TextChanged += new System.EventHandler(this.credentialsTextBox_TextChanged);
             // 
             // verifyCredentialsButton
             // 
