@@ -17,21 +17,27 @@ namespace LiveSplit.CatchTheRun
 
         internal async Task<bool> VerifyClientCredentials(string twitchUsername, string clientKey)
         {
-            var endpoint = new Uri(BasePath, "credentials/verify");
+            var endpoint = new Uri(BasePath, "feeds/credentials/verify");
             var serialized = Serializer.Serialize(new ClientCredentials() { ClientID = twitchUsername, ClientKey = clientKey });
             var content = new StringContent(serialized);
             var response = await Client.PostAsync(endpoint, content);
             return response.StatusCode == HttpStatusCode.OK;
         }
 
-        internal async Task<bool> SaveNewFeedCategory()
+        internal async Task<bool> RegisterFeedCategory(string producer, string game, string category)
         {
-            return true;
+            var endpoint = new Uri(BasePath, "feeds");
+            var serialized = Serializer.Serialize(new RegisterFeedCategoryRequest() { Producer =  producer, Game = game, Category = category});
+            var content = new StringContent(serialized);
+            var response = await Client.PostAsync(endpoint, content);
+            return response.StatusCode == HttpStatusCode.OK;
         }
 
-        internal async Task<bool> DeleteFeedCategory()
+        internal async Task<bool> UnregisterFeedCategory(string producer, string game, string category)
         {
-            return true;
+            var endpoint = new Uri(BasePath, $"feeds?producer={producer}&game={game}&category={category}");
+            var response = await Client.DeleteAsync(endpoint);
+            return response.StatusCode == HttpStatusCode.OK;
         }
 
         internal async Task<bool> SendNotificationsRequest(EventRequestBody requestBody, ClientCredentials credentials)

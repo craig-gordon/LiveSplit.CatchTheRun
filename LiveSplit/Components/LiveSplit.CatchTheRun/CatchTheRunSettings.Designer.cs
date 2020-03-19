@@ -30,6 +30,10 @@
         {
             this.components = new System.ComponentModel.Container();
             this.runGrid = new System.Windows.Forms.DataGridView();
+            this.splitNameColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.splitTimeColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.thresholdColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.thresholdBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.twitchUsernameTextBox = new System.Windows.Forms.TextBox();
             this.twitchUsernameLabel = new System.Windows.Forms.Label();
             this.clientKeyLabel = new System.Windows.Forms.Label();
@@ -48,15 +52,12 @@
             this.btnTopColor = new System.Windows.Forms.Button();
             this.displayThresholdsCheckbox = new System.Windows.Forms.CheckBox();
             this.miscSettingsLabel = new System.Windows.Forms.Label();
-            this.thresholdBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.splitNameColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.splitTimeColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.thresholdColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.registerCategoryButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.runGrid)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.thresholdBindingSource)).BeginInit();
             this.credentialsGroupBox.SuspendLayout();
             this.thresholdsGroupBox.SuspendLayout();
             this.miscSettingsGroupBox.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.thresholdBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
             // runGrid
@@ -84,8 +85,44 @@
             this.runGrid.RowHeadersWidth = 62;
             this.runGrid.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
             this.runGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
-            this.runGrid.Size = new System.Drawing.Size(654, 355);
+            this.runGrid.Size = new System.Drawing.Size(654, 297);
             this.runGrid.TabIndex = 1;
+            // 
+            // splitNameColumn
+            // 
+            this.splitNameColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.splitNameColumn.DataPropertyName = "SplitName";
+            this.splitNameColumn.HeaderText = "Split Name";
+            this.splitNameColumn.MinimumWidth = 8;
+            this.splitNameColumn.Name = "splitNameColumn";
+            this.splitNameColumn.ReadOnly = true;
+            this.splitNameColumn.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.splitNameColumn.Width = 208;
+            // 
+            // splitTimeColumn
+            // 
+            this.splitTimeColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.splitTimeColumn.DataPropertyName = "SplitTime";
+            this.splitTimeColumn.HeaderText = "Split Time";
+            this.splitTimeColumn.MinimumWidth = 8;
+            this.splitTimeColumn.Name = "splitTimeColumn";
+            this.splitTimeColumn.ReadOnly = true;
+            this.splitTimeColumn.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.splitTimeColumn.Width = 105;
+            // 
+            // thresholdColumn
+            // 
+            this.thresholdColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.thresholdColumn.DataPropertyName = "ThresholdValue";
+            this.thresholdColumn.HeaderText = "Threshold";
+            this.thresholdColumn.MinimumWidth = 8;
+            this.thresholdColumn.Name = "thresholdColumn";
+            this.thresholdColumn.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.thresholdColumn.Width = 105;
+            // 
+            // thresholdBindingSource
+            // 
+            this.thresholdBindingSource.DataSource = typeof(LiveSplit.CatchTheRun.Threshold);
             // 
             // twitchUsernameTextBox
             // 
@@ -121,9 +158,9 @@
             // 
             // verifyCredentialsButton
             // 
-            this.verifyCredentialsButton.Location = new System.Drawing.Point(527, 119);
+            this.verifyCredentialsButton.Location = new System.Drawing.Point(501, 119);
             this.verifyCredentialsButton.Name = "verifyCredentialsButton";
-            this.verifyCredentialsButton.Size = new System.Drawing.Size(143, 32);
+            this.verifyCredentialsButton.Size = new System.Drawing.Size(168, 32);
             this.verifyCredentialsButton.TabIndex = 6;
             this.verifyCredentialsButton.Text = "Verify Credentials";
             this.verifyCredentialsButton.UseVisualStyleBackColor = true;
@@ -148,9 +185,9 @@
             // 
             // saveThresholdsButton
             // 
-            this.saveThresholdsButton.Location = new System.Drawing.Point(524, 409);
+            this.saveThresholdsButton.Location = new System.Drawing.Point(500, 351);
             this.saveThresholdsButton.Name = "saveThresholdsButton";
-            this.saveThresholdsButton.Size = new System.Drawing.Size(142, 36);
+            this.saveThresholdsButton.Size = new System.Drawing.Size(166, 32);
             this.saveThresholdsButton.TabIndex = 9;
             this.saveThresholdsButton.Text = "Save Thresholds";
             this.saveThresholdsButton.UseVisualStyleBackColor = true;
@@ -186,7 +223,7 @@
             this.thresholdsGroupBox.Controls.Add(this.runGrid);
             this.thresholdsGroupBox.Location = new System.Drawing.Point(13, 200);
             this.thresholdsGroupBox.Name = "thresholdsGroupBox";
-            this.thresholdsGroupBox.Size = new System.Drawing.Size(684, 461);
+            this.thresholdsGroupBox.Size = new System.Drawing.Size(684, 405);
             this.thresholdsGroupBox.TabIndex = 12;
             this.thresholdsGroupBox.TabStop = false;
             // 
@@ -208,7 +245,7 @@
             this.miscSettingsGroupBox.Controls.Add(this.miscSettingsLabel);
             this.miscSettingsGroupBox.Controls.Add(this.textBox1);
             this.miscSettingsGroupBox.Controls.Add(this.notificationMessageLabel);
-            this.miscSettingsGroupBox.Location = new System.Drawing.Point(13, 680);
+            this.miscSettingsGroupBox.Location = new System.Drawing.Point(13, 626);
             this.miscSettingsGroupBox.Name = "miscSettingsGroupBox";
             this.miscSettingsGroupBox.Size = new System.Drawing.Size(684, 162);
             this.miscSettingsGroupBox.TabIndex = 13;
@@ -227,7 +264,7 @@
             // triggerColorLabel
             // 
             this.triggerColorLabel.AutoSize = true;
-            this.triggerColorLabel.Location = new System.Drawing.Point(567, 122);
+            this.triggerColorLabel.Location = new System.Drawing.Point(572, 122);
             this.triggerColorLabel.Name = "triggerColorLabel";
             this.triggerColorLabel.Size = new System.Drawing.Size(99, 20);
             this.triggerColorLabel.TabIndex = 16;
@@ -239,7 +276,7 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.btnTopColor.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.btnTopColor.Location = new System.Drawing.Point(528, 118);
+            this.btnTopColor.Location = new System.Drawing.Point(533, 117);
             this.btnTopColor.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.btnTopColor.Name = "btnTopColor";
             this.btnTopColor.Size = new System.Drawing.Size(32, 32);
@@ -265,46 +302,21 @@
             this.miscSettingsLabel.TabIndex = 9;
             this.miscSettingsLabel.Text = "Misc. Settings";
             // 
-            // thresholdBindingSource
+            // registerCategoryButton
             // 
-            this.thresholdBindingSource.DataSource = typeof(LiveSplit.CatchTheRun.Threshold);
-            // 
-            // splitNameColumn
-            // 
-            this.splitNameColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.splitNameColumn.DataPropertyName = "SplitName";
-            this.splitNameColumn.HeaderText = "Split Name";
-            this.splitNameColumn.MinimumWidth = 8;
-            this.splitNameColumn.Name = "splitNameColumn";
-            this.splitNameColumn.ReadOnly = true;
-            this.splitNameColumn.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.splitNameColumn.Width = 208;
-            // 
-            // splitTimeColumn
-            // 
-            this.splitTimeColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.splitTimeColumn.DataPropertyName = "SplitTime";
-            this.splitTimeColumn.HeaderText = "Split Time";
-            this.splitTimeColumn.MinimumWidth = 8;
-            this.splitTimeColumn.Name = "splitTimeColumn";
-            this.splitTimeColumn.ReadOnly = true;
-            this.splitTimeColumn.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.splitTimeColumn.Width = 105;
-            // 
-            // thresholdColumn
-            // 
-            this.thresholdColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.thresholdColumn.DataPropertyName = "ThresholdValue";
-            this.thresholdColumn.HeaderText = "Threshold";
-            this.thresholdColumn.MinimumWidth = 8;
-            this.thresholdColumn.Name = "thresholdColumn";
-            this.thresholdColumn.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.thresholdColumn.Width = 105;
+            this.registerCategoryButton.Location = new System.Drawing.Point(514, 810);
+            this.registerCategoryButton.Name = "registerCategoryButton";
+            this.registerCategoryButton.Size = new System.Drawing.Size(185, 38);
+            this.registerCategoryButton.TabIndex = 14;
+            this.registerCategoryButton.Text = "Register Category";
+            this.registerCategoryButton.UseVisualStyleBackColor = true;
+            this.registerCategoryButton.Click += new System.EventHandler(this.registerCategoryButton_Click);
             // 
             // CatchTheRunSettings
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.registerCategoryButton);
             this.Controls.Add(this.credentialsGroupBox);
             this.Controls.Add(this.thresholdsGroupBox);
             this.Controls.Add(this.miscSettingsGroupBox);
@@ -313,13 +325,13 @@
             this.Padding = new System.Windows.Forms.Padding(10, 11, 10, 11);
             this.Size = new System.Drawing.Size(710, 856);
             ((System.ComponentModel.ISupportInitialize)(this.runGrid)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.thresholdBindingSource)).EndInit();
             this.credentialsGroupBox.ResumeLayout(false);
             this.credentialsGroupBox.PerformLayout();
             this.thresholdsGroupBox.ResumeLayout(false);
             this.thresholdsGroupBox.PerformLayout();
             this.miscSettingsGroupBox.ResumeLayout(false);
             this.miscSettingsGroupBox.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.thresholdBindingSource)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -349,5 +361,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn splitNameColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn splitTimeColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn thresholdColumn;
+        private System.Windows.Forms.Button registerCategoryButton;
     }
 }

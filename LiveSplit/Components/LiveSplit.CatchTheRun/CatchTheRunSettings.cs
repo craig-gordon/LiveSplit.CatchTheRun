@@ -77,12 +77,10 @@ namespace LiveSplit.UI.Components
         }
         private async void verifyCredentialsButton_Click(object sender, EventArgs e)
         {
-            await _ApiClient.VerifyClientCredentials(twitchUsernameTextBox.Text, clientKeyTextBox.Text);
-        }
+            var verified = await _ApiClient.VerifyClientCredentials(twitchUsernameTextBox.Text, clientKeyTextBox.Text);
 
-        private void saveCredentialsButton_Click(object sender, EventArgs e)
-        {
-            _XmlHelper.WriteClientCredentials(twitchUsernameTextBox.Text, clientKeyTextBox.Text);
+            if (verified)
+                _XmlHelper.WriteClientCredentials(twitchUsernameTextBox.Text, clientKeyTextBox.Text);
         }
 
         private void runGrid_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
@@ -132,6 +130,14 @@ namespace LiveSplit.UI.Components
         private void saveThresholdsButton_Click(object sender, EventArgs e)
         {
             _XmlHelper.WriteThresholds(Run.FilePath, Util.ConvertDataRowsToDictionary(runGrid.Rows));
+        }
+
+        private async void registerCategoryButton_Click(object sender, EventArgs e)
+        {
+            var registrationSuccessful = await _ApiClient.RegisterFeedCategory(Credentials.ClientID, Run.GameName, Run.CategoryName);
+
+            if (registrationSuccessful)
+            { }
         }
     }
 }
