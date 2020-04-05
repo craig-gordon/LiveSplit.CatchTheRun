@@ -58,6 +58,12 @@
     </Compile>
     <Compile Include="Threshold.cs" />
     <Compile Include="ApiClient.cs" />
+    <Compile Include="TwitchOAuthForm\TwitchOAuthForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TwitchOAuthForm\TwitchOAuthForm.Designer.cs">
+      <DependentUpon>TwitchOAuthForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Util.cs" />
     <Compile Include="XmlHelper.cs" />
   </ItemGroup>
@@ -75,6 +81,9 @@
     <EmbeddedResource Include="CatchTheRunSettings.resx">
       <DependentUpon>CatchTheRunSettings.cs</DependentUpon>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TwitchOAuthForm\TwitchOAuthForm.resx">
+      <DependentUpon>TwitchOAuthForm.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

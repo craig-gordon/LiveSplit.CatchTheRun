@@ -42,5 +42,16 @@ namespace LiveSplit.CatchTheRun
             else
                 return false;
         }
+
+        internal static void ModifyFeatureBrowserEmulationKey(out int initialValue, int newValue = 11001)
+        {
+            using (var key = Microsoft.Win32.Registry.CurrentUser.OpenSubKey(@"Software\Microsoft\Internet Explorer\Main\FeatureControl\FEATURE_BROWSER_EMULATION", true))
+            {
+                var appName = System.IO.Path.GetFileName(Application.ExecutablePath);
+                initialValue = (int)key.GetValue(appName);
+                key.SetValue(appName, newValue, Microsoft.Win32.RegistryValueKind.DWord);
+                key.Close();
+            }
+        }
     }
 }

@@ -1,16 +1,10 @@
 ﻿using System;
-using System.Net;
-using System.Net.Sockets;
 using System.Windows.Forms;
 using System.Xml;
 using System.ComponentModel;
 using LiveSplit.Model;
-using System.Drawing;
 using LiveSplit.TimeFormatters;
 using System.Collections.Generic;
-using System.IO;
-using LiveSplit.Model.RunFactories;
-using LiveSplit.Model.Comparisons;
 using LiveSplit.CatchTheRun;
 
 namespace LiveSplit.UI.Components
@@ -28,7 +22,9 @@ namespace LiveSplit.UI.Components
         internal ApiClient _ApiClient { get; set; }
 
         private BindingList<Threshold> ThresholdsDataSource { get; set; }
+
         private string CurrentlyEditingCellInitialValue { get; set; }
+        private int FeatureBrowserEmulationKeyInitialValue { get; set; }
 
         public CatchTheRunSettings(LiveSplitState state)
         {
@@ -138,6 +134,21 @@ namespace LiveSplit.UI.Components
 
             if (registrationSuccessful)
             { }
+        }
+
+        private void signIntoTwitchButton_Click(object sender, EventArgs e)
+        {
+            Util.ModifyFeatureBrowserEmulationKey(out int initial);
+            FeatureBrowserEmulationKeyInitialValue = initial;
+
+            var form = new TwitchOAuthForm();
+            form.FormClosing += TwitchOAuthForm_FormClosing;
+            form.ShowDialog();
+        }
+
+        private void TwitchOAuthForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            Util.ModifyFeatureBrowserEmulationKey(out int _, FeatureBrowserEmulationKeyInitialValue);
         }
     }
 }
