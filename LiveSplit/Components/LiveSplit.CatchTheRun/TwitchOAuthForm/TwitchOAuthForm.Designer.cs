@@ -39,7 +39,7 @@
             this.OAuthWebBrowser.MinimumSize = new System.Drawing.Size(20, 20);
             this.OAuthWebBrowser.Name = "OAuthWebBrowser";
             this.OAuthWebBrowser.ScriptErrorsSuppressed = true;
-            this.OAuthWebBrowser.Size = new System.Drawing.Size(707, 556);
+            this.OAuthWebBrowser.Size = new System.Drawing.Size(680, 556);
             this.OAuthWebBrowser.TabIndex = 2;
             this.OAuthWebBrowser.DocumentCompleted += new System.Windows.Forms.WebBrowserDocumentCompletedEventHandler(this.OAuthWebBrowser_DocumentCompleted);
             // 
@@ -47,7 +47,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(707, 556);
+            this.ClientSize = new System.Drawing.Size(680, 780);
             this.Controls.Add(this.OAuthWebBrowser);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "TwitchOAuthForm";

@@ -47,6 +47,7 @@
     <Compile Include="CatchTheRunComponent.cs" />
     <Compile Include="CatchTheRunComponentFactory.cs" />
     <Compile Include="ClientCredentials.cs" />
+    <Compile Include="CtrCredentials.cs" />
     <Compile Include="RegisterFeedCategoryRequest.cs" />
     <Compile Include="EventRequestBody.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

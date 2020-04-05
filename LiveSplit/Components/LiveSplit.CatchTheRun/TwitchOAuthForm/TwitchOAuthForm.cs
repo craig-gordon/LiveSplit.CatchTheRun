@@ -33,7 +33,7 @@ namespace LiveSplit.CatchTheRun
 
                     try
                     {
-                        WebCredentials.TwitchAccessToken = AccessToken;
+                        CtrCredentials.TwitchAccessToken = AccessToken;
                     }
                     catch (Exception ex)
                     {
