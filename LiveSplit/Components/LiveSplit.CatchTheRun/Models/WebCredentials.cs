@@ -2,7 +2,7 @@
 
 namespace LiveSplit.CatchTheRun
 {
-    public static class CtrCredentials
+    public static class WebCredentials
     {
         private const string Twitch = "CatchTheRun_TwitchAccessToken";
 

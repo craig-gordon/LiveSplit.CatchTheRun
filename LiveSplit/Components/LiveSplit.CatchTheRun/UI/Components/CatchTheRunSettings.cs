@@ -24,7 +24,7 @@ namespace LiveSplit.UI.Components
         private BindingList<Threshold> ThresholdsDataSource { get; set; }
 
         private string CurrentlyEditingCellInitialValue { get; set; }
-        private int FeatureBrowserEmulationKeyInitialValue { get; set; }
+        private int BrowserEmulationInitialValue { get; set; }
 
         public CatchTheRunSettings(LiveSplitState state)
         {
@@ -138,8 +138,8 @@ namespace LiveSplit.UI.Components
 
         private void signIntoTwitchButton_Click(object sender, EventArgs e)
         {
-            Util.ModifyFeatureBrowserEmulationKey(out int initial);
-            FeatureBrowserEmulationKeyInitialValue = initial;
+            Util.ModifyBrowserEmulationKey(Util.BROWSER_EMULATION_PREFERRED_VALUE, out int initial);
+            BrowserEmulationInitialValue = initial;
 
             var form = new TwitchOAuthForm();
             form.FormClosing += TwitchOAuthForm_FormClosing;
@@ -148,7 +148,7 @@ namespace LiveSplit.UI.Components
 
         private void TwitchOAuthForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-            Util.ModifyFeatureBrowserEmulationKey(out int _, FeatureBrowserEmulationKeyInitialValue);
+            Util.ModifyBrowserEmulationKey(BrowserEmulationInitialValue, out int _);
         }
     }
 }

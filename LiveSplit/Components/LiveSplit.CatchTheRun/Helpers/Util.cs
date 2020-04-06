@@ -15,6 +15,8 @@ namespace LiveSplit.CatchTheRun
         internal const string CLIENT_KEY_ELEMENT_NAME = "ClientKey";
         internal const string THRESHOLD_ELEMENT_NAME = "Threshold";
 
+        internal const int BROWSER_EMULATION_PREFERRED_VALUE = 11001;
+
         internal static Dictionary<string, string> ConvertDataRowsToDictionary(DataGridViewRowCollection rows)
         {
             var result = new Dictionary<string, string>();
@@ -43,7 +45,7 @@ namespace LiveSplit.CatchTheRun
                 return false;
         }
 
-        internal static void ModifyFeatureBrowserEmulationKey(out int initialValue, int newValue = 11001)
+        internal static void ModifyBrowserEmulationKey(int newValue, out int initialValue)
         {
             using (var key = Microsoft.Win32.Registry.CurrentUser.OpenSubKey(@"Software\Microsoft\Internet Explorer\Main\FeatureControl\FEATURE_BROWSER_EMULATION", true))
             {

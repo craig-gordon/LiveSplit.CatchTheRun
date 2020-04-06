@@ -44,29 +44,29 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CatchTheRunComponent.cs" />
-    <Compile Include="CatchTheRunComponentFactory.cs" />
-    <Compile Include="ClientCredentials.cs" />
-    <Compile Include="CtrCredentials.cs" />
-    <Compile Include="RegisterFeedCategoryRequest.cs" />
-    <Compile Include="EventRequestBody.cs" />
+    <Compile Include="UI\Components\CatchTheRunComponent.cs" />
+    <Compile Include="UI\Components\CatchTheRunComponentFactory.cs" />
+    <Compile Include="Models\ClientCredentials.cs" />
+    <Compile Include="Models\WebCredentials.cs" />
+    <Compile Include="Models\RegisterFeedCategoryRequest.cs" />
+    <Compile Include="Models\EventRequestBody.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="CatchTheRunSettings.cs">
+    <Compile Include="UI\Components\CatchTheRunSettings.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="CatchTheRunSettings.Designer.cs">
+    <Compile Include="UI\Components\CatchTheRunSettings.Designer.cs">
       <DependentUpon>CatchTheRunSettings.cs</DependentUpon>
     </Compile>
-    <Compile Include="Threshold.cs" />
-    <Compile Include="ApiClient.cs" />
-    <Compile Include="TwitchOAuthForm\TwitchOAuthForm.cs">
+    <Compile Include="Models\Threshold.cs" />
+    <Compile Include="Helpers\ApiClient.cs" />
+    <Compile Include="UI\TwitchOAuthForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="TwitchOAuthForm\TwitchOAuthForm.Designer.cs">
+    <Compile Include="UI\TwitchOAuthForm.Designer.cs">
       <DependentUpon>TwitchOAuthForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Util.cs" />
-    <Compile Include="XmlHelper.cs" />
+    <Compile Include="Helpers\Util.cs" />
+    <Compile Include="Helpers\XmlHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\LiveSplit.Core\LiveSplit.Core.csproj">
@@ -79,11 +79,11 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="CatchTheRunSettings.resx">
+    <EmbeddedResource Include="UI\Components\CatchTheRunSettings.resx">
       <DependentUpon>CatchTheRunSettings.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="TwitchOAuthForm\TwitchOAuthForm.resx">
+    <EmbeddedResource Include="UI\TwitchOAuthForm.resx">
       <DependentUpon>TwitchOAuthForm.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
