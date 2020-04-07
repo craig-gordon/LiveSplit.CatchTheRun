@@ -13,13 +13,11 @@ namespace LiveSplit.UI.Components
     {
         private IRun Run { get; set; }
 
-        internal ClientCredentials Credentials { get; set; }
         internal List<Threshold> Thresholds { get; set; }
         internal string NotificationMessage { get; set; }
         internal bool ShowTriggerIndicator { get; set; }
 
-        internal XmlHelper _XmlHelper { get; set; }
-        internal ApiClient _ApiClient { get; set; }
+        internal ApiClient ApiClient { get; set; }
 
         private BindingList<Threshold> ThresholdsDataSource { get; set; }
 
@@ -30,11 +28,9 @@ namespace LiveSplit.UI.Components
         {
             Run = state.Run;
 
-            _XmlHelper = new XmlHelper(Run.FilePath.Substring(0, Run.FilePath.LastIndexOf('\\')));
-            _ApiClient = new ApiClient();
+            ApiClient = new ApiClient();
 
-            Credentials = _XmlHelper.ReadClientCredentials();
-            Thresholds = _XmlHelper.ReadThresholds(Run.FilePath);
+            Thresholds = XmlHelper.ReadThresholds(Run.FilePath);
             ThresholdsDataSource = new BindingList<Threshold>(Thresholds);
 
             InitializeComponent();
@@ -44,7 +40,6 @@ namespace LiveSplit.UI.Components
             runGrid.CellBeginEdit += runGrid_CellBeginEdit;
             runGrid.KeyDown += runGrid_KeyDown;
             runGrid.CellEndEdit += runGrid_CellEndEdit;
-            verifyCredentialsButton.Enabled = !string.IsNullOrWhiteSpace(twitchUsernameTextBox.Text) && !string.IsNullOrWhiteSpace(clientKeyTextBox.Text);
             saveThresholdsButton.Enabled = false;
         }
 
@@ -65,18 +60,6 @@ namespace LiveSplit.UI.Components
         {
             NotificationMessage = SettingsHelper.ParseString(settings["NotificationMessage"]);
             ShowTriggerIndicator = SettingsHelper.ParseBool(settings["ShowTriggerIndicator"]);
-        }
-
-        private void credentialsTextBox_TextChanged(object sender, EventArgs e)
-        {
-            verifyCredentialsButton.Enabled = !string.IsNullOrWhiteSpace(twitchUsernameTextBox.Text) && !string.IsNullOrWhiteSpace(clientKeyTextBox.Text);
-        }
-        private async void verifyCredentialsButton_Click(object sender, EventArgs e)
-        {
-            var verified = await _ApiClient.VerifyClientCredentials(twitchUsernameTextBox.Text, clientKeyTextBox.Text);
-
-            if (verified)
-                _XmlHelper.WriteClientCredentials(twitchUsernameTextBox.Text, clientKeyTextBox.Text);
         }
 
         private void runGrid_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
@@ -125,12 +108,12 @@ namespace LiveSplit.UI.Components
 
         private void saveThresholdsButton_Click(object sender, EventArgs e)
         {
-            _XmlHelper.WriteThresholds(Run.FilePath, Util.ConvertDataRowsToDictionary(runGrid.Rows));
+            var success = XmlHelper.WriteThresholds(Run.FilePath, Util.ConvertDataRowsToDictionary(runGrid.Rows), out string error);
         }
 
         private async void registerCategoryButton_Click(object sender, EventArgs e)
         {
-            var registrationSuccessful = await _ApiClient.RegisterFeedCategory(Credentials.ClientID, Run.GameName, Run.CategoryName);
+            var registrationSuccessful = await ApiClient.RegisterProducerCategory(Credentials.AccountGuid, Credentials.TwitchUsername, Run.GameName, Run.CategoryName);
 
             if (registrationSuccessful)
             { }

@@ -2,14 +2,13 @@
 using System;
 using System.Windows.Forms;
 using LiveSplit.Web;
+using System.IdentityModel.Tokens.Jwt;
 
 namespace LiveSplit.CatchTheRun
 {
     public partial class TwitchOAuthForm : Form
     {
-        internal readonly Uri TwitchOAuthUrl = new Uri("https://id.twitch.tv/oauth2/authorize?client_id=cod7idgr6q9bucu2gic2594y80xsu7&redirect_uri=http://localhost&response_type=token+id_token&scope=openid");
-
-        public string AccessToken { get; protected set; }
+        internal readonly Uri TwitchOAuthUrl = new Uri("https://id.twitch.tv/oauth2/authorize?client_id=cod7idgr6q9bucu2gic2594y80xsu7&redirect_uri=http://localhost&response_type=id_token&scope=openid");
 
         public TwitchOAuthForm()
         {
@@ -26,14 +25,15 @@ namespace LiveSplit.CatchTheRun
             try
             {
                 var url = OAuthWebBrowser.Url.Fragment.ToLowerInvariant();
-                if (url.Contains("access_token"))
+                if (url.Contains("id_token"))
                 {
-                    var cutoff = url.Substring(url.IndexOf("access_token") + "access_token=".Length);
-                    AccessToken = cutoff.Substring(0, cutoff.IndexOf("&"));
+                    var cutoff = url.Substring(url.IndexOf("id_token") + "id_token=".Length);
+                    var idToken = cutoff.Substring(0, cutoff.IndexOf("&"));
 
                     try
                     {
-                        WebCredentials.TwitchAccessToken = AccessToken;
+                        var jwt = new JwtSecurityTokenHandler().ReadJwtToken(idToken);
+                        Credentials.TwitchUsername = (string)jwt.Payload["preferred_username"];
                     }
                     catch (Exception ex)
                     {
