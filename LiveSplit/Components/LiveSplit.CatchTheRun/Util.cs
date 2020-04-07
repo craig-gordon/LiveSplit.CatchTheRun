@@ -10,9 +10,6 @@ namespace LiveSplit.CatchTheRun
         internal const int SPLIT_TIME_INDEX = 1;
         internal const int THRESHOLD_INDEX = 2;
 
-        internal const string CREDENTIALS_ELEMENT_NAME = "Credentials";
-        internal const string CLIENT_ID_ELEMENT_NAME = "ClientID";
-        internal const string CLIENT_KEY_ELEMENT_NAME = "ClientKey";
         internal const string THRESHOLD_ELEMENT_NAME = "Threshold";
 
         internal const int BROWSER_EMULATION_PREFERRED_VALUE = 11001;

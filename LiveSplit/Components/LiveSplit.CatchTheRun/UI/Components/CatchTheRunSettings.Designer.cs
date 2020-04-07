@@ -34,16 +34,10 @@
             this.splitTimeColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.thresholdColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.thresholdBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.twitchUsernameTextBox = new System.Windows.Forms.TextBox();
-            this.twitchUsernameLabel = new System.Windows.Forms.Label();
-            this.clientKeyLabel = new System.Windows.Forms.Label();
-            this.clientKeyTextBox = new System.Windows.Forms.TextBox();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.notificationMessageLabel = new System.Windows.Forms.Label();
             this.saveThresholdsButton = new System.Windows.Forms.Button();
-            this.credentialsGroupBox = new System.Windows.Forms.GroupBox();
-            this.signIntoTwitchButton = new System.Windows.Forms.Button();
-            this.credentialsLabel = new System.Windows.Forms.Label();
+            this.authenticateWithTwitchButton = new System.Windows.Forms.Button();
             this.thresholdsGroupBox = new System.Windows.Forms.GroupBox();
             this.thresholdsLabel = new System.Windows.Forms.Label();
             this.miscSettingsGroupBox = new System.Windows.Forms.GroupBox();
@@ -51,11 +45,10 @@
             this.triggerColorLabel = new System.Windows.Forms.Label();
             this.btnTopColor = new System.Windows.Forms.Button();
             this.displayThresholdsCheckbox = new System.Windows.Forms.CheckBox();
-            this.miscSettingsLabel = new System.Windows.Forms.Label();
+            this.settingsLabel = new System.Windows.Forms.Label();
             this.registerCategoryButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.runGrid)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.thresholdBindingSource)).BeginInit();
-            this.credentialsGroupBox.SuspendLayout();
             this.thresholdsGroupBox.SuspendLayout();
             this.miscSettingsGroupBox.SuspendLayout();
             this.SuspendLayout();
@@ -85,7 +78,7 @@
             this.runGrid.RowHeadersWidth = 62;
             this.runGrid.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
             this.runGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
-            this.runGrid.Size = new System.Drawing.Size(654, 297);
+            this.runGrid.Size = new System.Drawing.Size(654, 483);
             this.runGrid.TabIndex = 1;
             // 
             // splitNameColumn
@@ -124,38 +117,6 @@
             // 
             this.thresholdBindingSource.DataSource = typeof(LiveSplit.CatchTheRun.Threshold);
             // 
-            // twitchUsernameTextBox
-            // 
-            this.twitchUsernameTextBox.Location = new System.Drawing.Point(176, 35);
-            this.twitchUsernameTextBox.Name = "twitchUsernameTextBox";
-            this.twitchUsernameTextBox.Size = new System.Drawing.Size(490, 26);
-            this.twitchUsernameTextBox.TabIndex = 2;
-            // 
-            // twitchUsernameLabel
-            // 
-            this.twitchUsernameLabel.AutoSize = true;
-            this.twitchUsernameLabel.Location = new System.Drawing.Point(8, 38);
-            this.twitchUsernameLabel.Name = "twitchUsernameLabel";
-            this.twitchUsernameLabel.Size = new System.Drawing.Size(132, 20);
-            this.twitchUsernameLabel.TabIndex = 3;
-            this.twitchUsernameLabel.Text = "Twitch Username";
-            // 
-            // clientKeyLabel
-            // 
-            this.clientKeyLabel.AutoSize = true;
-            this.clientKeyLabel.Location = new System.Drawing.Point(8, 79);
-            this.clientKeyLabel.Name = "clientKeyLabel";
-            this.clientKeyLabel.Size = new System.Drawing.Size(79, 20);
-            this.clientKeyLabel.TabIndex = 4;
-            this.clientKeyLabel.Text = "Client Key";
-            // 
-            // clientKeyTextBox
-            // 
-            this.clientKeyTextBox.Location = new System.Drawing.Point(176, 76);
-            this.clientKeyTextBox.Name = "clientKeyTextBox";
-            this.clientKeyTextBox.Size = new System.Drawing.Size(490, 26);
-            this.clientKeyTextBox.TabIndex = 5;
-            // 
             // textBox1
             // 
             this.textBox1.Location = new System.Drawing.Point(176, 41);
@@ -175,7 +136,7 @@
             // 
             // saveThresholdsButton
             // 
-            this.saveThresholdsButton.Location = new System.Drawing.Point(500, 351);
+            this.saveThresholdsButton.Location = new System.Drawing.Point(500, 537);
             this.saveThresholdsButton.Name = "saveThresholdsButton";
             this.saveThresholdsButton.Size = new System.Drawing.Size(166, 32);
             this.saveThresholdsButton.TabIndex = 9;
@@ -183,47 +144,24 @@
             this.saveThresholdsButton.UseVisualStyleBackColor = true;
             this.saveThresholdsButton.Click += new System.EventHandler(this.saveThresholdsButton_Click);
             // 
-            // credentialsGroupBox
+            // authenticateWithTwitchButton
             // 
-            this.credentialsGroupBox.Controls.Add(this.signIntoTwitchButton);
-            this.credentialsGroupBox.Controls.Add(this.credentialsLabel);
-            this.credentialsGroupBox.Controls.Add(this.clientKeyLabel);
-            this.credentialsGroupBox.Controls.Add(this.twitchUsernameTextBox);
-            this.credentialsGroupBox.Controls.Add(this.clientKeyTextBox);
-            this.credentialsGroupBox.Controls.Add(this.twitchUsernameLabel);
-            this.credentialsGroupBox.Location = new System.Drawing.Point(13, 14);
-            this.credentialsGroupBox.Name = "credentialsGroupBox";
-            this.credentialsGroupBox.Size = new System.Drawing.Size(684, 170);
-            this.credentialsGroupBox.TabIndex = 11;
-            this.credentialsGroupBox.TabStop = false;
-            // 
-            // signIntoTwitchButton
-            // 
-            this.signIntoTwitchButton.Location = new System.Drawing.Point(498, 120);
-            this.signIntoTwitchButton.Name = "signIntoTwitchButton";
-            this.signIntoTwitchButton.Size = new System.Drawing.Size(168, 32);
-            this.signIntoTwitchButton.TabIndex = 7;
-            this.signIntoTwitchButton.Text = "Sign Into Twitch";
-            this.signIntoTwitchButton.UseVisualStyleBackColor = true;
-            this.signIntoTwitchButton.Click += new System.EventHandler(this.signIntoTwitchButton_Click);
-            // 
-            // credentialsLabel
-            // 
-            this.credentialsLabel.AutoSize = true;
-            this.credentialsLabel.Location = new System.Drawing.Point(23, 0);
-            this.credentialsLabel.Name = "credentialsLabel";
-            this.credentialsLabel.Size = new System.Drawing.Size(250, 20);
-            this.credentialsLabel.TabIndex = 0;
-            this.credentialsLabel.Text = "Global Catch The Run Credentials";
+            this.authenticateWithTwitchButton.Location = new System.Drawing.Point(13, 810);
+            this.authenticateWithTwitchButton.Name = "authenticateWithTwitchButton";
+            this.authenticateWithTwitchButton.Size = new System.Drawing.Size(195, 38);
+            this.authenticateWithTwitchButton.TabIndex = 7;
+            this.authenticateWithTwitchButton.Text = "Authenticate With Twitch";
+            this.authenticateWithTwitchButton.UseVisualStyleBackColor = true;
+            this.authenticateWithTwitchButton.Click += new System.EventHandler(this.authenticateWithTwitchButton_Click);
             // 
             // thresholdsGroupBox
             // 
             this.thresholdsGroupBox.Controls.Add(this.saveThresholdsButton);
             this.thresholdsGroupBox.Controls.Add(this.thresholdsLabel);
             this.thresholdsGroupBox.Controls.Add(this.runGrid);
-            this.thresholdsGroupBox.Location = new System.Drawing.Point(13, 200);
+            this.thresholdsGroupBox.Location = new System.Drawing.Point(13, 14);
             this.thresholdsGroupBox.Name = "thresholdsGroupBox";
-            this.thresholdsGroupBox.Size = new System.Drawing.Size(684, 405);
+            this.thresholdsGroupBox.Size = new System.Drawing.Size(684, 591);
             this.thresholdsGroupBox.TabIndex = 12;
             this.thresholdsGroupBox.TabStop = false;
             // 
@@ -242,7 +180,7 @@
             this.miscSettingsGroupBox.Controls.Add(this.triggerColorLabel);
             this.miscSettingsGroupBox.Controls.Add(this.btnTopColor);
             this.miscSettingsGroupBox.Controls.Add(this.displayThresholdsCheckbox);
-            this.miscSettingsGroupBox.Controls.Add(this.miscSettingsLabel);
+            this.miscSettingsGroupBox.Controls.Add(this.settingsLabel);
             this.miscSettingsGroupBox.Controls.Add(this.textBox1);
             this.miscSettingsGroupBox.Controls.Add(this.notificationMessageLabel);
             this.miscSettingsGroupBox.Location = new System.Drawing.Point(13, 626);
@@ -293,14 +231,14 @@
             this.displayThresholdsCheckbox.Text = "Display Thresholds";
             this.displayThresholdsCheckbox.UseVisualStyleBackColor = true;
             // 
-            // miscSettingsLabel
+            // settingsLabel
             // 
-            this.miscSettingsLabel.AutoSize = true;
-            this.miscSettingsLabel.Location = new System.Drawing.Point(23, 0);
-            this.miscSettingsLabel.Name = "miscSettingsLabel";
-            this.miscSettingsLabel.Size = new System.Drawing.Size(108, 20);
-            this.miscSettingsLabel.TabIndex = 9;
-            this.miscSettingsLabel.Text = "Misc. Settings";
+            this.settingsLabel.AutoSize = true;
+            this.settingsLabel.Location = new System.Drawing.Point(23, 0);
+            this.settingsLabel.Name = "settingsLabel";
+            this.settingsLabel.Size = new System.Drawing.Size(68, 20);
+            this.settingsLabel.TabIndex = 9;
+            this.settingsLabel.Text = "Settings";
             // 
             // registerCategoryButton
             // 
@@ -316,8 +254,8 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.authenticateWithTwitchButton);
             this.Controls.Add(this.registerCategoryButton);
-            this.Controls.Add(this.credentialsGroupBox);
             this.Controls.Add(this.thresholdsGroupBox);
             this.Controls.Add(this.miscSettingsGroupBox);
             this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
@@ -326,8 +264,6 @@
             this.Size = new System.Drawing.Size(710, 856);
             ((System.ComponentModel.ISupportInitialize)(this.runGrid)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.thresholdBindingSource)).EndInit();
-            this.credentialsGroupBox.ResumeLayout(false);
-            this.credentialsGroupBox.PerformLayout();
             this.thresholdsGroupBox.ResumeLayout(false);
             this.thresholdsGroupBox.PerformLayout();
             this.miscSettingsGroupBox.ResumeLayout(false);
@@ -339,20 +275,14 @@
         #endregion
 
         private System.Windows.Forms.DataGridView runGrid;
-        private System.Windows.Forms.TextBox twitchUsernameTextBox;
-        private System.Windows.Forms.Label twitchUsernameLabel;
-        private System.Windows.Forms.Label clientKeyLabel;
-        private System.Windows.Forms.TextBox clientKeyTextBox;
         private System.Windows.Forms.BindingSource thresholdBindingSource;
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.Label notificationMessageLabel;
         private System.Windows.Forms.Button saveThresholdsButton;
-        private System.Windows.Forms.GroupBox credentialsGroupBox;
-        private System.Windows.Forms.Label credentialsLabel;
         private System.Windows.Forms.GroupBox thresholdsGroupBox;
         private System.Windows.Forms.Label thresholdsLabel;
         private System.Windows.Forms.GroupBox miscSettingsGroupBox;
-        private System.Windows.Forms.Label miscSettingsLabel;
+        private System.Windows.Forms.Label settingsLabel;
         private System.Windows.Forms.CheckBox displayThresholdsCheckbox;
         private System.Windows.Forms.Button btnTopColor;
         private System.Windows.Forms.Label triggerColorLabel;
@@ -361,6 +291,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn splitTimeColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn thresholdColumn;
         private System.Windows.Forms.Button registerCategoryButton;
-        private System.Windows.Forms.Button signIntoTwitchButton;
+        private System.Windows.Forms.Button authenticateWithTwitchButton;
     }
 }

@@ -30,7 +30,7 @@ namespace LiveSplit.UI.Components
 
             ApiClient = new ApiClient();
 
-            Thresholds = XmlHelper.ReadThresholds(Run.FilePath);
+            Thresholds = Xml.ReadThresholds(Run.FilePath);
             ThresholdsDataSource = new BindingList<Threshold>(Thresholds);
 
             InitializeComponent();
@@ -108,7 +108,7 @@ namespace LiveSplit.UI.Components
 
         private void saveThresholdsButton_Click(object sender, EventArgs e)
         {
-            var success = XmlHelper.WriteThresholds(Run.FilePath, Util.ConvertDataRowsToDictionary(runGrid.Rows), out string error);
+            var success = Xml.WriteThresholds(Run.FilePath, Util.ConvertDataRowsToDictionary(runGrid.Rows), out string error);
         }
 
         private async void registerCategoryButton_Click(object sender, EventArgs e)
@@ -119,7 +119,7 @@ namespace LiveSplit.UI.Components
             { }
         }
 
-        private void signIntoTwitchButton_Click(object sender, EventArgs e)
+        private void authenticateWithTwitchButton_Click(object sender, EventArgs e)
         {
             Util.ModifyBrowserEmulationKey(Util.BROWSER_EMULATION_PREFERRED_VALUE, out int initial);
             BrowserEmulationInitialValue = initial;

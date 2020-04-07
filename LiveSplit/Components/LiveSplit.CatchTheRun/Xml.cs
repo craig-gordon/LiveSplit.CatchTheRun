@@ -6,7 +6,7 @@ using System.Windows.Forms;
 
 namespace LiveSplit.CatchTheRun
 {
-    internal static class XmlHelper
+    internal static class Xml
     {
         internal static List<Threshold> ReadThresholds(string filePath)
         {

@@ -69,15 +69,15 @@
       <DependentUpon>CatchTheRunSettings.cs</DependentUpon>
     </Compile>
     <Compile Include="Models\Threshold.cs" />
-    <Compile Include="Helpers\ApiClient.cs" />
+    <Compile Include="ApiClient.cs" />
     <Compile Include="UI\TwitchOAuthForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="UI\TwitchOAuthForm.Designer.cs">
       <DependentUpon>TwitchOAuthForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Helpers\Util.cs" />
-    <Compile Include="Helpers\XmlHelper.cs" />
+    <Compile Include="Util.cs" />
+    <Compile Include="Xml.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\LiveSplit.Core\LiveSplit.Core.csproj">
