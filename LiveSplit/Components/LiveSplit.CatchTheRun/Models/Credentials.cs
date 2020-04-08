@@ -5,7 +5,7 @@ namespace LiveSplit.CatchTheRun
     public static class Credentials
     {
         private const string Twitch = "CatchTheRun_TwitchUsername";
-        private const string Guid = "CatchTheRun_AccountGuid";
+        private const string Key = "CatchTheRun_ProducerKey";
 
         public static string TwitchUsername
         {
@@ -13,22 +13,22 @@ namespace LiveSplit.CatchTheRun
             set { CredentialManager.WriteCredential(Twitch, "", value); }
         }
 
-        public static string AccountGuid
+        public static string ProducerKey
         {
-            get { return CredentialManager.ReadCredential(Guid)?.Password; }
-            set { CredentialManager.WriteCredential(Guid, "", value); }
+            get { return CredentialManager.ReadCredential(Key)?.Password; }
+            set { CredentialManager.WriteCredential(Key, "", value); }
         }
 
         public static void DeleteAllCredentials()
         {
             CredentialManager.DeleteCredential(Twitch);
-            CredentialManager.DeleteCredential(Guid);
+            CredentialManager.DeleteCredential(Key);
         }
 
         public static bool AnyCredentialsExist()
         {
             return CredentialManager.CredentialExists(Twitch)
-                || CredentialManager.CredentialExists(Guid);
+                || CredentialManager.CredentialExists(Key);
         }
     }
 }

@@ -64,7 +64,7 @@ namespace LiveSplit.UI.Components
             if (state.CurrentPhase == TimerPhase.Running && Settings.Thresholds == null)
             {
                 this.SplitIndex = 0;
-                Settings.Thresholds = Settings._XmlHelper.ReadThresholds(state.Run.FilePath);
+                Settings.Thresholds = Xml.ReadThresholds(state.Run.FilePath);
             }
             else if (state.CurrentPhase == TimerPhase.Running && state.CurrentSplitIndex == this.SplitIndex + 1)
             {
@@ -76,7 +76,7 @@ namespace LiveSplit.UI.Components
                 {
                     var requestBody = new EventRequestBody()
                     {
-                        Player = Settings.Credentials.ClientID,
+                        Player = Settings.TwitchUsername,
                         Game = State.Run.GameName,
                         Category = State.Run.CategoryName,
                         SplitName = State.Run[State.CurrentSplitIndex].Name,
@@ -84,7 +84,7 @@ namespace LiveSplit.UI.Components
                         Message = Settings.NotificationMessage
                     };
 
-                    Settings._ApiClient.SendNotificationsRequest(requestBody, Settings.Credentials);
+                    Settings.ApiClient.SendNotificationsRequest(Settings.ProducerKey, requestBody);
                 }
 
                 this.SplitIndex++;

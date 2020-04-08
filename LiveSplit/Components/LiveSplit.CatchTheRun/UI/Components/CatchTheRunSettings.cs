@@ -19,6 +19,9 @@ namespace LiveSplit.UI.Components
 
         internal ApiClient ApiClient { get; set; }
 
+        internal string TwitchUsername { get; set; }
+        internal string ProducerKey { get; set; }
+
         private BindingList<Threshold> ThresholdsDataSource { get; set; }
 
         private string CurrentlyEditingCellInitialValue { get; set; }
@@ -113,7 +116,7 @@ namespace LiveSplit.UI.Components
 
         private async void registerCategoryButton_Click(object sender, EventArgs e)
         {
-            var registrationSuccessful = await ApiClient.RegisterProducerCategory(Credentials.AccountGuid, Credentials.TwitchUsername, Run.GameName, Run.CategoryName);
+            var registrationSuccessful = await ApiClient.RegisterProducerCategory(Credentials.ProducerKey, Credentials.TwitchUsername, Run.GameName, Run.CategoryName);
 
             if (registrationSuccessful)
             { }
@@ -124,7 +127,7 @@ namespace LiveSplit.UI.Components
             Util.ModifyBrowserEmulationKey(Util.BROWSER_EMULATION_PREFERRED_VALUE, out int initial);
             BrowserEmulationInitialValue = initial;
 
-            var form = new TwitchOAuthForm();
+            var form = new BrowserForm();
             form.FormClosing += TwitchOAuthForm_FormClosing;
             form.ShowDialog();
         }
