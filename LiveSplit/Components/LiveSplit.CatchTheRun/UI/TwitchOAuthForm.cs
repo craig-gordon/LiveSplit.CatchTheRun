@@ -3,7 +3,6 @@ using System;
 using System.Windows.Forms;
 using System.Runtime.InteropServices;
 using System.Threading;
-using System.Threading.Tasks;
 
 namespace LiveSplit.CatchTheRun
 {
@@ -20,8 +19,6 @@ namespace LiveSplit.CatchTheRun
 
         public TwitchOAuthForm()
         {
-            var t = Credentials.TwitchUsername;
-            var p = Credentials.ProducerKey;
             InitializeComponent();
             OAuthWebBrowser.ObjectForScripting = this;
         }
@@ -49,31 +46,25 @@ namespace LiveSplit.CatchTheRun
 
         private void OAuthWebBrowser_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
         {
-            try
-            {
-                var url = e.Url.AbsoluteUri;
-                if (url.Contains($"{TokenType}="))
-                    new Thread(Test).Start();
-            }
-            catch (Exception ex)
-            {
-                Log.Error(ex);
-            }
+            var url = e.Url.AbsoluteUri;
+            if (url.Contains($"{TokenType}="))
+                new Thread(Loop).Start();
         }
 
-        private void Test()
+        private void Loop()
         {
-            Thread.Sleep(5000);
+            Thread.Sleep(50);
             Func<bool> processAction = () => ProcessResponse();
-            if (!(bool)Invoke(processAction))
-                new Thread(Test).Start();
+            var received = (bool)Invoke(processAction);
+            if (!received)
+                new Thread(Loop).Start();
         }
 
         private bool ProcessResponse()
         {
             var username = OAuthWebBrowser.Document.InvokeScript("get");
 
-            if (username == null)
+            if (username is DBNull || username == null)
                 return false;
 
             if ((string)username != "")
