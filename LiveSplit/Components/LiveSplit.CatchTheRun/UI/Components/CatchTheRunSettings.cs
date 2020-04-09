@@ -127,7 +127,7 @@ namespace LiveSplit.UI.Components
             Util.ModifyBrowserEmulationKey(Util.BROWSER_EMULATION_PREFERRED_VALUE, out int initial);
             BrowserEmulationInitialValue = initial;
 
-            var form = new BrowserForm();
+            var form = new TwitchOAuthForm();
             form.FormClosing += TwitchOAuthForm_FormClosing;
             form.ShowDialog();
         }

@@ -1,84 +1,102 @@
 ﻿using LiveSplit.Options;
 using System;
 using System.Windows.Forms;
-using LiveSplit.Web;
-using System.IdentityModel.Tokens.Jwt;
-using System.Threading;
 using System.Runtime.InteropServices;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace LiveSplit.CatchTheRun
 {
     [ComVisible(true)]
-    public partial class BrowserForm : Form
+    public partial class TwitchOAuthForm : Form
     {
-        private const string ClientId = "cod7idgr6q9bucu2gic2594y80xsu7";
-        private const string RedirectUri = "https://catch-the-run-website.cyghfer.now.sh/twitch";
-        private const string ResponseType = "id_token";
-        private const string Scope = "openid";
+        internal const string TokenType = "id_token";
+        internal const string ClientId = "cod7idgr6q9bucu2gic2594y80xsu7";
+        internal const string RedirectUrl = "https://catch-the-run-website.cyghfer.now.sh/twitch";
+        internal const string Scope = "openid";
 
-        private readonly Uri TwitchOAuthUrl = new Uri($"https://id.twitch.tv/oauth2/authorize?client_id={ClientId}&redirect_uri={RedirectUri}&response_type={ResponseType}&scope={Scope}");
-        public readonly string ProducerKey = Guid.NewGuid().ToString("N").ToUpper();
+        public readonly string ProducerKey = Guid.NewGuid().ToString("N").ToUpperInvariant();
+        public string IdToken { get; protected set; }
 
-        public BrowserForm()
+        public TwitchOAuthForm()
         {
+            var t = Credentials.TwitchUsername;
+            var p = Credentials.ProducerKey;
             InitializeComponent();
+            OAuthWebBrowser.ObjectForScripting = this;
         }
 
-        void BrowserForm_Load(object sender, EventArgs e)
+        void OAuthForm_Load(object sender, EventArgs e)
         {
-            browserEmbed.Navigate(TwitchOAuthUrl);
-            browserEmbed.ObjectForScripting = this;
+            OAuthWebBrowser.Navigate(new Uri(
+                string.Format(
+                    "https://id.twitch.tv/oauth2/authorize?response_type={0}&client_id={1}&redirect_uri={2}&scope={3}",
+                    TokenType,
+                    ClientId,
+                    RedirectUrl,
+                    Scope
+                ),
+                UriKind.Absolute
+            ));
         }
 
-        private void browserEmbed_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
+        private void OAuthWebBrowser_Navigated(object sender, WebBrowserNavigatedEventArgs e)
+        {
+            var url = e.Url.AbsoluteUri;
+            if (url.Contains($"{TokenType}="))
+                IdToken = url.Substring(url.IndexOf(TokenType) + $"{TokenType}=".Length);
+        }
+
+        private void OAuthWebBrowser_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
         {
             try
             {
-                var url = browserEmbed.Url.Fragment.ToLowerInvariant();
-                if (url.Contains("id_token"))
-                {
-                    var idToken = url.Substring(url.IndexOf("id_token") + "id_token=".Length);
-
-                    try
-                    {
-                        var jwt = new JwtSecurityTokenHandler().ReadJwtToken(idToken);
-
-                        var responseReceived = false;
-                        bool? success = null;
-
-                        while (!responseReceived)
-                        {
-                            success = (bool?)browserEmbed.Document.InvokeScript("confirm");
-                            if (success != null)
-                            {
-                                responseReceived = true;
-                            }
-                            Thread.Sleep(100);
-                        }
-
-                        if ((bool)success)
-                        {
-                            Credentials.TwitchUsername = (string)jwt.Payload["preferred_username"];
-                            Credentials.ProducerKey = ProducerKey;
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        Log.Error(ex);
-                    }
-
-                    Action closeAction = () => Close();
-
-                    if (InvokeRequired)
-                        Invoke(closeAction);
-                    else
-                        closeAction();
-                }
+                var url = e.Url.AbsoluteUri;
+                if (url.Contains($"{TokenType}="))
+                    new Thread(Test).Start();
             }
             catch (Exception ex)
             {
                 Log.Error(ex);
             }
+        }
+
+        private void Test()
+        {
+            Thread.Sleep(5000);
+            Func<bool> processAction = () => ProcessResponse();
+            if (!(bool)Invoke(processAction))
+                new Thread(Test).Start();
+        }
+
+        private bool ProcessResponse()
+        {
+            var username = OAuthWebBrowser.Document.InvokeScript("get");
+
+            if (username == null)
+                return false;
+
+            if ((string)username != "")
+            {
+                try
+                {
+                    Credentials.TwitchUsername = (string)username;
+                    Credentials.ProducerKey = ProducerKey;
+                }
+                catch (Exception ex)
+                {
+                    Log.Error(ex);
+                }
+            }
+
+            Action closeAction = () => Close();
+
+            if (InvokeRequired)
+                Invoke(closeAction);
+            else
+                closeAction();
+
+            return true;
         }
     }
 }
