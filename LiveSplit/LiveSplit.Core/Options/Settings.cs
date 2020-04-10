@@ -11,8 +11,6 @@ namespace LiveSplit.Options
     public class Settings : ISettings
     {
         public IDictionary<string, HotkeyProfile> HotkeyProfiles { get; set; }
-        public KeyOrButton ScrollUp { get; set; }
-        public KeyOrButton ScrollDown { get; set; }
         public IList<RecentSplitsFile> RecentSplits { get; set; }
         public IList<string> RecentLayouts { get; set; }
         public string LastComparison { get; set; }
@@ -22,6 +20,56 @@ namespace LiveSplit.Options
         public IRaceViewer RaceViewer { get; set; }
         public IList<string> ActiveAutoSplitters { get; set; }
         public IDictionary<string, bool> ComparisonGeneratorStates { get; set; }
+
+        // Deprecated properties
+        public KeyOrButton SplitKey {
+            get { return HotkeyProfiles.First().Value.SplitKey; }
+            set { HotkeyProfiles.First().Value.SplitKey = value; }
+        }
+        public KeyOrButton ResetKey {
+            get { return HotkeyProfiles.First().Value.ResetKey; }
+            set { HotkeyProfiles.First().Value.ResetKey = value; }
+        }
+        public KeyOrButton SkipKey {
+            get { return HotkeyProfiles.First().Value.SkipKey; }
+            set { HotkeyProfiles.First().Value.SkipKey = value; }
+        }
+        public KeyOrButton UndoKey {
+            get { return HotkeyProfiles.First().Value.UndoKey; }
+            set { HotkeyProfiles.First().Value.UndoKey = value; }
+        }
+        public KeyOrButton PauseKey {
+            get { return HotkeyProfiles.First().Value.PauseKey; }
+            set { HotkeyProfiles.First().Value.PauseKey = value; }
+        }
+        public KeyOrButton ToggleGlobalHotkeys {
+            get { return HotkeyProfiles.First().Value.ToggleGlobalHotkeys; }
+            set { HotkeyProfiles.First().Value.ToggleGlobalHotkeys = value; }
+        }
+        public KeyOrButton SwitchComparisonPrevious {
+            get { return HotkeyProfiles.First().Value.SwitchComparisonPrevious; }
+            set { HotkeyProfiles.First().Value.SwitchComparisonPrevious = value; }
+        }
+        public KeyOrButton SwitchComparisonNext {
+            get { return HotkeyProfiles.First().Value.SwitchComparisonNext; }
+            set { HotkeyProfiles.First().Value.SwitchComparisonNext = value; }
+        }
+        public float HotkeyDelay {
+            get { return HotkeyProfiles.First().Value.HotkeyDelay; }
+            set { HotkeyProfiles.First().Value.HotkeyDelay = value; }
+        }
+        public bool GlobalHotkeysEnabled {
+            get { return HotkeyProfiles.First().Value.GlobalHotkeysEnabled; }
+            set { HotkeyProfiles.First().Value.GlobalHotkeysEnabled = value; }
+        }
+        public bool DeactivateHotkeysForOtherPrograms {
+            get { return HotkeyProfiles.First().Value.DeactivateHotkeysForOtherPrograms; }
+            set { HotkeyProfiles.First().Value.DeactivateHotkeysForOtherPrograms = value; }
+        }
+        public bool DoubleTapPrevention {
+            get { return HotkeyProfiles.First().Value.DoubleTapPrevention; }
+            set { HotkeyProfiles.First().Value.DoubleTapPrevention = value; }
+        }
 
         public Settings()
         {
@@ -35,8 +83,6 @@ namespace LiveSplit.Options
             return new Settings()
             {
                 HotkeyProfiles = HotkeyProfiles.ToDictionary(x => x.Key, x => (HotkeyProfile)(x.Value.Clone())),
-                ScrollUp = ScrollUp,
-                ScrollDown = ScrollDown,
                 WarnOnReset = WarnOnReset,
                 RecentSplits = new List<RecentSplitsFile>(RecentSplits),
                 RecentLayouts = new List<string>(RecentLayouts),
@@ -49,30 +95,11 @@ namespace LiveSplit.Options
             };
         }
 
-        private void RegisterScrolling(CompositeHook hook)
-        {
-            var mouse = hook.GetMouse();
-            var name = mouse.Information.InstanceName + " " + mouse.Information.InstanceGuid;
-            ScrollUp = new KeyOrButton(new GamepadButton(name, "Scroll_Up"));
-            ScrollDown = new KeyOrButton(new GamepadButton(name, "Scroll_Down"));
-            hook.RegisterHotKey(ScrollUp);
-            hook.RegisterHotKey(ScrollDown);
-        }
-
         public void RegisterHotkeys(CompositeHook hook, string hotkeyProfileName)
         {
             try
             {
                 UnregisterAllHotkeys(hook);
-            }
-            catch (Exception ex)
-            {
-                Log.Error(ex);
-            }
-
-            try
-            {
-                RegisterScrolling(hook);
             }
             catch (Exception ex)
             {
