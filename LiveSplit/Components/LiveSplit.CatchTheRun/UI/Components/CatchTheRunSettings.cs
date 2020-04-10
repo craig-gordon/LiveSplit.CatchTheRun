@@ -38,6 +38,12 @@ namespace LiveSplit.UI.Components
 
             InitializeComponent();
 
+            if (Credentials.TwitchUsername != null && Credentials.ProducerKey != null)
+            {
+                authenticateTwitchAccountButton.Text = $"Authenticated: {Credentials.TwitchUsername}";
+                authenticateTwitchAccountButton.Enabled = false;
+            }
+
             runGrid.DataSource = ThresholdsDataSource;
             runGrid.CellFormatting += runGrid_CellFormatting;
             runGrid.CellBeginEdit += runGrid_CellBeginEdit;

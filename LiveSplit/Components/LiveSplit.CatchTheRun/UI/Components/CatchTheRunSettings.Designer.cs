@@ -37,7 +37,7 @@
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.notificationMessageLabel = new System.Windows.Forms.Label();
             this.saveThresholdsButton = new System.Windows.Forms.Button();
-            this.authenticateWithTwitchButton = new System.Windows.Forms.Button();
+            this.authenticateTwitchAccountButton = new System.Windows.Forms.Button();
             this.thresholdsGroupBox = new System.Windows.Forms.GroupBox();
             this.thresholdsLabel = new System.Windows.Forms.Label();
             this.miscSettingsGroupBox = new System.Windows.Forms.GroupBox();
@@ -136,23 +136,23 @@
             // 
             // saveThresholdsButton
             // 
-            this.saveThresholdsButton.Location = new System.Drawing.Point(500, 537);
+            this.saveThresholdsButton.Location = new System.Drawing.Point(399, 537);
             this.saveThresholdsButton.Name = "saveThresholdsButton";
-            this.saveThresholdsButton.Size = new System.Drawing.Size(166, 32);
+            this.saveThresholdsButton.Size = new System.Drawing.Size(272, 38);
             this.saveThresholdsButton.TabIndex = 9;
             this.saveThresholdsButton.Text = "Save Thresholds";
             this.saveThresholdsButton.UseVisualStyleBackColor = true;
             this.saveThresholdsButton.Click += new System.EventHandler(this.saveThresholdsButton_Click);
             // 
-            // authenticateWithTwitchButton
+            // authenticateTwitchAccountButton
             // 
-            this.authenticateWithTwitchButton.Location = new System.Drawing.Point(13, 810);
-            this.authenticateWithTwitchButton.Name = "authenticateWithTwitchButton";
-            this.authenticateWithTwitchButton.Size = new System.Drawing.Size(195, 38);
-            this.authenticateWithTwitchButton.TabIndex = 7;
-            this.authenticateWithTwitchButton.Text = "Authenticate With Twitch";
-            this.authenticateWithTwitchButton.UseVisualStyleBackColor = true;
-            this.authenticateWithTwitchButton.Click += new System.EventHandler(this.authenticateWithTwitchButton_Click);
+            this.authenticateTwitchAccountButton.Location = new System.Drawing.Point(13, 810);
+            this.authenticateTwitchAccountButton.Name = "authenticateTwitchAccountButton";
+            this.authenticateTwitchAccountButton.Size = new System.Drawing.Size(272, 38);
+            this.authenticateTwitchAccountButton.TabIndex = 7;
+            this.authenticateTwitchAccountButton.Text = "Authenticate Twitch Account";
+            this.authenticateTwitchAccountButton.UseVisualStyleBackColor = true;
+            this.authenticateTwitchAccountButton.Click += new System.EventHandler(this.authenticateWithTwitchButton_Click);
             // 
             // thresholdsGroupBox
             // 
@@ -242,9 +242,9 @@
             // 
             // registerCategoryButton
             // 
-            this.registerCategoryButton.Location = new System.Drawing.Point(514, 810);
+            this.registerCategoryButton.Location = new System.Drawing.Point(425, 810);
             this.registerCategoryButton.Name = "registerCategoryButton";
-            this.registerCategoryButton.Size = new System.Drawing.Size(185, 38);
+            this.registerCategoryButton.Size = new System.Drawing.Size(272, 38);
             this.registerCategoryButton.TabIndex = 14;
             this.registerCategoryButton.Text = "Register Category";
             this.registerCategoryButton.UseVisualStyleBackColor = true;
@@ -254,7 +254,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.authenticateWithTwitchButton);
+            this.Controls.Add(this.authenticateTwitchAccountButton);
             this.Controls.Add(this.registerCategoryButton);
             this.Controls.Add(this.thresholdsGroupBox);
             this.Controls.Add(this.miscSettingsGroupBox);
@@ -291,6 +291,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn splitTimeColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn thresholdColumn;
         private System.Windows.Forms.Button registerCategoryButton;
-        private System.Windows.Forms.Button authenticateWithTwitchButton;
+        private System.Windows.Forms.Button authenticateTwitchAccountButton;
     }
 }
