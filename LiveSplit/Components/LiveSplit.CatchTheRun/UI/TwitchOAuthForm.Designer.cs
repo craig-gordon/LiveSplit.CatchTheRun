@@ -36,23 +36,25 @@
             // 
             this.OAuthWebBrowser.Dock = System.Windows.Forms.DockStyle.Fill;
             this.OAuthWebBrowser.Location = new System.Drawing.Point(0, 0);
-            this.OAuthWebBrowser.MinimumSize = new System.Drawing.Size(20, 20);
+            this.OAuthWebBrowser.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.OAuthWebBrowser.MinimumSize = new System.Drawing.Size(30, 31);
             this.OAuthWebBrowser.Name = "OAuthWebBrowser";
             this.OAuthWebBrowser.ScriptErrorsSuppressed = true;
-            this.OAuthWebBrowser.Size = new System.Drawing.Size(707, 556);
+            this.OAuthWebBrowser.Size = new System.Drawing.Size(1060, 1177);
             this.OAuthWebBrowser.TabIndex = 2;
-            this.OAuthWebBrowser.Navigated += new System.Windows.Forms.WebBrowserNavigatedEventHandler(this.OAuthWebBrowser_Navigated);
             this.OAuthWebBrowser.DocumentCompleted += new System.Windows.Forms.WebBrowserDocumentCompletedEventHandler(this.OAuthWebBrowser_DocumentCompleted);
+            this.OAuthWebBrowser.Navigated += new System.Windows.Forms.WebBrowserNavigatedEventHandler(this.OAuthWebBrowser_Navigated);
             // 
             // TwitchOAuthForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(707, 556);
+            this.ClientSize = new System.Drawing.Size(1060, 1177);
             this.Controls.Add(this.OAuthWebBrowser);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.Name = "TwitchOAuthForm";
-            this.Text = "Authorize LiveSplit";
+            this.Text = "Authenticate Twitch Account";
             this.Load += new System.EventHandler(this.OAuthForm_Load);
             this.ResumeLayout(false);
 

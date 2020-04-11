@@ -76,7 +76,7 @@ namespace LiveSplit.UI.Components
                 {
                     var requestBody = new EventRequestBody()
                     {
-                        Player = Settings.TwitchUsername,
+                        Player = Credentials.TwitchUsername,
                         Game = State.Run.GameName,
                         Category = State.Run.CategoryName,
                         SplitName = State.Run[State.CurrentSplitIndex].Name,
@@ -84,7 +84,7 @@ namespace LiveSplit.UI.Components
                         Message = Settings.NotificationMessage
                     };
 
-                    Settings.ApiClient.SendNotificationsRequest(Settings.ProducerKey, requestBody);
+                    Settings.ApiClient.SendNotificationsRequest(Credentials.ProducerKey, requestBody);
                 }
 
                 this.SplitIndex++;

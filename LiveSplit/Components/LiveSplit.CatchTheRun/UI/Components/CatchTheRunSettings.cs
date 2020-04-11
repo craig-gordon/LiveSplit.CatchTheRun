@@ -19,8 +19,13 @@ namespace LiveSplit.UI.Components
 
         internal ApiClient ApiClient { get; set; }
 
-        internal string TwitchUsername { get; set; }
-        internal string ProducerKey { get; set; }
+        internal bool IsLoggedIn
+        {
+            get
+            {
+                return Credentials.TwitchUsername != null && Credentials.ProducerKey != null;
+            }
+        }
 
         private BindingList<Threshold> ThresholdsDataSource { get; set; }
 
@@ -30,20 +35,13 @@ namespace LiveSplit.UI.Components
         public CatchTheRunSettings(LiveSplitState state)
         {
             Run = state.Run;
-
             ApiClient = new ApiClient();
-
             Thresholds = Xml.ReadThresholds(Run.FilePath);
             ThresholdsDataSource = new BindingList<Threshold>(Thresholds);
 
             InitializeComponent();
 
-            if (Credentials.TwitchUsername != null && Credentials.ProducerKey != null)
-            {
-                authenticateTwitchAccountButton.Text = $"Authenticated: {Credentials.TwitchUsername}";
-                authenticateTwitchAccountButton.Enabled = false;
-            }
-
+            SetAuthenticationControlsState();
             runGrid.DataSource = ThresholdsDataSource;
             runGrid.CellFormatting += runGrid_CellFormatting;
             runGrid.CellBeginEdit += runGrid_CellBeginEdit;
@@ -128,7 +126,7 @@ namespace LiveSplit.UI.Components
             { }
         }
 
-        private void authenticateWithTwitchButton_Click(object sender, EventArgs e)
+        private void logIntoTwitchButton_Click(object sender, EventArgs e)
         {
             Util.ModifyBrowserEmulationKey(Util.BROWSER_EMULATION_PREFERRED_VALUE, out int initial);
             BrowserEmulationInitialValue = initial;
@@ -138,9 +136,44 @@ namespace LiveSplit.UI.Components
             form.ShowDialog();
         }
 
+        private void verifyChangedUsernameButton_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void logOutButton_Click(object sender, EventArgs e)
+        {
+            var result = MessageBox.Show(this, "Your credentials will be deleted. Log out?", "Verify Logout", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
+            if (result == DialogResult.OK)
+            {
+                Credentials.DeleteAllCredentials();
+
+                SetAuthenticationControlsState();
+            }
+        }
+
         private void TwitchOAuthForm_FormClosing(object sender, FormClosingEventArgs e)
         {
             Util.ModifyBrowserEmulationKey(BrowserEmulationInitialValue, out int _);
+            SetAuthenticationControlsState();
+        }
+
+        private void SetAuthenticationControlsState()
+        {
+            if (IsLoggedIn)
+            {
+                loggedInStatusLabel.Text = $"Logged In: {Credentials.TwitchUsername}";
+                logIntoTwitchButton.Enabled = false;
+                verifyChangedUsernameButton.Enabled = true;
+                logOutButton.Enabled = true;
+            }
+            else
+            {
+                loggedInStatusLabel.Text = "Not Logged In";
+                logIntoTwitchButton.Enabled = true;
+                verifyChangedUsernameButton.Enabled = false;
+                logOutButton.Enabled = false;
+            }
         }
     }
 }
