@@ -17,14 +17,11 @@ namespace LiveSplit.UI.Components
         internal string NotificationMessage { get; set; }
         internal bool ShowTriggerIndicator { get; set; }
 
-        internal ApiClient ApiClient { get; set; }
+        internal CtrApiClient ApiClient { get; set; }
 
         internal bool IsLoggedIn
         {
-            get
-            {
-                return Credentials.TwitchUsername != null && Credentials.ProducerKey != null;
-            }
+            get { return Credentials.TwitchUsername != null && Credentials.ProducerKey != null; }
         }
 
         private BindingList<Threshold> ThresholdsDataSource { get; set; }
@@ -35,7 +32,7 @@ namespace LiveSplit.UI.Components
         public CatchTheRunSettings(LiveSplitState state)
         {
             Run = state.Run;
-            ApiClient = new ApiClient();
+            ApiClient = new CtrApiClient();
             Thresholds = Xml.ReadThresholds(Run.FilePath);
             ThresholdsDataSource = new BindingList<Threshold>(Thresholds);
 
@@ -120,9 +117,9 @@ namespace LiveSplit.UI.Components
 
         private async void registerCategoryButton_Click(object sender, EventArgs e)
         {
-            var registrationSuccessful = await ApiClient.RegisterProducerCategory(Credentials.ProducerKey, Credentials.TwitchUsername, Run.GameName, Run.CategoryName);
+            bool success = await ApiClient.RegisterProducerCategory(Credentials.ProducerKey, Credentials.TwitchUsername, Run.GameName, Run.CategoryName);
 
-            if (registrationSuccessful)
+            if (success)
             { }
         }
 
@@ -147,7 +144,6 @@ namespace LiveSplit.UI.Components
             if (result == DialogResult.OK)
             {
                 Credentials.DeleteAllCredentials();
-
                 SetAuthenticationControlsState();
             }
         }

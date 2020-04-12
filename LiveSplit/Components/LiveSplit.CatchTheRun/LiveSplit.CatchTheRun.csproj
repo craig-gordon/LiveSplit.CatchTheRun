@@ -58,7 +58,7 @@
       <DependentUpon>CatchTheRunSettings.cs</DependentUpon>
     </Compile>
     <Compile Include="Models\Threshold.cs" />
-    <Compile Include="ApiClient.cs" />
+    <Compile Include="CtrApiClient.cs" />
     <Compile Include="UI\TwitchOAuthForm.cs">
       <SubType>Form</SubType>
     </Compile>

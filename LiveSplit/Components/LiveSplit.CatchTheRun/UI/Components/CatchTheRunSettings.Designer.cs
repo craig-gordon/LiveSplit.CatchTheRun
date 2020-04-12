@@ -37,11 +37,6 @@
             this.thresholdsGroupBox = new System.Windows.Forms.GroupBox();
             this.thresholdsLabel = new System.Windows.Forms.Label();
             this.miscSettingsGroupBox = new System.Windows.Forms.GroupBox();
-            this.displayNotificationsTriggerCheckbox = new System.Windows.Forms.CheckBox();
-            this.triggerColorLabel = new System.Windows.Forms.Label();
-            this.btnTopColor = new System.Windows.Forms.Button();
-            this.displayThresholdsCheckbox = new System.Windows.Forms.CheckBox();
-            this.settingsLabel = new System.Windows.Forms.Label();
             this.registerCategoryButton = new System.Windows.Forms.Button();
             this.logOutButton = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
@@ -51,6 +46,7 @@
             this.splitTimeColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.thresholdColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.thresholdBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.notificationMessageTextLabel = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.runGrid)).BeginInit();
             this.thresholdsGroupBox.SuspendLayout();
             this.miscSettingsGroupBox.SuspendLayout();
@@ -88,16 +84,16 @@
             // 
             // textBox1
             // 
-            this.textBox1.Location = new System.Drawing.Point(176, 41);
+            this.textBox1.Location = new System.Drawing.Point(53, 41);
             this.textBox1.Multiline = true;
             this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(490, 61);
+            this.textBox1.Size = new System.Drawing.Size(618, 61);
             this.textBox1.TabIndex = 7;
             // 
             // notificationMessageLabel
             // 
             this.notificationMessageLabel.AutoSize = true;
-            this.notificationMessageLabel.Location = new System.Drawing.Point(8, 44);
+            this.notificationMessageLabel.Location = new System.Drawing.Point(23, 0);
             this.notificationMessageLabel.Name = "notificationMessageLabel";
             this.notificationMessageLabel.Size = new System.Drawing.Size(157, 20);
             this.notificationMessageLabel.TabIndex = 8;
@@ -145,11 +141,7 @@
             // 
             // miscSettingsGroupBox
             // 
-            this.miscSettingsGroupBox.Controls.Add(this.displayNotificationsTriggerCheckbox);
-            this.miscSettingsGroupBox.Controls.Add(this.triggerColorLabel);
-            this.miscSettingsGroupBox.Controls.Add(this.btnTopColor);
-            this.miscSettingsGroupBox.Controls.Add(this.displayThresholdsCheckbox);
-            this.miscSettingsGroupBox.Controls.Add(this.settingsLabel);
+            this.miscSettingsGroupBox.Controls.Add(this.notificationMessageTextLabel);
             this.miscSettingsGroupBox.Controls.Add(this.textBox1);
             this.miscSettingsGroupBox.Controls.Add(this.notificationMessageLabel);
             this.miscSettingsGroupBox.Location = new System.Drawing.Point(13, 626);
@@ -157,57 +149,6 @@
             this.miscSettingsGroupBox.Size = new System.Drawing.Size(684, 162);
             this.miscSettingsGroupBox.TabIndex = 13;
             this.miscSettingsGroupBox.TabStop = false;
-            // 
-            // displayNotificationsTriggerCheckbox
-            // 
-            this.displayNotificationsTriggerCheckbox.AutoSize = true;
-            this.displayNotificationsTriggerCheckbox.Location = new System.Drawing.Point(274, 121);
-            this.displayNotificationsTriggerCheckbox.Name = "displayNotificationsTriggerCheckbox";
-            this.displayNotificationsTriggerCheckbox.Size = new System.Drawing.Size(230, 24);
-            this.displayNotificationsTriggerCheckbox.TabIndex = 17;
-            this.displayNotificationsTriggerCheckbox.Text = "Display Notifications Trigger";
-            this.displayNotificationsTriggerCheckbox.UseVisualStyleBackColor = true;
-            // 
-            // triggerColorLabel
-            // 
-            this.triggerColorLabel.AutoSize = true;
-            this.triggerColorLabel.Location = new System.Drawing.Point(572, 122);
-            this.triggerColorLabel.Name = "triggerColorLabel";
-            this.triggerColorLabel.Size = new System.Drawing.Size(99, 20);
-            this.triggerColorLabel.TabIndex = 16;
-            this.triggerColorLabel.Text = "Trigger Color";
-            // 
-            // btnTopColor
-            // 
-            this.btnTopColor.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnTopColor.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.btnTopColor.Location = new System.Drawing.Point(533, 117);
-            this.btnTopColor.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.btnTopColor.Name = "btnTopColor";
-            this.btnTopColor.Size = new System.Drawing.Size(32, 32);
-            this.btnTopColor.TabIndex = 15;
-            this.btnTopColor.UseVisualStyleBackColor = false;
-            // 
-            // displayThresholdsCheckbox
-            // 
-            this.displayThresholdsCheckbox.AutoSize = true;
-            this.displayThresholdsCheckbox.Location = new System.Drawing.Point(12, 122);
-            this.displayThresholdsCheckbox.Name = "displayThresholdsCheckbox";
-            this.displayThresholdsCheckbox.Size = new System.Drawing.Size(168, 24);
-            this.displayThresholdsCheckbox.TabIndex = 11;
-            this.displayThresholdsCheckbox.Text = "Display Thresholds";
-            this.displayThresholdsCheckbox.UseVisualStyleBackColor = true;
-            // 
-            // settingsLabel
-            // 
-            this.settingsLabel.AutoSize = true;
-            this.settingsLabel.Location = new System.Drawing.Point(23, 0);
-            this.settingsLabel.Name = "settingsLabel";
-            this.settingsLabel.Size = new System.Drawing.Size(68, 20);
-            this.settingsLabel.TabIndex = 9;
-            this.settingsLabel.Text = "Settings";
             // 
             // registerCategoryButton
             // 
@@ -297,6 +238,15 @@
             // 
             this.thresholdBindingSource.DataSource = typeof(LiveSplit.CatchTheRun.Threshold);
             // 
+            // notificationMessageTextLabel
+            // 
+            this.notificationMessageTextLabel.AutoSize = true;
+            this.notificationMessageTextLabel.Location = new System.Drawing.Point(8, 44);
+            this.notificationMessageTextLabel.Name = "notificationMessageTextLabel";
+            this.notificationMessageTextLabel.Size = new System.Drawing.Size(39, 20);
+            this.notificationMessageTextLabel.TabIndex = 9;
+            this.notificationMessageTextLabel.Text = "Text";
+            // 
             // CatchTheRunSettings
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
@@ -331,11 +281,6 @@
         private System.Windows.Forms.GroupBox thresholdsGroupBox;
         private System.Windows.Forms.Label thresholdsLabel;
         private System.Windows.Forms.GroupBox miscSettingsGroupBox;
-        private System.Windows.Forms.Label settingsLabel;
-        private System.Windows.Forms.CheckBox displayThresholdsCheckbox;
-        private System.Windows.Forms.Button btnTopColor;
-        private System.Windows.Forms.Label triggerColorLabel;
-        private System.Windows.Forms.CheckBox displayNotificationsTriggerCheckbox;
         private System.Windows.Forms.DataGridViewTextBoxColumn splitNameColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn splitTimeColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn thresholdColumn;
@@ -345,5 +290,6 @@
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Button verifyChangedUsernameButton;
         private System.Windows.Forms.Label loggedInStatusLabel;
+        private System.Windows.Forms.Label notificationMessageTextLabel;
     }
 }
