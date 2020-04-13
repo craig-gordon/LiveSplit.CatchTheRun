@@ -74,9 +74,11 @@ namespace LiveSplit.UI.Components
 
                 if (splitDelta < threshold)
                 {
-                    var requestBody = new EventRequestBody()
+                    var cmd = new EventCommand()
                     {
-                        Player = Credentials.TwitchUsername,
+                        Type = "speedrun.pb",
+                        Source = "livesplit",
+                        Producer = Credentials.TwitchUsername,
                         Game = State.Run.GameName,
                         Category = State.Run.CategoryName,
                         SplitName = State.Run[State.CurrentSplitIndex].Name,
@@ -84,7 +86,7 @@ namespace LiveSplit.UI.Components
                         Message = Settings.NotificationMessage
                     };
 
-                    Settings.ApiClient.SendNotificationsRequest(Credentials.ProducerKey, requestBody);
+                    Settings.ApiClient.PushEvent(Credentials.ProducerKey, cmd);
                 }
 
                 this.SplitIndex++;
