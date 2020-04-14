@@ -35,7 +35,7 @@ namespace LiveSplit.UI.Components
         
         internal bool IsCategoryRegistered
         {
-            get { return Xml.ReadIsRegistered(Run.FilePath); }
+            get { return Xml.ReadIsCategoryRegistered(Run.FilePath); }
         }
 
         private BindingList<Threshold> ThresholdsDataSource { get; set; }
@@ -220,14 +220,14 @@ namespace LiveSplit.UI.Components
             {
                 try
                 {
-                    Xml.WriteIsRegistered(Run.FilePath, true);
+                    Xml.WriteIsCategoryRegistered(Run.FilePath, true);
                     var cmd = new RegisterProducerCategoryCommand() { Producer = Credentials.TwitchUsername, Game = Run.GameName, Category = Run.CategoryName };
                     var response = await ApiClient.RegisterProducerCategory(Credentials.ProducerKey, cmd);
                     if (response.StatusCode == HttpStatusCode.OK)
                         MessageBox.Show(this, $"Successfully registered category: {Run.GameName} - {Run.CategoryName}.", "Category Registered", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     else
                     {
-                        Xml.WriteIsRegistered(Run.FilePath, false);
+                        Xml.WriteIsCategoryRegistered(Run.FilePath, false);
                         Log.Error(await response.Content.ReadAsStringAsync());
                         MessageBox.Show(this, $"An error occurred registering category: {Run.GameName} - {Run.CategoryName}.", "Category Registration Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
@@ -235,7 +235,7 @@ namespace LiveSplit.UI.Components
                 catch (Exception ex)
                 {
                     Log.Error(ex);
-                    Xml.WriteIsRegistered(Run.FilePath, false);
+                    Xml.WriteIsCategoryRegistered(Run.FilePath, false);
                     MessageBox.Show(this, $"An error occurred registering category: {Run.GameName} - {Run.CategoryName}.", "Category Registration Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
@@ -243,14 +243,14 @@ namespace LiveSplit.UI.Components
             {
                 try
                 {
-                    Xml.WriteIsRegistered(Run.FilePath, false);
+                    Xml.WriteIsCategoryRegistered(Run.FilePath, false);
                     var cmd = new UnregisterProducerCategoryCommand() { Producer = Credentials.TwitchUsername, Game = Run.GameName, Category = Run.CategoryName };
                     var response = await ApiClient.UnregisterProducerCategory(Credentials.ProducerKey, cmd);
                     if (response.StatusCode == HttpStatusCode.OK)
                         MessageBox.Show(this, $"Successfully unregistered category: {Run.GameName} - {Run.CategoryName}.", "Category Unregistered", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     else
                     {
-                        Xml.WriteIsRegistered(Run.FilePath, true);
+                        Xml.WriteIsCategoryRegistered(Run.FilePath, true);
                         Log.Error(await response.Content.ReadAsStringAsync());
                         MessageBox.Show(this, $"An error occurred unregistering category: {Run.GameName} - {Run.CategoryName}.", "Category Unregistration Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
@@ -258,7 +258,7 @@ namespace LiveSplit.UI.Components
                 catch (Exception ex)
                 {
                     Log.Error(ex);
-                    Xml.WriteIsRegistered(Run.FilePath, false);
+                    Xml.WriteIsCategoryRegistered(Run.FilePath, false);
                     MessageBox.Show(this, $"An error occurred unregistering category: {Run.GameName} - {Run.CategoryName}.", "Category Unregistration Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }

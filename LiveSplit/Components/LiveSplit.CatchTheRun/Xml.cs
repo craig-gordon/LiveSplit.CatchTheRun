@@ -7,13 +7,33 @@ namespace LiveSplit.CatchTheRun
 {
     internal static class Xml
     {
-        internal const string IS_REGISTERED_ELEMENT_NAME = "CtrIsRegistered";
-        internal const string THRESHOLD_ELEMENT_NAME = "CtrThreshold";
+        private const string METADATA_CHILD_ELEMENT_NAME = "CatchTheRun";
+        private const string IS_CATEGORY_REGISTERED_ATTRIBUTE_NAME = "isCategoryRegistered";
+        private const string THRESHOLD_ELEMENT_NAME = "CtrThreshold";
 
-        internal static bool ReadIsRegistered(string filePath)
+        internal static bool ReadIsCategoryRegistered(string filePath)
         {
             var doc = LoadDocument(filePath);
-            return doc.SelectSingleNode($"Run/Metadata/{IS_REGISTERED_ELEMENT_NAME}")?.InnerText == "True";
+            return doc.SelectSingleNode($"Run/Metadata/{METADATA_CHILD_ELEMENT_NAME}")?.Attributes[IS_CATEGORY_REGISTERED_ATTRIBUTE_NAME]?.Value == "True";
+        }
+
+        internal static void WriteIsCategoryRegistered(string filePath, bool value)
+        {
+            var doc = LoadDocument(filePath);
+
+            var metadataNode = doc.SelectSingleNode($"Run/Metadata");
+            var ctrNode = metadataNode?.SelectSingleNode(METADATA_CHILD_ELEMENT_NAME);
+
+            if (ctrNode != null)
+                ctrNode.Attributes[IS_CATEGORY_REGISTERED_ATTRIBUTE_NAME].Value = value ? "True" : "False";
+            else
+            {
+                ctrNode = doc.CreateElement(string.Empty, METADATA_CHILD_ELEMENT_NAME, string.Empty);
+                ctrNode.Attributes[IS_CATEGORY_REGISTERED_ATTRIBUTE_NAME].Value = value ? "True" : "False";
+                metadataNode.AppendChild(ctrNode);
+            }
+
+            doc.Save(filePath);
         }
 
         internal static List<Threshold> ReadThresholds(string filePath)
@@ -27,7 +47,7 @@ namespace LiveSplit.CatchTheRun
                     return null;
                 else
                 {
-                    var splitName = segmentNode.SelectSingleNode("Name").InnerText;
+                    var segmentName = segmentNode.SelectSingleNode("Name").InnerText;
                     var splitTime = segmentNode
                                         .SelectNodes("SplitTimes/SplitTime")
                                         .Cast<XmlNode>()
@@ -37,28 +57,9 @@ namespace LiveSplit.CatchTheRun
 
                     var thresholdNodeText = segmentNode.SelectSingleNode(THRESHOLD_ELEMENT_NAME)?.InnerText;
                     var thresholdValue = !string.IsNullOrWhiteSpace(thresholdNodeText) ? thresholdNodeText : null;
-                    return new Threshold() { SegmentName = splitName, SplitTime = splitTime, Value = thresholdValue };
+                    return new Threshold() { SegmentName = segmentName, SplitTime = splitTime, Value = thresholdValue };
                 }
             }).ToList();
-        }
-
-        internal static void WriteIsRegistered(string filePath, bool value)
-        {
-            var doc = LoadDocument(filePath);
-
-            XmlNode metadataNode = doc.SelectSingleNode($"Run/Metadata");
-            XmlNode isRegisteredNode = metadataNode?.SelectSingleNode(IS_REGISTERED_ELEMENT_NAME);
-
-            if (isRegisteredNode != null)
-                isRegisteredNode.InnerText = value ? "True" : "False";
-            else
-            {
-                isRegisteredNode = doc.CreateElement(string.Empty, IS_REGISTERED_ELEMENT_NAME, string.Empty);
-                isRegisteredNode.InnerText = value ? "True" : "False";
-                metadataNode.AppendChild(isRegisteredNode);
-            }
-
-            doc.Save(filePath);
         }
 
         internal static void WriteThresholds(string filePath, Dictionary<string, string> values)
@@ -69,16 +70,16 @@ namespace LiveSplit.CatchTheRun
 
             foreach (XmlNode segmentNode in segmentNodes)
             {
-                var name = segmentNode.SelectSingleNode("Name").InnerText;
+                var segmentName = segmentNode.SelectSingleNode("Name").InnerText;
 
                 var thresholdNode = segmentNode.SelectSingleNode(THRESHOLD_ELEMENT_NAME);
 
                 if (thresholdNode != null)
-                    thresholdNode.InnerText = values[name];
+                    thresholdNode.InnerText = values[segmentName];
                 else
                 {
                     thresholdNode = doc.CreateElement(string.Empty, THRESHOLD_ELEMENT_NAME, string.Empty);
-                    thresholdNode.InnerText = values[name];
+                    thresholdNode.InnerText = values[segmentName];
                     segmentNode.AppendChild(thresholdNode);
                 }
             }
