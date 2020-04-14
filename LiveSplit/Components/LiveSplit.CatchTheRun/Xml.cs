@@ -1,99 +1,96 @@
 ﻿using System.Collections.Generic;
 using System.Xml;
 using System;
-using System.IO;
-using System.Windows.Forms;
+using System.Linq;
 
 namespace LiveSplit.CatchTheRun
 {
     internal static class Xml
     {
-        internal static List<Threshold> ReadThresholds(string filePath)
+        internal const string IS_REGISTERED_ELEMENT_NAME = "CtrIsRegistered";
+        internal const string THRESHOLD_ELEMENT_NAME = "CtrThreshold";
+
+        internal static bool ReadIsRegistered(string filePath)
         {
-            using (var stream = File.OpenRead(filePath))
-            {
-                XmlTextReader reader = new XmlTextReader(filePath);
-
-                var thresholds = new List<Threshold>();
-
-                var currentSegment = new Threshold();
-                string currentXmlElement = null;
-
-                while (reader.Read())
-                {
-                    switch (reader.NodeType)
-                    {
-                        case XmlNodeType.Element:
-                            if (reader.Name == "Segment")
-                                currentSegment = new Threshold();
-                            else if (reader.Name == "Name")
-                                currentXmlElement = "Name";
-                            else if (reader.Name == "SplitTime")
-                            {
-                                if (reader.GetAttribute("name") == "Personal Best")
-                                    currentXmlElement = "SplitTime";
-                            }
-                            else if (currentXmlElement == "SplitTime" && reader.Name == "RealTime")
-                                currentXmlElement = "RealTime";
-                            else if (reader.Name == "Threshold")
-                                currentXmlElement = "Threshold";
-                            else
-                                currentXmlElement = null;
-                            break;
-                        case XmlNodeType.Text:
-                            if (currentXmlElement == "Name")
-                                currentSegment.SplitName = reader.Value;
-                            else if (currentXmlElement == "RealTime")
-                                currentSegment.SplitTime = reader.Value;
-                            else if (currentXmlElement == "Threshold")
-                                currentSegment.ThresholdValue = reader.Value;
-                            break;
-                        case XmlNodeType.EndElement:
-                            if (reader.Name == "Segment")
-                                thresholds.Add(currentSegment);
-                            break;
-                    }
-                }
-
-                return thresholds;
-            }
+            var doc = LoadDocument(filePath);
+            return doc.SelectSingleNode($"Run/Metadata/{IS_REGISTERED_ELEMENT_NAME}")?.InnerText == "True";
         }
 
-        internal static bool WriteThresholds(string filePath, Dictionary<string, string> thresholdValues, out string errorMessage)
+        internal static List<Threshold> ReadThresholds(string filePath)
         {
-            try
+            var doc = LoadDocument(filePath);
+
+            XmlNodeList segmentNodes = doc.SelectNodes("/Run/Segments/Segment");
+            return segmentNodes.Cast<XmlNode>().Select(segmentNode =>
             {
-                var doc = new XmlDocument();
-                doc.Load(filePath);
-
-                XmlNodeList segmentNodes = doc.SelectNodes("/Run/Segments/Segment");
-
-                foreach (XmlNode segmentNode in segmentNodes)
+                if (segmentNode == null)
+                    return null;
+                else
                 {
-                    var nodeName = segmentNode.SelectSingleNode("Name").InnerText;
+                    var splitName = segmentNode.SelectSingleNode("Name").InnerText;
+                    var splitTime = segmentNode
+                                        .SelectNodes("SplitTimes/SplitTime")
+                                        .Cast<XmlNode>()
+                                        .FirstOrDefault(splitTimeNode => splitTimeNode.Attributes["name"].Value == "Personal Best")
+                                        .FirstChild
+                                        .InnerText;
 
-                    var thresholdNode = segmentNode.SelectSingleNode(Util.THRESHOLD_ELEMENT_NAME);
-
-                    if (thresholdNode != null)
-                        thresholdNode.InnerText = thresholdValues[nodeName];
-                    else
-                    {
-                        thresholdNode = doc.CreateElement(string.Empty, Util.THRESHOLD_ELEMENT_NAME, string.Empty);
-                        thresholdNode.InnerText = thresholdValues[nodeName];
-                        segmentNode.AppendChild(thresholdNode);
-                    }
+                    var thresholdNodeText = segmentNode.SelectSingleNode(THRESHOLD_ELEMENT_NAME)?.InnerText;
+                    var thresholdValue = !string.IsNullOrWhiteSpace(thresholdNodeText) ? thresholdNodeText : null;
+                    return new Threshold() { SegmentName = splitName, SplitTime = splitTime, Value = thresholdValue };
                 }
+            }).ToList();
+        }
 
-                doc.Save(filePath);
+        internal static void WriteIsRegistered(string filePath, bool value)
+        {
+            var doc = LoadDocument(filePath);
 
-                errorMessage = null;
-                return true;
-            }
-            catch (Exception ex)
+            XmlNode metadataNode = doc.SelectSingleNode($"Run/Metadata");
+            XmlNode isRegisteredNode = metadataNode?.SelectSingleNode(IS_REGISTERED_ELEMENT_NAME);
+
+            if (isRegisteredNode != null)
+                isRegisteredNode.InnerText = value ? "True" : "False";
+            else
             {
-                errorMessage = ex.Message;
-                return false;
+                isRegisteredNode = doc.CreateElement(string.Empty, IS_REGISTERED_ELEMENT_NAME, string.Empty);
+                isRegisteredNode.InnerText = value ? "True" : "False";
+                metadataNode.AppendChild(isRegisteredNode);
             }
+
+            doc.Save(filePath);
+        }
+
+        internal static void WriteThresholds(string filePath, Dictionary<string, string> values)
+        {
+            var doc = LoadDocument(filePath);
+
+            XmlNodeList segmentNodes = doc.SelectNodes("/Run/Segments/Segment");
+
+            foreach (XmlNode segmentNode in segmentNodes)
+            {
+                var name = segmentNode.SelectSingleNode("Name").InnerText;
+
+                var thresholdNode = segmentNode.SelectSingleNode(THRESHOLD_ELEMENT_NAME);
+
+                if (thresholdNode != null)
+                    thresholdNode.InnerText = values[name];
+                else
+                {
+                    thresholdNode = doc.CreateElement(string.Empty, THRESHOLD_ELEMENT_NAME, string.Empty);
+                    thresholdNode.InnerText = values[name];
+                    segmentNode.AppendChild(thresholdNode);
+                }
+            }
+
+            doc.Save(filePath);
+        }
+
+        private static XmlDocument LoadDocument(string filePath)
+        {
+            var doc = new XmlDocument();
+            doc.Load(filePath);
+            return doc;
         }
     }
 }

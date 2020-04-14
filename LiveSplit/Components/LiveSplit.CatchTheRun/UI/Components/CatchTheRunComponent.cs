@@ -64,12 +64,11 @@ namespace LiveSplit.UI.Components
             if (state.CurrentPhase == TimerPhase.Running && Settings.Thresholds == null)
             {
                 this.SplitIndex = 0;
-                Settings.Thresholds = Xml.ReadThresholds(state.Run.FilePath);
             }
             else if (state.CurrentPhase == TimerPhase.Running && state.CurrentSplitIndex == this.SplitIndex + 1)
             {
                 var split = state.Run[this.SplitIndex];
-                double threshold = Convert.ToDouble(Settings.Thresholds[this.SplitIndex].ThresholdValue) * 1000;
+                double threshold = Convert.ToDouble(Settings.Thresholds[this.SplitIndex].Value) * 1000;
                 double? splitDelta = split.SplitTime.RealTime?.TotalMilliseconds - split.PersonalBestSplitTime.RealTime?.TotalMilliseconds;
 
                 if (splitDelta < threshold)

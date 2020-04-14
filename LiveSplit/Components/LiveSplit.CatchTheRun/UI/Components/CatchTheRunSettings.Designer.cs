@@ -45,7 +45,7 @@
             this.registerCategoryButton = new System.Windows.Forms.Button();
             this.logOutButton = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.detectChangedUsernameButton = new System.Windows.Forms.Button();
+            this.getUpdatedUsernameButton = new System.Windows.Forms.Button();
             this.loggedInStatusLabel = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.runGrid)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.thresholdBindingSource)).BeginInit();
@@ -218,7 +218,7 @@
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.detectChangedUsernameButton);
+            this.groupBox1.Controls.Add(this.getUpdatedUsernameButton);
             this.groupBox1.Controls.Add(this.loggedInStatusLabel);
             this.groupBox1.Controls.Add(this.logIntoTwitchButton);
             this.groupBox1.Controls.Add(this.logOutButton);
@@ -228,16 +228,16 @@
             this.groupBox1.TabIndex = 17;
             this.groupBox1.TabStop = false;
             // 
-            // detectChangedUsernameButton
+            // getUpdatedUsernameButton
             // 
-            this.detectChangedUsernameButton.Enabled = false;
-            this.detectChangedUsernameButton.Location = new System.Drawing.Point(455, 25);
-            this.detectChangedUsernameButton.Name = "detectChangedUsernameButton";
-            this.detectChangedUsernameButton.Size = new System.Drawing.Size(216, 38);
-            this.detectChangedUsernameButton.TabIndex = 17;
-            this.detectChangedUsernameButton.Text = "Detect Changed Username";
-            this.detectChangedUsernameButton.UseVisualStyleBackColor = true;
-            this.detectChangedUsernameButton.Click += new System.EventHandler(this.detectChangedUsernameButton_Click);
+            this.getUpdatedUsernameButton.Enabled = false;
+            this.getUpdatedUsernameButton.Location = new System.Drawing.Point(455, 25);
+            this.getUpdatedUsernameButton.Name = "getUpdatedUsernameButton";
+            this.getUpdatedUsernameButton.Size = new System.Drawing.Size(216, 38);
+            this.getUpdatedUsernameButton.TabIndex = 17;
+            this.getUpdatedUsernameButton.Text = "Get Updated Username";
+            this.getUpdatedUsernameButton.UseVisualStyleBackColor = true;
+            this.getUpdatedUsernameButton.Click += new System.EventHandler(this.getUpdatedUsernameButton_Click);
             // 
             // loggedInStatusLabel
             // 
@@ -289,7 +289,7 @@
         private System.Windows.Forms.Button logIntoTwitchButton;
         private System.Windows.Forms.Button logOutButton;
         private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.Button detectChangedUsernameButton;
+        private System.Windows.Forms.Button getUpdatedUsernameButton;
         private System.Windows.Forms.Label loggedInStatusLabel;
         private System.Windows.Forms.Label notificationMessageTextLabel;
     }

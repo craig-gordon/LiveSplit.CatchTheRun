@@ -4,8 +4,8 @@ namespace LiveSplit.CatchTheRun
 {
     public class Threshold
     {
-        public string SplitName { get; set; }
+        public string SegmentName { get; set; }
         public string SplitTime { get; set; }
-        public string ThresholdValue { get; set; }
+        public string Value { get; set; }
     }
 }
