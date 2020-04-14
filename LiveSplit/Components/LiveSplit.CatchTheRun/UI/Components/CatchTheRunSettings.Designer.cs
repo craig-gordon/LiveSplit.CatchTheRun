@@ -30,8 +30,8 @@
         {
             this.components = new System.ComponentModel.Container();
             this.runGrid = new System.Windows.Forms.DataGridView();
-            this.splitNameColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.splitTimeColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.segmentNameColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.pbSplitTimeColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.thresholdColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.thresholdBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.textBox1 = new System.Windows.Forms.TextBox();
@@ -67,8 +67,8 @@
             this.runGrid.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.runGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.runGrid.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.splitNameColumn,
-            this.splitTimeColumn,
+            this.segmentNameColumn,
+            this.pbSplitTimeColumn,
             this.thresholdColumn});
             this.runGrid.DataSource = this.thresholdBindingSource;
             this.runGrid.GridColor = System.Drawing.Color.Gainsboro;
@@ -82,32 +82,32 @@
             this.runGrid.Size = new System.Drawing.Size(660, 383);
             this.runGrid.TabIndex = 1;
             // 
-            // splitNameColumn
+            // segmentNameColumn
             // 
-            this.splitNameColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.splitNameColumn.DataPropertyName = "SplitName";
-            this.splitNameColumn.HeaderText = "Split Name";
-            this.splitNameColumn.MinimumWidth = 8;
-            this.splitNameColumn.Name = "splitNameColumn";
-            this.splitNameColumn.ReadOnly = true;
-            this.splitNameColumn.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.splitNameColumn.Width = 208;
+            this.segmentNameColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.segmentNameColumn.DataPropertyName = "SegmentName";
+            this.segmentNameColumn.HeaderText = "Segment Name";
+            this.segmentNameColumn.MinimumWidth = 8;
+            this.segmentNameColumn.Name = "segmentNameColumn";
+            this.segmentNameColumn.ReadOnly = true;
+            this.segmentNameColumn.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.segmentNameColumn.Width = 208;
             // 
-            // splitTimeColumn
+            // pbSplitTimeColumn
             // 
-            this.splitTimeColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.splitTimeColumn.DataPropertyName = "SplitTime";
-            this.splitTimeColumn.HeaderText = "Split Time";
-            this.splitTimeColumn.MinimumWidth = 8;
-            this.splitTimeColumn.Name = "splitTimeColumn";
-            this.splitTimeColumn.ReadOnly = true;
-            this.splitTimeColumn.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.splitTimeColumn.Width = 105;
+            this.pbSplitTimeColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.pbSplitTimeColumn.DataPropertyName = "PersonalBestSplitTime";
+            this.pbSplitTimeColumn.HeaderText = "PB Split Time";
+            this.pbSplitTimeColumn.MinimumWidth = 8;
+            this.pbSplitTimeColumn.Name = "pbSplitTimeColumn";
+            this.pbSplitTimeColumn.ReadOnly = true;
+            this.pbSplitTimeColumn.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.pbSplitTimeColumn.Width = 105;
             // 
             // thresholdColumn
             // 
             this.thresholdColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.thresholdColumn.DataPropertyName = "ThresholdValue";
+            this.thresholdColumn.DataPropertyName = "Value";
             this.thresholdColumn.HeaderText = "Threshold";
             this.thresholdColumn.MinimumWidth = 8;
             this.thresholdColumn.Name = "thresholdColumn";
@@ -282,8 +282,8 @@
         private System.Windows.Forms.GroupBox thresholdsGroupBox;
         private System.Windows.Forms.Label thresholdsLabel;
         private System.Windows.Forms.GroupBox miscSettingsGroupBox;
-        private System.Windows.Forms.DataGridViewTextBoxColumn splitNameColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn splitTimeColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn segmentNameColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn pbSplitTimeColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn thresholdColumn;
         private System.Windows.Forms.Button registerCategoryButton;
         private System.Windows.Forms.Button logIntoTwitchButton;

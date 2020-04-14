@@ -48,7 +48,7 @@ namespace LiveSplit.CatchTheRun
                 else
                 {
                     var segmentName = segmentNode.SelectSingleNode("Name").InnerText;
-                    var splitTime = segmentNode
+                    var pbSplitTime = segmentNode
                                         .SelectNodes("SplitTimes/SplitTime")
                                         .Cast<XmlNode>()
                                         .FirstOrDefault(splitTimeNode => splitTimeNode.Attributes["name"].Value == "Personal Best")
@@ -57,7 +57,7 @@ namespace LiveSplit.CatchTheRun
 
                     var thresholdNodeText = segmentNode.SelectSingleNode(THRESHOLD_ELEMENT_NAME)?.InnerText;
                     var thresholdValue = !string.IsNullOrWhiteSpace(thresholdNodeText) ? thresholdNodeText : null;
-                    return new Threshold() { SegmentName = segmentName, SplitTime = splitTime, Value = thresholdValue };
+                    return new Threshold() { SegmentName = segmentName, PersonalBestSplitTime = pbSplitTime, Value = thresholdValue };
                 }
             }).ToList();
         }
