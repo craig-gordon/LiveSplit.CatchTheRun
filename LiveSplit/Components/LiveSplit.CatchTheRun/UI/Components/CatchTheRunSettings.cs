@@ -17,8 +17,6 @@ namespace LiveSplit.UI.Components
         private const int SPLIT_TIME_INDEX = 1;
         private const int THRESHOLD_INDEX = 2;
         private const int BROWSER_EMULATION_PREFERRED_VALUE = 11001;
-        private const string REGISTER_CATEGORY_BUTTON_TEXT = "Register Category";
-        private const string UNREGISTER_CATEGORY_BUTTON_TEXT = "Unregister Category";
 
         private IRun Run { get; set; }
 
@@ -36,6 +34,7 @@ namespace LiveSplit.UI.Components
         internal bool IsCategoryRegistered
         {
             get { return Xml.ReadIsCategoryRegistered(Run.FilePath); }
+            set { Xml.WriteIsCategoryRegistered(Run.FilePath, value); }
         }
 
         private BindingList<Threshold> ThresholdsDataSource { get; set; }
@@ -216,54 +215,58 @@ namespace LiveSplit.UI.Components
 
         private async void registerCategoryButton_Click(object sender, EventArgs e)
         {
-            if (((Button)sender).Text == REGISTER_CATEGORY_BUTTON_TEXT)
+            try
             {
-                try
+                IsCategoryRegistered = true;
+                var cmd = new RegisterProducerCategoryCommand() { Producer = Credentials.TwitchUsername, Game = Run.GameName, Category = Run.CategoryName };
+                var response = await ApiClient.RegisterProducerCategory(Credentials.ProducerKey, cmd);
+                if (response.StatusCode == HttpStatusCode.OK)
+                    MessageBox.Show(this, $"Successfully registered category: {Run.GameName} - {Run.CategoryName}.", "Category Registered", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                else
                 {
-                    Xml.WriteIsCategoryRegistered(Run.FilePath, true);
-                    var cmd = new RegisterProducerCategoryCommand() { Producer = Credentials.TwitchUsername, Game = Run.GameName, Category = Run.CategoryName };
-                    var response = await ApiClient.RegisterProducerCategory(Credentials.ProducerKey, cmd);
-                    if (response.StatusCode == HttpStatusCode.OK)
-                        MessageBox.Show(this, $"Successfully registered category: {Run.GameName} - {Run.CategoryName}.", "Category Registered", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    else
-                    {
-                        Xml.WriteIsCategoryRegistered(Run.FilePath, false);
-                        Log.Error(await response.Content.ReadAsStringAsync());
-                        MessageBox.Show(this, $"An error occurred registering category: {Run.GameName} - {Run.CategoryName}.", "Category Registration Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }
-                }
-                catch (Exception ex)
-                {
-                    Log.Error(ex);
-                    Xml.WriteIsCategoryRegistered(Run.FilePath, false);
+                    IsCategoryRegistered = false;
+                    Log.Error(await response.Content.ReadAsStringAsync());
                     MessageBox.Show(this, $"An error occurred registering category: {Run.GameName} - {Run.CategoryName}.", "Category Registration Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
-            else if (((Button)sender).Text == UNREGISTER_CATEGORY_BUTTON_TEXT)
+            catch (Exception ex)
             {
-                try
+                Log.Error(ex);
+                IsCategoryRegistered = false;
+                MessageBox.Show(this, $"An error occurred registering category: {Run.GameName} - {Run.CategoryName}.", "Category Registration Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                SetIsCategoryRegisteredControlsState();
+            }
+        }
+
+        private async void unregisterCategoryButton_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                IsCategoryRegistered = false;
+                var cmd = new UnregisterProducerCategoryCommand() { Producer = Credentials.TwitchUsername, Game = Run.GameName, Category = Run.CategoryName };
+                var response = await ApiClient.UnregisterProducerCategory(Credentials.ProducerKey, cmd);
+                if (response.StatusCode == HttpStatusCode.OK)
+                    MessageBox.Show(this, $"Successfully unregistered category: {Run.GameName} - {Run.CategoryName}.", "Category Unregistered", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                else
                 {
-                    Xml.WriteIsCategoryRegistered(Run.FilePath, false);
-                    var cmd = new UnregisterProducerCategoryCommand() { Producer = Credentials.TwitchUsername, Game = Run.GameName, Category = Run.CategoryName };
-                    var response = await ApiClient.UnregisterProducerCategory(Credentials.ProducerKey, cmd);
-                    if (response.StatusCode == HttpStatusCode.OK)
-                        MessageBox.Show(this, $"Successfully unregistered category: {Run.GameName} - {Run.CategoryName}.", "Category Unregistered", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    else
-                    {
-                        Xml.WriteIsCategoryRegistered(Run.FilePath, true);
-                        Log.Error(await response.Content.ReadAsStringAsync());
-                        MessageBox.Show(this, $"An error occurred unregistering category: {Run.GameName} - {Run.CategoryName}.", "Category Unregistration Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }
-                }
-                catch (Exception ex)
-                {
-                    Log.Error(ex);
-                    Xml.WriteIsCategoryRegistered(Run.FilePath, false);
+                    IsCategoryRegistered = true;
+                    Log.Error(await response.Content.ReadAsStringAsync());
                     MessageBox.Show(this, $"An error occurred unregistering category: {Run.GameName} - {Run.CategoryName}.", "Category Unregistration Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
-
-            SetIsCategoryRegisteredControlsState();
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                IsCategoryRegistered = false;
+                MessageBox.Show(this, $"An error occurred unregistering category: {Run.GameName} - {Run.CategoryName}.", "Category Unregistration Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                SetIsCategoryRegisteredControlsState();
+            }
         }
 
         private Dictionary<string, string> ConvertDataRowsToDictionary(DataGridViewRowCollection rows)
@@ -326,9 +329,17 @@ namespace LiveSplit.UI.Components
         private void SetIsCategoryRegisteredControlsState()
         {
             if (IsCategoryRegistered)
-                registerCategoryButton.Text = UNREGISTER_CATEGORY_BUTTON_TEXT;
+            {
+                categoryRegistrationStateTextBox.Text = $"Category Registered: {Run.GameName} - {Run.CategoryName}";
+                registerCategoryButton.Enabled = false;
+                unregisterCategoryButton.Enabled = true;
+            }
             else
-                registerCategoryButton.Text = REGISTER_CATEGORY_BUTTON_TEXT;
+            {
+                categoryRegistrationStateTextBox.Text = $"Category Not Registered";
+                registerCategoryButton.Enabled = true;
+                unregisterCategoryButton.Enabled = false;
+            }
         }
     }
 }

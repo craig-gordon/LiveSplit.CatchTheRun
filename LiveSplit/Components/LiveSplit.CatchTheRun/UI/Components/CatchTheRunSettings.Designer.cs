@@ -47,11 +47,15 @@
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.getUpdatedUsernameButton = new System.Windows.Forms.Button();
             this.loggedInStatusLabel = new System.Windows.Forms.Label();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.unregisterCategoryButton = new System.Windows.Forms.Button();
+            this.categoryRegistrationStateTextBox = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.runGrid)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.thresholdBindingSource)).BeginInit();
             this.thresholdsGroupBox.SuspendLayout();
             this.miscSettingsGroupBox.SuspendLayout();
             this.groupBox1.SuspendLayout();
+            this.groupBox2.SuspendLayout();
             this.SuspendLayout();
             // 
             // runGrid
@@ -72,14 +76,14 @@
             this.thresholdColumn});
             this.runGrid.DataSource = this.thresholdBindingSource;
             this.runGrid.GridColor = System.Drawing.Color.Gainsboro;
-            this.runGrid.Location = new System.Drawing.Point(12, 36);
+            this.runGrid.Location = new System.Drawing.Point(12, 31);
             this.runGrid.Margin = new System.Windows.Forms.Padding(6, 0, 15, 15);
             this.runGrid.Name = "runGrid";
             this.runGrid.RowHeadersVisible = false;
             this.runGrid.RowHeadersWidth = 62;
             this.runGrid.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
             this.runGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
-            this.runGrid.Size = new System.Drawing.Size(660, 383);
+            this.runGrid.Size = new System.Drawing.Size(659, 352);
             this.runGrid.TabIndex = 1;
             // 
             // segmentNameColumn
@@ -120,7 +124,7 @@
             // 
             // textBox1
             // 
-            this.textBox1.Location = new System.Drawing.Point(53, 41);
+            this.textBox1.Location = new System.Drawing.Point(53, 44);
             this.textBox1.Multiline = true;
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(618, 61);
@@ -129,7 +133,7 @@
             // notificationMessageLabel
             // 
             this.notificationMessageLabel.AutoSize = true;
-            this.notificationMessageLabel.Location = new System.Drawing.Point(23, 0);
+            this.notificationMessageLabel.Location = new System.Drawing.Point(22, 0);
             this.notificationMessageLabel.Name = "notificationMessageLabel";
             this.notificationMessageLabel.Size = new System.Drawing.Size(157, 20);
             this.notificationMessageLabel.TabIndex = 8;
@@ -137,7 +141,7 @@
             // 
             // saveThresholdsButton
             // 
-            this.saveThresholdsButton.Location = new System.Drawing.Point(456, 437);
+            this.saveThresholdsButton.Location = new System.Drawing.Point(457, 401);
             this.saveThresholdsButton.Name = "saveThresholdsButton";
             this.saveThresholdsButton.Size = new System.Drawing.Size(215, 38);
             this.saveThresholdsButton.TabIndex = 9;
@@ -160,16 +164,16 @@
             this.thresholdsGroupBox.Controls.Add(this.saveThresholdsButton);
             this.thresholdsGroupBox.Controls.Add(this.thresholdsLabel);
             this.thresholdsGroupBox.Controls.Add(this.runGrid);
-            this.thresholdsGroupBox.Location = new System.Drawing.Point(13, 112);
+            this.thresholdsGroupBox.Location = new System.Drawing.Point(14, 208);
             this.thresholdsGroupBox.Name = "thresholdsGroupBox";
-            this.thresholdsGroupBox.Size = new System.Drawing.Size(684, 493);
+            this.thresholdsGroupBox.Size = new System.Drawing.Size(683, 456);
             this.thresholdsGroupBox.TabIndex = 12;
             this.thresholdsGroupBox.TabStop = false;
             // 
             // thresholdsLabel
             // 
             this.thresholdsLabel.AutoSize = true;
-            this.thresholdsLabel.Location = new System.Drawing.Point(23, 0);
+            this.thresholdsLabel.Location = new System.Drawing.Point(22, 0);
             this.thresholdsLabel.Name = "thresholdsLabel";
             this.thresholdsLabel.Size = new System.Drawing.Size(87, 20);
             this.thresholdsLabel.TabIndex = 2;
@@ -180,9 +184,9 @@
             this.miscSettingsGroupBox.Controls.Add(this.notificationMessageTextLabel);
             this.miscSettingsGroupBox.Controls.Add(this.textBox1);
             this.miscSettingsGroupBox.Controls.Add(this.notificationMessageLabel);
-            this.miscSettingsGroupBox.Location = new System.Drawing.Point(13, 626);
+            this.miscSettingsGroupBox.Location = new System.Drawing.Point(14, 680);
             this.miscSettingsGroupBox.Name = "miscSettingsGroupBox";
-            this.miscSettingsGroupBox.Size = new System.Drawing.Size(684, 162);
+            this.miscSettingsGroupBox.Size = new System.Drawing.Size(683, 162);
             this.miscSettingsGroupBox.TabIndex = 13;
             this.miscSettingsGroupBox.TabStop = false;
             // 
@@ -197,9 +201,9 @@
             // 
             // registerCategoryButton
             // 
-            this.registerCategoryButton.Location = new System.Drawing.Point(14, 810);
+            this.registerCategoryButton.Location = new System.Drawing.Point(11, 25);
             this.registerCategoryButton.Name = "registerCategoryButton";
-            this.registerCategoryButton.Size = new System.Drawing.Size(683, 38);
+            this.registerCategoryButton.Size = new System.Drawing.Size(216, 38);
             this.registerCategoryButton.TabIndex = 14;
             this.registerCategoryButton.Text = "Register Category";
             this.registerCategoryButton.UseVisualStyleBackColor = true;
@@ -242,18 +246,48 @@
             // loggedInStatusLabel
             // 
             this.loggedInStatusLabel.AutoSize = true;
-            this.loggedInStatusLabel.Location = new System.Drawing.Point(22, -3);
+            this.loggedInStatusLabel.Location = new System.Drawing.Point(22, 0);
             this.loggedInStatusLabel.Name = "loggedInStatusLabel";
             this.loggedInStatusLabel.Size = new System.Drawing.Size(110, 20);
             this.loggedInStatusLabel.TabIndex = 10;
             this.loggedInStatusLabel.Text = "Not Logged In";
             // 
+            // groupBox2
+            // 
+            this.groupBox2.Controls.Add(this.unregisterCategoryButton);
+            this.groupBox2.Controls.Add(this.categoryRegistrationStateTextBox);
+            this.groupBox2.Controls.Add(this.registerCategoryButton);
+            this.groupBox2.Location = new System.Drawing.Point(14, 107);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(683, 77);
+            this.groupBox2.TabIndex = 18;
+            this.groupBox2.TabStop = false;
+            // 
+            // unregisterCategoryButton
+            // 
+            this.unregisterCategoryButton.Location = new System.Drawing.Point(233, 25);
+            this.unregisterCategoryButton.Name = "unregisterCategoryButton";
+            this.unregisterCategoryButton.Size = new System.Drawing.Size(216, 38);
+            this.unregisterCategoryButton.TabIndex = 19;
+            this.unregisterCategoryButton.Text = "Unregister Category";
+            this.unregisterCategoryButton.UseVisualStyleBackColor = true;
+            this.unregisterCategoryButton.Click += new System.EventHandler(this.unregisterCategoryButton_Click);
+            // 
+            // categoryRegistrationStateTextBox
+            // 
+            this.categoryRegistrationStateTextBox.AutoSize = true;
+            this.categoryRegistrationStateTextBox.Location = new System.Drawing.Point(22, 0);
+            this.categoryRegistrationStateTextBox.Name = "categoryRegistrationStateTextBox";
+            this.categoryRegistrationStateTextBox.Size = new System.Drawing.Size(184, 20);
+            this.categoryRegistrationStateTextBox.TabIndex = 18;
+            this.categoryRegistrationStateTextBox.Text = "Category Not Registered";
+            // 
             // CatchTheRunSettings
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
-            this.Controls.Add(this.registerCategoryButton);
             this.Controls.Add(this.thresholdsGroupBox);
             this.Controls.Add(this.miscSettingsGroupBox);
             this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
@@ -268,6 +302,8 @@
             this.miscSettingsGroupBox.PerformLayout();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
+            this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -290,7 +326,10 @@
         private System.Windows.Forms.Button logOutButton;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Button getUpdatedUsernameButton;
-        private System.Windows.Forms.Label loggedInStatusLabel;
         private System.Windows.Forms.Label notificationMessageTextLabel;
+        private System.Windows.Forms.Label loggedInStatusLabel;
+        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.Button unregisterCategoryButton;
+        private System.Windows.Forms.Label categoryRegistrationStateTextBox;
     }
 }
