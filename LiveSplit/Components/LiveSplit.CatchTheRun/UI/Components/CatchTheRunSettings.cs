@@ -121,28 +121,25 @@ namespace LiveSplit.UI.Components
         {
             try
             {
-                var response = await ApiClient.GetTwitchUsername(Credentials.ProducerKey);
+                var response = await ApiClient.GetTwitchUsername(Credentials.TwitchUserId);
                 if (response.StatusCode == HttpStatusCode.OK)
                 {
                     var username = await response.Content.ReadAsStringAsync();
                     if (username != Credentials.TwitchUsername)
-                    {
                         Credentials.TwitchUsername = username;
-                        MessageBox.Show(this, $"Detected changed Twitch username: {username}. Stored credentials updated.", "Changed Username Detected", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    }
                     else if (username == Credentials.TwitchUsername)
                         MessageBox.Show(this, "Current Twitch username matches the stored credentials. No changes made.", "Same Username Detected", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
                 else
                 {
                     Log.Error(await response.Content.ReadAsStringAsync());
-                    MessageBox.Show(this, $"An error occurred getting updated Twitch username.", "Twitch Username Update Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show(this, $"An error occurred getting Twitch username.", "Twitch Username Fetch Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
             catch (Exception ex)
             {
                 Log.Error(ex);
-                MessageBox.Show(this, $"An error occurred getting updated Twitch username.", "Twitch Username Update Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(this, $"An error occurred getting Twitch username.", "Twitch Username Fetch Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             finally
             {
@@ -218,22 +215,20 @@ namespace LiveSplit.UI.Components
             try
             {
                 IsCategoryRegistered = true;
-                var cmd = new RegisterProducerCategoryCommand() { Producer = Credentials.TwitchUsername, Game = Run.GameName, Category = Run.CategoryName };
+                var cmd = new RegisterProducerCategoryCommand() { TwitchId = Credentials.TwitchUserId, Game = Run.GameName, Category = Run.CategoryName };
                 var response = await ApiClient.RegisterProducerCategory(Credentials.ProducerKey, cmd);
-                if (response.StatusCode == HttpStatusCode.OK)
-                    MessageBox.Show(this, $"Successfully registered category: {Run.GameName} - {Run.CategoryName}.", "Category Registered", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                else
+                if (response.StatusCode != HttpStatusCode.OK)
                 {
                     IsCategoryRegistered = false;
                     Log.Error(await response.Content.ReadAsStringAsync());
-                    MessageBox.Show(this, $"An error occurred registering category: {Run.GameName} - {Run.CategoryName}.", "Category Registration Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show(this, $"An error occurred registering category: {Run.GameName} - {Run.CategoryName}", "Category Registration Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
             catch (Exception ex)
             {
                 Log.Error(ex);
                 IsCategoryRegistered = false;
-                MessageBox.Show(this, $"An error occurred registering category: {Run.GameName} - {Run.CategoryName}.", "Category Registration Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(this, $"An error occurred registering category: {Run.GameName} - {Run.CategoryName}", "Category Registration Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             finally
             {
@@ -246,11 +241,9 @@ namespace LiveSplit.UI.Components
             try
             {
                 IsCategoryRegistered = false;
-                var cmd = new UnregisterProducerCategoryCommand() { Producer = Credentials.TwitchUsername, Game = Run.GameName, Category = Run.CategoryName };
+                var cmd = new UnregisterProducerCategoryCommand() { TwitchId = Credentials.TwitchUserId, Game = Run.GameName, Category = Run.CategoryName };
                 var response = await ApiClient.UnregisterProducerCategory(Credentials.ProducerKey, cmd);
-                if (response.StatusCode == HttpStatusCode.OK)
-                    MessageBox.Show(this, $"Successfully unregistered category: {Run.GameName} - {Run.CategoryName}.", "Category Unregistered", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                else
+                if (response.StatusCode != HttpStatusCode.OK)
                 {
                     IsCategoryRegistered = true;
                     Log.Error(await response.Content.ReadAsStringAsync());

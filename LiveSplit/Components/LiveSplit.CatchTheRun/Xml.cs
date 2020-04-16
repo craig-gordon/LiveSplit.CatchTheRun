@@ -29,7 +29,7 @@ namespace LiveSplit.CatchTheRun
             else
             {
                 ctrNode = doc.CreateElement(string.Empty, METADATA_CHILD_ELEMENT_NAME, string.Empty);
-                ctrNode.Attributes[IS_CATEGORY_REGISTERED_ATTRIBUTE_NAME].Value = value ? "True" : "False";
+                ((XmlElement)ctrNode).SetAttribute(IS_CATEGORY_REGISTERED_ATTRIBUTE_NAME, value ? "True" : "False");
                 metadataNode.AppendChild(ctrNode);
             }
 

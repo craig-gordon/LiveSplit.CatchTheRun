@@ -208,8 +208,8 @@
             this.getUpdatedUsernameButton.Size = new System.Drawing.Size(216, 38);
             this.getUpdatedUsernameButton.TabIndex = 17;
             this.getUpdatedUsernameButton.Text = "Get Updated Username";
-            this.settingsToolTip.SetToolTip(this.getUpdatedUsernameButton, "Updates saved Twitch username credential, in case the user changed their username" +
-        " on Twitch.");
+            this.settingsToolTip.SetToolTip(this.getUpdatedUsernameButton, "Updates saved Twitch username credential, in case the user has changed their Twit" +
+        "ch username since authenticating.");
             this.getUpdatedUsernameButton.UseVisualStyleBackColor = true;
             this.getUpdatedUsernameButton.Click += new System.EventHandler(this.getUpdatedUsernameButton_Click);
             // 
