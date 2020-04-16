@@ -3,6 +3,7 @@ using System;
 using System.Windows.Forms;
 using System.Runtime.InteropServices;
 using System.Threading;
+using System.Web.Script.Serialization;
 
 namespace LiveSplit.CatchTheRun
 {
@@ -13,9 +14,6 @@ namespace LiveSplit.CatchTheRun
         internal const string ClientId = "cod7idgr6q9bucu2gic2594y80xsu7";
         internal const string RedirectUrl = "https://catch-the-run-website.cyghfer.now.sh/twitch";
         internal const string Scope = "openid";
-
-        public readonly string ProducerKey = Guid.NewGuid().ToString("N").ToUpperInvariant();
-        public string IdToken { get; protected set; }
 
         public TwitchOAuthForm()
         {
@@ -37,13 +35,6 @@ namespace LiveSplit.CatchTheRun
             ));
         }
 
-        private void OAuthWebBrowser_Navigated(object sender, WebBrowserNavigatedEventArgs e)
-        {
-            var url = e.Url.AbsoluteUri;
-            if (url.Contains($"{TokenType}="))
-                IdToken = url.Substring(url.IndexOf(TokenType) + $"{TokenType}=".Length);
-        }
-
         private void OAuthWebBrowser_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
         {
             var url = e.Url.AbsoluteUri;
@@ -62,17 +53,20 @@ namespace LiveSplit.CatchTheRun
 
         private bool ProcessResponse()
         {
-            var username = OAuthWebBrowser.Document.InvokeScript("get");
+            object rawResponse = OAuthWebBrowser.Document.InvokeScript("getResponse");
 
-            if (username is DBNull || username == null)
+            if (rawResponse is System.DBNull)
                 return false;
 
-            if ((string)username != "")
+            TwitchLoginResponse response = (TwitchLoginResponse)new JavaScriptSerializer().Deserialize((string)rawResponse, typeof(TwitchLoginResponse));
+
+            if (response?.TwitchUsername != null)
             {
                 try
                 {
-                    Credentials.TwitchUsername = (string)username;
-                    Credentials.ProducerKey = ProducerKey;
+                    Credentials.TwitchUsername = response.TwitchUsername;
+                    Credentials.TwitchUserId = response.TwitchUserId;
+                    Credentials.ProducerKey = response.ProducerKey;
                 }
                 catch (Exception ex)
                 {

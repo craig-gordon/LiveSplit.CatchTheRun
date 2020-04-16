@@ -43,7 +43,6 @@
             this.OAuthWebBrowser.Size = new System.Drawing.Size(1060, 1177);
             this.OAuthWebBrowser.TabIndex = 2;
             this.OAuthWebBrowser.DocumentCompleted += new System.Windows.Forms.WebBrowserDocumentCompletedEventHandler(this.OAuthWebBrowser_DocumentCompleted);
-            this.OAuthWebBrowser.Navigated += new System.Windows.Forms.WebBrowserNavigatedEventHandler(this.OAuthWebBrowser_Navigated);
             // 
             // TwitchOAuthForm
             // 

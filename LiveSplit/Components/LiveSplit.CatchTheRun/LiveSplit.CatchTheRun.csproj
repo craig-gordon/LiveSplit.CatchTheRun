@@ -45,6 +45,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="API\Models\TwitchLoginResponse.cs" />
     <Compile Include="API\Models\UnregisterProducerCategoryCommand.cs" />
     <Compile Include="UI\Components\CatchTheRunComponent.cs" />
     <Compile Include="UI\Components\CatchTheRunComponentFactory.cs" />
