@@ -59,13 +59,13 @@ namespace LiveSplit.UI.Components
             Settings.SetSettings(settings);
         }
 
-        public void Update(IInvalidator invalidator, LiveSplitState state, float width, float height, LayoutMode mode)
+        public async void Update(IInvalidator invalidator, LiveSplitState state, float width, float height, LayoutMode mode)
         {
-            if (state.CurrentPhase == TimerPhase.Running && Settings.Thresholds == null)
+            if (state.CurrentPhase == TimerPhase.Running && this.SplitIndex == -1)
             {
                 this.SplitIndex = 0;
             }
-            else if (state.CurrentPhase == TimerPhase.Running && state.CurrentSplitIndex == this.SplitIndex + 1)
+            else if (state.CurrentPhase == TimerPhase.Running && state.CurrentSplitIndex == this.SplitIndex + 1 && this.SplitIndex != -1)
             {
                 var split = state.Run[this.SplitIndex];
                 double threshold = Convert.ToDouble(Settings.Thresholds[this.SplitIndex].Value) * 1000;
@@ -85,7 +85,7 @@ namespace LiveSplit.UI.Components
                         Message = Settings.NotificationMessage
                     };
 
-                    Settings.ApiClient.PushEvent(Credentials.ProducerKey, cmd);
+                    await Settings.ApiClient.PushEvent(Credentials.ProducerKey, cmd);
                 }
 
                 this.SplitIndex++;
@@ -93,12 +93,12 @@ namespace LiveSplit.UI.Components
             else if (state.CurrentPhase == TimerPhase.NotRunning || state.CurrentPhase == TimerPhase.Ended)
             {
                 this.SplitIndex = -1;
-                Settings.Thresholds = null;
             }
         }
 
         public void Dispose()
         {
+            Settings.ApiClient.Dispose();
         }
     }
 }

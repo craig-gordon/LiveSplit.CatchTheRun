@@ -29,7 +29,12 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(CatchTheRunSettings));
             this.runGrid = new System.Windows.Forms.DataGridView();
+            this.segmentNameColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.pbSplitTimeColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.thresholdColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.thresholdBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.notificationMessageLabel = new System.Windows.Forms.Label();
             this.saveThresholdsButton = new System.Windows.Forms.Button();
@@ -47,16 +52,12 @@
             this.unregisterCategoryButton = new System.Windows.Forms.Button();
             this.categoryRegistrationStateTextBox = new System.Windows.Forms.Label();
             this.settingsToolTip = new System.Windows.Forms.ToolTip(this.components);
-            this.segmentNameColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.pbSplitTimeColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.thresholdColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.thresholdBindingSource = new System.Windows.Forms.BindingSource(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.runGrid)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.thresholdBindingSource)).BeginInit();
             this.thresholdsGroupBox.SuspendLayout();
             this.miscSettingsGroupBox.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.thresholdBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
             // runGrid
@@ -87,12 +88,48 @@
             this.runGrid.Size = new System.Drawing.Size(659, 352);
             this.runGrid.TabIndex = 1;
             // 
+            // segmentNameColumn
+            // 
+            this.segmentNameColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.segmentNameColumn.DataPropertyName = "SegmentName";
+            this.segmentNameColumn.HeaderText = "Segment Name";
+            this.segmentNameColumn.MinimumWidth = 8;
+            this.segmentNameColumn.Name = "segmentNameColumn";
+            this.segmentNameColumn.ReadOnly = true;
+            this.segmentNameColumn.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.segmentNameColumn.Width = 208;
+            // 
+            // pbSplitTimeColumn
+            // 
+            this.pbSplitTimeColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.pbSplitTimeColumn.DataPropertyName = "PersonalBestSplitTime";
+            this.pbSplitTimeColumn.HeaderText = "PB Split Time";
+            this.pbSplitTimeColumn.MinimumWidth = 8;
+            this.pbSplitTimeColumn.Name = "pbSplitTimeColumn";
+            this.pbSplitTimeColumn.ReadOnly = true;
+            this.pbSplitTimeColumn.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.pbSplitTimeColumn.Width = 105;
+            // 
+            // thresholdColumn
+            // 
+            this.thresholdColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.thresholdColumn.DataPropertyName = "Value";
+            this.thresholdColumn.HeaderText = "Threshold";
+            this.thresholdColumn.MinimumWidth = 8;
+            this.thresholdColumn.Name = "thresholdColumn";
+            this.thresholdColumn.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.thresholdColumn.Width = 105;
+            // 
+            // thresholdBindingSource
+            // 
+            this.thresholdBindingSource.DataSource = typeof(LiveSplit.CatchTheRun.Threshold);
+            // 
             // textBox1
             // 
             this.textBox1.Location = new System.Drawing.Point(53, 44);
             this.textBox1.Multiline = true;
             this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(618, 61);
+            this.textBox1.Size = new System.Drawing.Size(618, 98);
             this.textBox1.TabIndex = 7;
             // 
             // notificationMessageLabel
@@ -111,6 +148,8 @@
             this.saveThresholdsButton.Size = new System.Drawing.Size(215, 38);
             this.saveThresholdsButton.TabIndex = 9;
             this.saveThresholdsButton.Text = "Save Thresholds";
+            this.settingsToolTip.SetToolTip(this.saveThresholdsButton, "Saves the current threshold values to the splits file. During attempts, threshold" +
+        " values are checked against to determine whether to send out notifications.");
             this.saveThresholdsButton.UseVisualStyleBackColor = true;
             this.saveThresholdsButton.Click += new System.EventHandler(this.saveThresholdsButton_Click);
             // 
@@ -172,7 +211,8 @@
             this.registerCategoryButton.Size = new System.Drawing.Size(216, 38);
             this.registerCategoryButton.TabIndex = 14;
             this.registerCategoryButton.Text = "Register Category";
-            this.settingsToolTip.SetToolTip(this.registerCategoryButton, "Registers the current category with Catch The Run.");
+            this.settingsToolTip.SetToolTip(this.registerCategoryButton, "Registers the current category with Catch The Run. This is required to send" +
+        " notifications to subscribers for the category, and for the category to appear in your list of categories that viewers can opt in for.");
             this.registerCategoryButton.UseVisualStyleBackColor = true;
             this.registerCategoryButton.Click += new System.EventHandler(this.registerCategoryButton_Click);
             // 
@@ -253,42 +293,6 @@
             this.categoryRegistrationStateTextBox.TabIndex = 18;
             this.categoryRegistrationStateTextBox.Text = "Category Not Registered";
             // 
-            // segmentNameColumn
-            // 
-            this.segmentNameColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.segmentNameColumn.DataPropertyName = "SegmentName";
-            this.segmentNameColumn.HeaderText = "Segment Name";
-            this.segmentNameColumn.MinimumWidth = 8;
-            this.segmentNameColumn.Name = "segmentNameColumn";
-            this.segmentNameColumn.ReadOnly = true;
-            this.segmentNameColumn.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.segmentNameColumn.Width = 208;
-            // 
-            // pbSplitTimeColumn
-            // 
-            this.pbSplitTimeColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.pbSplitTimeColumn.DataPropertyName = "PersonalBestSplitTime";
-            this.pbSplitTimeColumn.HeaderText = "PB Split Time";
-            this.pbSplitTimeColumn.MinimumWidth = 8;
-            this.pbSplitTimeColumn.Name = "pbSplitTimeColumn";
-            this.pbSplitTimeColumn.ReadOnly = true;
-            this.pbSplitTimeColumn.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.pbSplitTimeColumn.Width = 105;
-            // 
-            // thresholdColumn
-            // 
-            this.thresholdColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.thresholdColumn.DataPropertyName = "Value";
-            this.thresholdColumn.HeaderText = "Threshold";
-            this.thresholdColumn.MinimumWidth = 8;
-            this.thresholdColumn.Name = "thresholdColumn";
-            this.thresholdColumn.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.thresholdColumn.Width = 105;
-            // 
-            // thresholdBindingSource
-            // 
-            this.thresholdBindingSource.DataSource = typeof(LiveSplit.CatchTheRun.Threshold);
-            // 
             // CatchTheRunSettings
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
@@ -302,6 +306,7 @@
             this.Padding = new System.Windows.Forms.Padding(10, 11, 10, 11);
             this.Size = new System.Drawing.Size(710, 856);
             ((System.ComponentModel.ISupportInitialize)(this.runGrid)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.thresholdBindingSource)).EndInit();
             this.thresholdsGroupBox.ResumeLayout(false);
             this.thresholdsGroupBox.PerformLayout();
             this.miscSettingsGroupBox.ResumeLayout(false);
@@ -310,7 +315,6 @@
             this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.thresholdBindingSource)).EndInit();
             this.ResumeLayout(false);
 
         }

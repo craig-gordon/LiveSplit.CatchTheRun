@@ -22,7 +22,6 @@ namespace LiveSplit.UI.Components
 
         internal List<Threshold> Thresholds { get; set; }
         internal string NotificationMessage { get; set; }
-        internal bool ShowTriggerIndicator { get; set; }
 
         internal CtrApiClient ApiClient { get; set; }
 
@@ -70,14 +69,12 @@ namespace LiveSplit.UI.Components
 
         private int CreateSettingsNode(XmlDocument document, XmlElement parent)
         {
-            return SettingsHelper.CreateSetting(document, parent, "NotificationMessage", NotificationMessage) ^
-            SettingsHelper.CreateSetting(document, parent, "ShowTriggerIndicator", ShowTriggerIndicator);
+            return SettingsHelper.CreateSetting(document, parent, "NotificationMessage", NotificationMessage);
         }
 
         public void SetSettings(XmlNode settings)
         {
             NotificationMessage = SettingsHelper.ParseString(settings["NotificationMessage"]);
-            ShowTriggerIndicator = SettingsHelper.ParseBool(settings["ShowTriggerIndicator"]);
         }
 
         private void logIntoTwitchButton_Click(object sender, EventArgs e)
@@ -238,27 +235,31 @@ namespace LiveSplit.UI.Components
 
         private async void unregisterCategoryButton_Click(object sender, EventArgs e)
         {
-            try
+            var result = MessageBox.Show(this, $"Category {Run.GameName} - {Run.CategoryName} will be unregistered.", "Verify Category Unregistration", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
+            if (result == DialogResult.OK)
             {
-                IsCategoryRegistered = false;
-                var cmd = new UnregisterProducerCategoryCommand() { TwitchId = Credentials.TwitchUserId, Game = Run.GameName, Category = Run.CategoryName };
-                var response = await ApiClient.UnregisterProducerCategory(Credentials.ProducerKey, cmd);
-                if (response.StatusCode != HttpStatusCode.OK)
+                try
                 {
-                    IsCategoryRegistered = true;
-                    Log.Error(await response.Content.ReadAsStringAsync());
+                    IsCategoryRegistered = false;
+                    var cmd = new UnregisterProducerCategoryCommand() { TwitchId = Credentials.TwitchUserId, Game = Run.GameName, Category = Run.CategoryName };
+                    var response = await ApiClient.UnregisterProducerCategory(Credentials.ProducerKey, cmd);
+                    if (response.StatusCode != HttpStatusCode.OK)
+                    {
+                        IsCategoryRegistered = true;
+                        Log.Error(await response.Content.ReadAsStringAsync());
+                        MessageBox.Show(this, $"An error occurred unregistering category: {Run.GameName} - {Run.CategoryName}.", "Category Unregistration Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Log.Error(ex);
+                    IsCategoryRegistered = false;
                     MessageBox.Show(this, $"An error occurred unregistering category: {Run.GameName} - {Run.CategoryName}.", "Category Unregistration Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
-            }
-            catch (Exception ex)
-            {
-                Log.Error(ex);
-                IsCategoryRegistered = false;
-                MessageBox.Show(this, $"An error occurred unregistering category: {Run.GameName} - {Run.CategoryName}.", "Category Unregistration Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            finally
-            {
-                SetIsCategoryRegisteredControlsState();
+                finally
+                {
+                    SetIsCategoryRegisteredControlsState();
+                }
             }
         }
 
