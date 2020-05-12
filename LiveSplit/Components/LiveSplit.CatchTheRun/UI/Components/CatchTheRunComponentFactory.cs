@@ -18,9 +18,9 @@ namespace LiveSplit.UI.Components
 
         public string UpdateName => ComponentName;
 
-        public string XMLURL => "http://livesplit.org/update/Components/update.LiveSplit.ManualGameTime.xml";
+        public string XMLURL => "http://livesplit.org/update/Components/update.LiveSplit.CatchTheRun.xml";
 
-        public string UpdateURL => "http://livesplit.org/update/";
+        public string UpdateURL => "placeholder";
 
         public Version Version => Version.Parse("0.0.1");
     }

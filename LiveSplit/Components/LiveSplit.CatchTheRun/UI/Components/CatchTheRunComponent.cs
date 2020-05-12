@@ -5,6 +5,7 @@ using System.Drawing;
 using System.Windows.Forms;
 using LiveSplit.Model;
 using LiveSplit.CatchTheRun;
+using LiveSplit.Options;
 
 namespace LiveSplit.UI.Components
 {
@@ -85,7 +86,14 @@ namespace LiveSplit.UI.Components
                         Message = Settings.NotificationMessage
                     };
 
-                    await Settings.ApiClient.PushEvent(Credentials.ProducerKey, cmd);
+                    try
+                    {
+                        await Settings.ApiClient.PushEvent(Credentials.ProducerKey, cmd);
+                    }
+                    catch (Exception ex)
+                    {
+                        Log.Error(ex);
+                    }
                 }
 
                 this.SplitIndex++;

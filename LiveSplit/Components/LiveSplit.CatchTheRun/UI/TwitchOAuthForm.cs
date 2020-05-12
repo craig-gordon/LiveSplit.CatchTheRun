@@ -23,16 +23,23 @@ namespace LiveSplit.CatchTheRun
 
         void OAuthForm_Load(object sender, EventArgs e)
         {
-            OAuthWebBrowser.Navigate(new Uri(
-                string.Format(
-                    "https://id.twitch.tv/oauth2/authorize?response_type={0}&client_id={1}&redirect_uri={2}&scope={3}",
-                    TokenType,
-                    ClientId,
-                    RedirectUrl,
-                    Scope
-                ),
-                UriKind.Absolute
-            ));
+            try
+            {
+                OAuthWebBrowser.Navigate(new Uri(
+                    string.Format(
+                        "https://id.twitch.tv/oauth2/authorize?response_type={0}&client_id={1}&redirect_uri={2}&scope={3}",
+                        TokenType,
+                        ClientId,
+                        RedirectUrl,
+                        Scope
+                    ),
+                    UriKind.Absolute
+                ));
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+            }
         }
 
         private void OAuthWebBrowser_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
@@ -53,25 +60,32 @@ namespace LiveSplit.CatchTheRun
 
         private bool ProcessResponse()
         {
-            object rawResponse = OAuthWebBrowser.Document.InvokeScript("getResponse");
-
-            if (rawResponse is System.DBNull)
-                return false;
-
-            TwitchLoginResponse response = (TwitchLoginResponse)new JavaScriptSerializer().Deserialize((string)rawResponse, typeof(TwitchLoginResponse));
-
-            if (response?.TwitchUsername != null)
+            try
             {
-                try
+                object rawResponse = OAuthWebBrowser.Document.InvokeScript("getResponse");
+
+                if (rawResponse is System.DBNull)
+                    return false;
+
+                TwitchLoginResponse response = (TwitchLoginResponse)new JavaScriptSerializer().Deserialize((string)rawResponse, typeof(TwitchLoginResponse));
+
+                if (response?.TwitchUsername != null)
                 {
-                    Credentials.TwitchUsername = response.TwitchUsername;
-                    Credentials.TwitchUserId = response.TwitchUserId;
-                    Credentials.ProducerKey = response.ProducerKey;
+                    try
+                    {
+                        Credentials.TwitchUsername = response.TwitchUsername;
+                        Credentials.TwitchUserId = response.TwitchUserId;
+                        Credentials.ProducerKey = response.ProducerKey;
+                    }
+                    catch (Exception ex)
+                    {
+                        Log.Error(ex);
+                    }
                 }
-                catch (Exception ex)
-                {
-                    Log.Error(ex);
-                }
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
             }
 
             Action closeAction = () => Close();
