@@ -76,14 +76,15 @@ namespace LiveSplit.UI.Components
                 {
                     var cmd = new EventCommand()
                     {
-                        Type = "speedrun.pb",
-                        Source = "livesplit",
+                        EventType = "speedrun.pb",
+                        EventSource = "livesplit",
                         Producer = Credentials.TwitchUsername,
                         Game = State.Run.GameName,
                         Category = State.Run.CategoryName,
                         SplitName = State.Run[State.CurrentSplitIndex].Name,
-                        CurrentPace = State.Run[State.CurrentSplitIndex - 1].SplitTime.ToString(),
-                        Message = Settings.NotificationMessage
+                        Pace = State.Run[State.CurrentSplitIndex - 1].SplitTime.ToString(),
+                        Message = Settings.NotificationMessage,
+                        Timestamp = DateTime.Now
                     };
 
                     try
