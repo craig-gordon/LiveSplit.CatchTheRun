@@ -23,7 +23,7 @@ namespace LiveSplit.UI.Components
         internal List<Threshold> Thresholds { get; set; }
         internal string NotificationMessage { get; set; }
 
-        internal CtrApiClient ApiClient { get; set; }
+        internal ApiClient ApiClient { get; set; }
 
         internal bool IsLoggedIn
         {
@@ -46,7 +46,7 @@ namespace LiveSplit.UI.Components
             Run = state.Run;
             Thresholds = Xml.ReadThresholds(Run.FilePath);
             ThresholdsDataSource = new BindingList<Threshold>(Thresholds);
-            ApiClient = new CtrApiClient();
+            ApiClient = new ApiClient();
 
             InitializeComponent();
 

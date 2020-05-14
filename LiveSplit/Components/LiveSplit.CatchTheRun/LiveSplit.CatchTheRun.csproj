@@ -60,7 +60,7 @@
       <DependentUpon>CatchTheRunSettings.cs</DependentUpon>
     </Compile>
     <Compile Include="Threshold.cs" />
-    <Compile Include="API\CtrApiClient.cs" />
+    <Compile Include="API\ApiClient.cs" />
     <Compile Include="UI\TwitchOAuthForm.cs">
       <SubType>Form</SubType>
     </Compile>

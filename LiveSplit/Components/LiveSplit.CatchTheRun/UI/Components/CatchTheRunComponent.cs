@@ -60,7 +60,7 @@ namespace LiveSplit.UI.Components
             Settings.SetSettings(settings);
         }
 
-        public async void Update(IInvalidator invalidator, LiveSplitState state, float width, float height, LayoutMode mode)
+        public void Update(IInvalidator invalidator, LiveSplitState state, float width, float height, LayoutMode mode)
         {
             if (state.CurrentPhase == TimerPhase.Running && this.SplitIndex == -1)
             {
@@ -84,12 +84,12 @@ namespace LiveSplit.UI.Components
                         SplitName = State.Run[State.CurrentSplitIndex].Name,
                         Pace = State.Run[State.CurrentSplitIndex - 1].SplitTime.ToString(),
                         Message = Settings.NotificationMessage,
-                        Timestamp = DateTime.Now
+                        Timestamp = DateTime.Now.ToString("o")
                     };
 
                     try
                     {
-                        await Settings.ApiClient.PushEvent(Credentials.ProducerKey, cmd);
+                        Settings.ApiClient.PushEvent(Credentials.ProducerKey, cmd);
                     }
                     catch (Exception ex)
                     {
