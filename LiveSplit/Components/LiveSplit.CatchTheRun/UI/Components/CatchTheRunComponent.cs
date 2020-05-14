@@ -15,6 +15,7 @@ namespace LiveSplit.UI.Components
         protected LiveSplitState State { get; set; }
 
         private int SplitIndex { get; set; }
+        private bool EventAlreadyTriggered { get; set; }
 
         public string ComponentName => "Catch The Run";
 
@@ -34,6 +35,7 @@ namespace LiveSplit.UI.Components
         {
             Settings = new CatchTheRunSettings(state);
             State = state;
+            this.EventAlreadyTriggered = false;
         }
 
         public void DrawVertical(Graphics g, LiveSplitState state, float width, Region clipRegion)
@@ -65,6 +67,7 @@ namespace LiveSplit.UI.Components
             if (state.CurrentPhase == TimerPhase.Running && this.SplitIndex == -1)
             {
                 this.SplitIndex = 0;
+                this.EventAlreadyTriggered = false;
             }
             else if (state.CurrentPhase == TimerPhase.Running && state.CurrentSplitIndex == this.SplitIndex + 1 && this.SplitIndex != -1)
             {
@@ -72,7 +75,7 @@ namespace LiveSplit.UI.Components
                 double threshold = Convert.ToDouble(Settings.Thresholds[this.SplitIndex].Value) * 1000;
                 double? splitDelta = split.SplitTime.RealTime?.TotalMilliseconds - split.PersonalBestSplitTime.RealTime?.TotalMilliseconds;
 
-                if (splitDelta < threshold)
+                if (splitDelta < threshold && !this.EventAlreadyTriggered)
                 {
                     var cmd = new EventCommand()
                     {
@@ -90,6 +93,7 @@ namespace LiveSplit.UI.Components
                     try
                     {
                         Settings.ApiClient.PushEvent(Credentials.ProducerKey, cmd);
+                        this.EventAlreadyTriggered = true;
                     }
                     catch (Exception ex)
                     {
@@ -102,6 +106,7 @@ namespace LiveSplit.UI.Components
             else if (state.CurrentPhase == TimerPhase.NotRunning || state.CurrentPhase == TimerPhase.Ended)
             {
                 this.SplitIndex = -1;
+                this.EventAlreadyTriggered = false;
             }
         }
 
