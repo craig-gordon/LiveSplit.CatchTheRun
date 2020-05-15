@@ -12,7 +12,7 @@ namespace LiveSplit.CatchTheRun
     {
         internal const string TokenType = "id_token";
         internal const string ClientId = "cod7idgr6q9bucu2gic2594y80xsu7";
-        internal const string RedirectUrl = "https://catch-the-run-website.cyghfer.now.sh/twitch";
+        internal const string RedirectUrl = "https://catch-the-run-website-staging.now.sh/twitch";
         internal const string Scope = "openid";
 
         public TwitchOAuthForm()
