@@ -71,11 +71,12 @@ namespace LiveSplit.UI.Components
             }
             else if (state.CurrentPhase == TimerPhase.Running && state.CurrentSplitIndex == this.SplitIndex + 1 && this.SplitIndex != -1)
             {
+                var thresholdStringValue = Settings.Thresholds[this.SplitIndex].Value;
+                double threshold = Convert.ToDouble(thresholdStringValue) * 1000;
                 var split = state.Run[this.SplitIndex];
-                double threshold = Convert.ToDouble(Settings.Thresholds[this.SplitIndex].Value) * 1000;
                 double? splitDelta = split.SplitTime.RealTime?.TotalMilliseconds - split.PersonalBestSplitTime.RealTime?.TotalMilliseconds;
 
-                if (splitDelta < threshold && !this.EventAlreadyTriggered)
+                if (thresholdStringValue != null && splitDelta < threshold && !this.EventAlreadyTriggered)
                 {
                     var cmd = new EventCommand()
                     {
